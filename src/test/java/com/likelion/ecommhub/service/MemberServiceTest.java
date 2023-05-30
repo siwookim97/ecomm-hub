@@ -24,25 +24,6 @@ class MemberServiceTest {
 
     @BeforeEach
     void init() {
-        Member sellerMember = new Member(
-                "seller",
-                "seller_password",
-                "seller_name",
-                "email1@google.com",
-                "010-1111-1111",
-                "seller_address",
-                MemberRole.ROLE_SELLER,
-                "account"
-        );
-        Member buyerMember = new Member(
-                "buyer",
-                "buyer_password",
-                "buyer_name",
-                "email2@google.com",
-                "010-2222-2222",
-                "buyer_address",
-                MemberRole.ROLE_SELLER
-        );
         memberService.joinSeller(new MemberJoinRequest("seller", "seller_password", "seller_name",
                 "seller@google.com", "010-1111-1111", "seller_address", "account"));
         memberService.joinBuyer(new MemberJoinRequest("buyer", "buyer_password", "buyer_name",
