@@ -3,8 +3,6 @@ package com.likelion.ecommhub.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -25,7 +23,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Email
     private String email;
 
     @Column(nullable = false)
@@ -34,11 +31,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
-    private LocalDate birthDay;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
@@ -46,29 +38,25 @@ public class Member extends BaseEntity {
 
     public Member(String loginId, String password, String name,
                   String email, String phone, String address,
-                  LocalDate birthDay, Gender gender, MemberRole memberRole) {
+                  MemberRole memberRole) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.birthDay = birthDay;
-        this.gender = gender;
         this.memberRole = memberRole;
     }
 
     public Member(String loginId, String password, String name,
                   String email, String phone, String address,
-                  LocalDate birthDay, Gender gender, MemberRole memberRole, String account) {
+                  MemberRole memberRole, String account) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.birthDay = birthDay;
-        this.gender = gender;
         this.memberRole = memberRole;
         this.account = account;
     }
