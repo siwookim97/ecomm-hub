@@ -1,4 +1,17 @@
+server:
+  port: 8081
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${gmail.username}
+    password: ${gmail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   profiles:
     active: local
     include: secret
@@ -11,6 +24,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+      dialect: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
         # show_sql: true
