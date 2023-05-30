@@ -20,9 +20,9 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void init() {
-        Product productA = new Product(1L, "apple", "this is apple", ProductState.ON_SALE, 100);
-        Product productB = new Product(2L, "banana", "this is banana", ProductState.ON_SALE, 50);
-        Product productC = new Product(3L, "coke", "this is coke", ProductState.ON_SALE, 300);
+        Product productA = new Product(1L, "apple", 1000, "this is apple", ProductState.ON_SALE, 100);
+        Product productB = new Product(2L, "banana", 3000, "this is banana", ProductState.ON_SALE, 50);
+        Product productC = new Product(3L, "coke", 500, "this is coke", ProductState.ON_SALE, 300);
 
         productRepository.save(productA);
         productRepository.save(productB);

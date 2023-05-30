@@ -16,15 +16,18 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
+    private int price;
+    @Column(nullable = false)
     private String detail;
     @Enumerated(EnumType.STRING)
     private ProductState productState;
     @Column(nullable = false)
     private int inventory;
 
-    public Product(Long id, String name, String detail, ProductState productState, int inventory) {
+    public Product(Long id, String name, int price, String detail, ProductState productState, int inventory) {
         this.id = id;
         this.name = name;
+        this.price = price;
         this.detail = detail;
         this.productState = productState;
         this.inventory = inventory;
