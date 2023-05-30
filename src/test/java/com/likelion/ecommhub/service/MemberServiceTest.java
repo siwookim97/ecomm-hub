@@ -1,6 +1,6 @@
 package com.likelion.ecommhub.service;
 
-import com.likelion.ecommhub.dto.MemberJoinRequest;
+import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +22,9 @@ class MemberServiceTest {
 
     @BeforeEach
     void init() {
-        memberService.joinSeller(new MemberJoinRequest("seller", "seller_password", "seller_name",
+        memberService.joinSeller(new MemberJoinDto("seller", "seller_password", "seller_name",
                 "seller@google.com", "010-1111-1111", "seller_address", "account"));
-        memberService.joinBuyer(new MemberJoinRequest("buyer", "buyer_password", "buyer_name",
+        memberService.joinBuyer(new MemberJoinDto("buyer", "buyer_password", "buyer_name",
                 "buyer@google.com", "010-2222-2222", "buyer_address", null));
     }
 
@@ -33,9 +33,9 @@ class MemberServiceTest {
     @Rollback(value = false)
     void memberJoinFailTest() {
         // when
-        memberService.joinSeller(new MemberJoinRequest("seller", "failSeller_password", "failSeller_name",
+        memberService.joinSeller(new MemberJoinDto("seller", "failSeller_password", "failSeller_name",
                 "failSeller@google.com", "010-1234-1234", "failSeller_address", "fail_account"));
-        memberService.joinBuyer(new MemberJoinRequest("buyer", "failBuyer_password", "failBuyer_name",
+        memberService.joinBuyer(new MemberJoinDto("buyer", "failBuyer_password", "failBuyer_name",
                 "failBuyer@google.com", "010-2345-2345", "failBuyer_address", null));
 
         // then
@@ -47,9 +47,9 @@ class MemberServiceTest {
     @DisplayName("회원가입 성공 테스트")
     void memberJoinSuccessTest() {
         // when
-        memberService.joinSeller(new MemberJoinRequest("successSeller", "successSeller_password", "successSeller_name",
+        memberService.joinSeller(new MemberJoinDto("successSeller", "successSeller_password", "successSeller_name",
                 "successSeller@google.com", "010-1234-1234", "successSeller_address", "success_account"));
-        memberService.joinBuyer(new MemberJoinRequest("successBuyer", "successBuyer_password", "successBuyer_name",
+        memberService.joinBuyer(new MemberJoinDto("successBuyer", "successBuyer_password", "successBuyer_name",
                 "successBuyer@google.com", "010-2345-2345", "successBuyer_address", null));
 
         // then

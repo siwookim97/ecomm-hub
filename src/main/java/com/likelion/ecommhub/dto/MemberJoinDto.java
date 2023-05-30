@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class MemberJoinRequest {
+public class MemberJoinDto {
 
     @NotEmpty(message = "회원 아이디는 공백이 불가합니다.")
     private String loginId;
