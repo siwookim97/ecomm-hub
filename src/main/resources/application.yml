@@ -1,16 +1,30 @@
+server:
+  port: 8081
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${gmail.username}
+    password: ${gmail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   profiles:
     active: local
     include: secret
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/ecommhub__dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
-    username: ecommhub
-    password: ecommhub1234
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: create
+      dialect: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
         # show_sql: true
