@@ -1,7 +1,5 @@
 package com.likelion.ecommhub.service;
 
-import com.likelion.ecommhub.domain.Member;
-import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinRequest;
 import com.likelion.ecommhub.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
