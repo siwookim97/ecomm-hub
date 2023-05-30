@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -44,16 +46,31 @@ public class MemberService {
         return "JOINBUYER 성공";
     }
 
-    private Member createMember(MemberJoinDto request, MemberRole memberRole) {
+    public String login(String loginId, String password) {
+        //TODO Rs 리턴 후 예외처리
+        Optional<Member> selectedOptionalMember = memberRepository.findByLoginId(loginId);
+
+        if (selectedOptionalMember.isEmpty()) {
+            return loginId + "회원이(가) 없습니다.";
+        }
+
+        if (!encoder.matches(password, selectedOptionalMember.get().getPassword())) {
+            return loginId + "회원의 비밀번호가 틀렸습니다.";
+        }
+
+        return jwtProvider.createToken(selectedOptionalMember.get().getLoginId());
+    }
+
+    private Member createMember(MemberJoinDto requestDto, MemberRole memberRole) {
         return new Member(
-                request.getLoginId(),
-                encoder.encode(request.getPassword()),
-                request.getName(),
-                request.getEmail(),
-                request.getPhone(),
-                request.getAddress(),
+                requestDto.getLoginId(),
+                encoder.encode(requestDto.getPassword()),
+                requestDto.getName(),
+                requestDto.getEmail(),
+                requestDto.getPhone(),
+                requestDto.getAddress(),
                 memberRole,
-                request.getAccount()
+                requestDto.getAccount()
         );
     }
 }
