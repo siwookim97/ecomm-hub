@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +39,11 @@ public class MemberController {
         return "member/joinBuyer";
     }
 
-    @GetMapping("/search")
-    public String searchMember(@RequestParam("name") String name, Model model) {
-
-        Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER,name);
-
+    @GetMapping("/seller/{name}")
+    public String showSellerInfo(@PathVariable("name") String name, Model model) {
+        Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, name);
         model.addAttribute("member", member);
-        return "member/search-member";
+        return "member/seller-info";
     }
 
 
