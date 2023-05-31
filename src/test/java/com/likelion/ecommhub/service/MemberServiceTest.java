@@ -39,8 +39,8 @@ class MemberServiceTest {
                 "failBuyer@google.com", "010-2345-2345", "failBuyer_address", null));
 
         // then
-        Assertions.assertThat(memberRepository.findByLoginId("seller").get().getName()).isNotEqualTo("failSeller_name");
-        Assertions.assertThat(memberRepository.findByLoginId("buyer").get().getName()).isNotEqualTo("failBuyer_name");
+        Assertions.assertThat(memberRepository.findByUsername("seller").get().getNickname()).isNotEqualTo("failSeller_name");
+        Assertions.assertThat(memberRepository.findByUsername("buyer").get().getNickname()).isNotEqualTo("failBuyer_name");
     }
 
     @Test
@@ -53,7 +53,7 @@ class MemberServiceTest {
                 "successBuyer@google.com", "010-2345-2345", "successBuyer_address", null));
 
         // then
-        Assertions.assertThat(memberRepository.findByLoginId("successSeller").isPresent()).isTrue();
-        Assertions.assertThat(memberRepository.findByLoginId("successBuyer").isPresent()).isTrue();
+        Assertions.assertThat(memberRepository.findByUsername("successSeller").isPresent()).isTrue();
+        Assertions.assertThat(memberRepository.findByUsername("successBuyer").isPresent()).isTrue();
     }
 }

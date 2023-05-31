@@ -1,8 +1,7 @@
 package com.likelion.ecommhub.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.likelion.ecommhub.domain.MemberRole;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -11,16 +10,17 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class MemberJoinDto {
 
     @NotEmpty(message = "회원 아이디는 공백이 불가합니다.")
-    private String loginId;
+    private String username;
 
     @NotEmpty(message = "회원 비밀번호는 공백이 불가합니다.")
     private String password;
 
     @NotEmpty(message = "회원 이름은 공백이 불가합니다.")
-    private String name;
+    private String nickname;
 
     @Email(message = "회원 이메일은 공백이 불가합니다.")
     private String email;
