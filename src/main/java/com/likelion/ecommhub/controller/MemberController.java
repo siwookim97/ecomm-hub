@@ -5,11 +5,9 @@ import com.likelion.ecommhub.dto.MemberLoginDto;
 import com.likelion.ecommhub.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -19,28 +17,41 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/joinForm")
+    public String join(Model model) {
+        model.addAttribute("memberJoinDto", new MemberJoinDto());
+
+        return "member/join";
+    }
+
     @PostMapping("/joinSeller")
-    public String joinSeller(@RequestBody @Valid MemberJoinDto memberJoinDto) {
+    public String joinSeller(@ModelAttribute() @Valid MemberJoinDto memberJoinDto) {
+
         String result = memberService.joinSeller(memberJoinDto);
         System.out.println("result = " + result);
 
-        return "member/joinSeller";
+        return "redirect:/member/loginForm";
     }
 
     @PostMapping("/joinBuyer")
-    public String joinBuyer(@RequestBody @Valid MemberJoinDto memberJoinDto) {
+    public String joinBuyer(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto) {
+
         String result = memberService.joinBuyer(memberJoinDto);
         System.out.println("result = " + result);
 
-        return "member/joinBuyer";
+        return "redirect:/member/loginForm";
     }
 
-    @PostMapping("/login")
-    public String login(HttpSession session, @RequestBody @Valid MemberLoginDto memberLoginDto) {
-        String token = memberService.login(memberLoginDto.getLoginId(), memberLoginDto.getPassword());
-        System.out.println("token = " + token);
-        session.setAttribute("token", token);
+    @GetMapping("/loginForm")
+    public String loginForm(Model model) {
+        model.addAttribute("memberLoginDto", new MemberLoginDto());
 
-        return "member/loginResult";
+        return "member/login";
+    }
+
+    @GetMapping("/loginSuccess")
+    public String loginSuccessTest() {
+
+        return "member/loginSuccess";
     }
 }

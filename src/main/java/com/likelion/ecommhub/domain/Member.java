@@ -15,13 +15,13 @@ public class Member extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String loginId;
+    private String username;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String name;
+    private String nickname;
 
     private String email;
 
@@ -36,24 +36,24 @@ public class Member extends BaseEntity {
 
     private String account; // 계좌번호는 String을 권장 (ex, 019-1234136-1234)
 
-    public Member(String loginId, String password, String name,
+    public Member(String username, String password, String nickname,
                   String email, String phone, String address,
                   MemberRole memberRole) {
-        this.loginId = loginId;
+        this.username = username;
         this.password = password;
-        this.name = name;
+        this.nickname = nickname;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.memberRole = memberRole;
     }
 
-    public Member(String loginId, String password, String name,
+    public Member(String username, String password, String nickname,
                   String email, String phone, String address,
                   MemberRole memberRole, String account) {
-        this.loginId = loginId;
+        this.username = username;
         this.password = password;
-        this.name = name;
+        this.nickname = nickname;
         this.email = email;
         this.phone = phone;
         this.address = address;
