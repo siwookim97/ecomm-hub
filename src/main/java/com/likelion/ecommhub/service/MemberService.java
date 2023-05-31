@@ -5,6 +5,7 @@ import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,14 +47,18 @@ public class MemberService {
 
     private Member createMember(MemberJoinDto request, MemberRole memberRole) {
         return new Member(
-                request.getLoginId(),
-                encoder.encode(request.getPassword()),
-                request.getName(),
-                request.getEmail(),
-                request.getPhone(),
-                request.getAddress(),
-                memberRole,
-                request.getAccount()
+            request.getLoginId(),
+            encoder.encode(request.getPassword()),
+            request.getName(),
+            request.getEmail(),
+            request.getPhone(),
+            request.getAddress(),
+            memberRole,
+            request.getAccount()
         );
+    }
+
+    public Member findByNameFromSeller(MemberRole memberRole, String name) {
+        return memberRepository.findByMemberRoleAndName(memberRole, name);
     }
 }
