@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <!-- CSS 파일 연결 -->
+  <link rel="stylesheet" href="/resource/seller-info.css">
+  <!-- 폰트 연결-->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&amp;family=Oswald:wght@500&amp;family=Roboto+Mono:wght@200&amp;family=Roboto:wght@300&amp;display=swap"
+      rel="stylesheet">
+  <!-- js 파일 연결 -->
+  <title>About</title>
+</head>
+
+
+<body>
+<header>
+</header>
+<div class="menu-bar">
+  <div class="index">
+
+    <!-- 목차 내용 -->
+    <h3>ABOUT</h3>
+
+  </div>
+</div>
+
+<section class="about">
+  <!-- 이름 -->
+  <header class="name">
+    <p><span th:text="${member.name}">이름</span>
+      <!-- 연락처 -->
+    <div class="contacts">
+      <p th:text="${member.phone}">연락처</p>
+      <p th:text="${member.email}">이메일</p>
+      <p th:text="${member.address}">주소</p>
+      <p th:text="${member.account}">계좌번호</p>
+    </div>
+  </header>
+  <br><br>
+
+  <br><br>
+
+</section>
+
+
+</body>
+</html>
