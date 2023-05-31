@@ -1,5 +1,7 @@
 package com.likelion.ecommhub.service;
 
+import java.util.List;
+
 import com.likelion.ecommhub.config.auth.JwtProvider;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
@@ -19,6 +21,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
     private final JwtProvider jwtProvider;
+
 
     @Transactional
     public String joinSeller(MemberJoinDto request) {
@@ -55,5 +58,9 @@ public class MemberService {
                 memberRole,
                 request.getAccount()
         );
+    }
+
+    public Member findByNameFromSeller(MemberRole memberRole, String name) {
+        return memberRepository.findByMemberRoleAndName(memberRole, name);
     }
 }

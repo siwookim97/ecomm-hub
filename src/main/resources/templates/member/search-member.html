@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Member</title>
+</head>
+<body>
+<h1>Search Member</h1>
+<form action="/member/search" method="GET">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name">
+  <button type="submit">Search</button>
+</form>
+
+
+<div th:if="${member}">
+  <h2>Member Information</h2>
+  <p>ID: <span th:text="${member.id}"></span></p>
+  <p>Login ID: <span th:text="${member.loginId}"></span></p>
+  <p>Name: <span th:text="${member.name}"></span></p>
+  <p>Email: <span th:text="${member.email}"></span></p>
+  <p>Phone: <span th:text="${member.phone}"></span></p>
+  <p>Address: <span th:text="${member.address}"></span></p>
+  <p>Member Role: <span th:text="${member.memberRole}"></span></p>
+  <p>Account: <span th:text="${member.account}"></span></p>
+</div>
+</body>
+</html>
