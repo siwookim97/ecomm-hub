@@ -6,8 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "USERNAME_UK", columnNames = {"USERNAME"})
+})
 public class Member extends BaseEntity {
 
     @Id

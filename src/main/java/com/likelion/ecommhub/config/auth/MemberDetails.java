@@ -47,7 +47,6 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println("getAUtho");
         Collection<GrantedAuthority> collect = new ArrayList<>();
         collect.add(new GrantedAuthority() {
             @Override
