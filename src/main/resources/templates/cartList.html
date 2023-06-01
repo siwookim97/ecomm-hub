@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>장바구니</title>
+</head>
+<body>
+<h1>장바구니</h1>
+<table>
+  <thead>
+  <tr>
+    <th>상품명</th>
+    <th>가격</th>
+    <th>수량</th>
+    <th>총 가격</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr th:each="cartDto : ${cartDto}">
+    <td th:text="${cartDto.productName}"></td>
+    <td th:text="${cartDto.price}"></td>
+    <td th:text="${cartDto.productCount}"></td>
+    <td th:text="${cartDto.totalPrice}"></td>
+    <td>
+
+      <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cartDto.cartId}, productId=${cartDto.productId})}" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">제거</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

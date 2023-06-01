@@ -1,8 +1,10 @@
 package com.likelion.ecommhub.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
-import com.likelion.ecommhub.dto.CartDto;
+import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.repository.CartRepository;
 import com.likelion.ecommhub.repository.ProductRepository;
 
@@ -17,7 +19,8 @@ public class CartService {
 		this.productRepository = productRepository;
 	}
 
-	public CartDto getCartById(Long cartId) {
+	public Optional<Cart> getCartById(Long cartId) {
+		return cartRepository.findById(cartId);
 	}
 
 	public void addToCart(Long cartId, Long productId, int quantity) {
