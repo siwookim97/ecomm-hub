@@ -1,10 +1,12 @@
 package com.likelion.ecommhub.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.*;
 
 @Getter
+@AllArgsConstructor
 public class ProductDto {
 
     @NotEmpty(message = "상품 이름은 공백이 불가합니다.")
