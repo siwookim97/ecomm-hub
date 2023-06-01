@@ -53,12 +53,12 @@
     </thead>
     <tbody>
     <tr th:each="cart : ${cart}">
-      <td th:text="${cart.productName}"></td>
-      <td th:text="${cart.price}"></td>
-      <td th:text="${cart.productCount}"></td>
-      <td th:text="${cart.totalPrice}"></td>
+      <td th:text="${cart.getProductName()}"></td>
+      <td th:text="${cart.getPrice()}"></td>
+      <td th:text="${cart.getProductCount()}"></td>
+      <td th:text="${cart.getTotalPrice()}"></td>
       <td>
-        <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cart.cartId}, productId=${cart.productId})}"
+        <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cart.getCartId()}, productId=${cart.getProduct().getId()})}"
               method="post">
           <input type="hidden" name="_method" value="delete">
           <button type="submit" class="remove-btn">제거</button>

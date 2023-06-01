@@ -25,10 +25,11 @@ public class Cart extends BaseEntity {
 
 	private Long orderId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	@ManyToOne(fetch = FetchType.LAZY)
+	private String productName;
+	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
 	private int productCount;
@@ -36,11 +37,12 @@ public class Cart extends BaseEntity {
 	private int totalPrice;
 	private int quantity;
 
-	public Cart(Long cartId, Long orderId, Product product, Member member, int productCount, int price, int totalPrice,
+	public Cart(Long cartId, Long orderId, Product product,String productName, Member member, int productCount, int price, int totalPrice,
 		int quantity) {
 		this.cartId = cartId;
 		this.orderId = orderId;
 		this.product = product;
+		this.productName = productName;
 		this.member = member;
 		this.productCount = productCount;
 		this.price = price;

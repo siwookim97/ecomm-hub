@@ -37,8 +37,8 @@ public class CartController {
 	}
 	@GetMapping("/{cartId}/list")
 	public String getCartList(@PathVariable Long cartId, Model model) {
-		Optional<Cart> cartDto = cartService.getCartById(cartId);
-		model.addAttribute("cartDto", cartDto.orElse(null));
+		Optional<Cart> cart = cartService.getCartById(cartId);
+		model.addAttribute("cart", cart.orElse(null));
 		return "cartList";
 	}
 
