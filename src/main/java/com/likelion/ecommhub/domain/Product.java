@@ -3,6 +3,7 @@ package com.likelion.ecommhub.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -24,12 +25,24 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private int inventory;
 
-    public Product(Long id, String name, int price, String detail, ProductState productState, int inventory) {
-        this.id = id;
+    public Product( String name, int price, String detail, int inventory) {
         this.name = name;
         this.price = price;
         this.detail = detail;
-        this.productState = productState;
         this.inventory = inventory;
+    }
+
+    public Product( String name, int price, String detail, int inventory, ProductState productState) {
+        this.name = name;
+        this.price = price;
+        this.detail = detail;
+        this.inventory = inventory;
+        this.productState = productState;
+    }
+
+    public void setProductState() {
+        if(inventory == 0){
+            productState = ProductState.SOLD_OUT;
+        }
     }
 }

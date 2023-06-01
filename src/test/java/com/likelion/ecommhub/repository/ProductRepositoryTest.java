@@ -1,7 +1,6 @@
 package com.likelion.ecommhub.repository;
 
 import com.likelion.ecommhub.domain.Product;
-import com.likelion.ecommhub.domain.ProductState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +19,9 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void init() {
-        Product productA = new Product(1L, "apple", 1000, "this is apple", ProductState.ON_SALE, 100);
-        Product productB = new Product(2L, "banana", 3000, "this is banana", ProductState.ON_SALE, 50);
-        Product productC = new Product(3L, "coke", 500, "this is coke", ProductState.ON_SALE, 300);
+        Product productA = new Product( "apple", 1000, "this is apple",  100);
+        Product productB = new Product( "banana", 3000, "this is banana",  50);
+        Product productC = new Product( "coke", 500, "this is coke",  300);
 
         productRepository.save(productA);
         productRepository.save(productB);
