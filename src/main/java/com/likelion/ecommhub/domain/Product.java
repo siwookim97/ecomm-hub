@@ -3,12 +3,15 @@ package com.likelion.ecommhub.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
     @Id
@@ -24,7 +27,6 @@ public class Product extends BaseEntity {
     private ProductState productState;
     @Column(nullable = false)
     private int inventory;
-
     public Product( String name, int price, String detail, int inventory) {
         this.name = name;
         this.price = price;
