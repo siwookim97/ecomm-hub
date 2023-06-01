@@ -1,67 +1,53 @@
 package com.likelion.ecommhub.controller;
 
-
-import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.dto.CartDto;
 import com.likelion.ecommhub.service.CartService;
-import com.likelion.ecommhub.service.MemberService;
 
-@Controller
-@RequestMapping("/cart")
+@RestController
+@RequestMapping("/carts")
 public class CartController {
 
 	private final CartService cartService;
-	private final MemberService memberService;
 
-	public CartController(CartService cartService, MemberService memberService) {
+	public CartController(CartService cartService) {
 		this.cartService = cartService;
-		this.memberService = memberService;
 	}
 
-	@GetMapping("/create")
-	public String createCart(HttpSession session) {
-		// 세션에서 구매자 아이디 조회
-		Long memberId = (Long) session.getAttribute("memberId");
+	@GetMapping("/{cartId}")
+	public CartDto getCart(@PathVariable Long cartId) {
 
-		// 구매자 정보 조회
-		Optional<Member> member = memberService.getMemberId(memberId);
-
-		// 장바구니 생성
-		CartDto cartDto = new CartDto();
-		cartDto.setMemberId(memberId);
-		cartDto.setMemberName(memberDto.getName());
-
-		// 장바구니 저장
-		cartService.createCart(cartDto);
-
-		// 장바구니 페이지로 리다이렉트
-		return "redirect:/cart/view?cartId=" + cartDto.getCartId();
 	}
 
-	@GetMapping("/view")
-	public String viewCart(@RequestParam("cartId") Long cartId, Model model) {
-		// 장바구니 정보 조회
-		CartDto cartDto = cartService.getCartById(cartId);
+	@PostMapping("/{cartId}/products/{productId}")
+	public ResponseEntity<String> addToCart(
+		@PathVariable Long cartId,
+		@PathVariable Long productId,
+		@RequestParam("quantity") int quantity) {
 
-		// 모델에 데이터 전달
-		model.addAttribute("cart", cartDto);
-
-		// 장바구니 페이지로 이동
-		return "cart";
 	}
 
-	// 이하 생략
+	@DeleteMapping("/{cartId}/products/{productId}")
+	public ResponseEntity<String> removeFromCart(
+		@PathVariable Long cartId,
+		@PathVariable Long productId) {
+
+	}
+
+	@PutMapping("/{cartId}/products/{productId}")
+	public ResponseEntity<String> updateCartItemQuantity(
+		@PathVariable Long cartId,
+		@PathVariable Long productId,
+		@RequestParam("quantity") int quantity) {
+
+	}
 }
-

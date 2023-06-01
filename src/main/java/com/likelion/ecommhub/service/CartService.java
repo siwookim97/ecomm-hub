@@ -1,31 +1,36 @@
 package com.likelion.ecommhub.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
+
 import com.likelion.ecommhub.dto.CartDto;
+import com.likelion.ecommhub.repository.CartRepository;
+import com.likelion.ecommhub.repository.ProductRepository;
 
 @Service
 public class CartService {
 
-	private List<CartDto> cartItems = new ArrayList<>();
+	private final CartRepository cartRepository;
+	private final ProductRepository productRepository;
 
-	public List<CartDto> getCartItems() {
-		return cartItems;
+	public CartService(CartRepository cartRepository, ProductRepository productRepository) {
+		this.cartRepository = cartRepository;
+		this.productRepository = productRepository;
 	}
 
-	public void updateCartItemQuantity(Long productId, int quantity) {
-		for (CartDto cartItem : cartItems) {
-			if (cartItem.getProductId().equals(productId)) {
-				cartItem.setQuantity(quantity);
-				cartItem.setTotalPrice(cartItem.getPrice() * quantity);
-				break;
-			}
-		}
+	public CartDto getCartById(Long cartId) {
 	}
 
-	public void removeCartItem(Long productId) {
-		cartItems.removeIf(cartItem -> cartItem.getProductId().equals(productId));
+	public void addToCart(Long cartId, Long productId, int quantity) {
+
 	}
+
+	public void removeFromCart(Long cartId, Long productId) {
+
+	}
+
+	public void updateCartItemQuantity(Long cartId, Long productId, int quantity) {
+
+	}
+
+
 }

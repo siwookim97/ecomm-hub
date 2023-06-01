@@ -65,6 +65,7 @@ public class MemberController {
         return "member/loginSuccess";
     }
 
+
     @GetMapping("/seller/{nickname}")
     public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
         Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);

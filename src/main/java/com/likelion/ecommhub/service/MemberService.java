@@ -4,9 +4,13 @@ import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
+<<<<<<< HEAD
 
 import java.util.Optional;
 
+=======
+import java.util.List;
+>>>>>>> 3eba8f14657462fff6528970d67c22454f509556
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,11 +62,13 @@ public class MemberService {
         );
     }
 
-    public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
-        return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
-    }
 
 	public Optional<Member> getMemberId(Long memberId) {
         return memberRepository.findById(memberId);
 	}
+
+    public Member findByNameFromSeller(MemberRole memberRole, String username) {
+        return memberRepository.findByMemberRoleAndNickname(memberRole, username);
+    }
+
 }
