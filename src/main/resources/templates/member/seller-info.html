@@ -1,85 +1,51 @@
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>판매자 정보</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-    }
-
-    .title {
-      font-size: 24px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .member-info {
-      margin-top: 30px;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    .member-info h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .member-info p {
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-right: 20px;
-    }
-
-    .profile-pic img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  </style>
+  <meta charset="utf-8">
+  <!-- CSS 파일 연결 -->
+  <link rel="stylesheet" href="/resource/seller-info.css">
+  <!-- 폰트 연결-->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&amp;family=Oswald:wght@500&amp;family=Roboto+Mono:wght@200&amp;family=Roboto:wght@300&amp;display=swap"
+      rel="stylesheet">
+  <!-- js 파일 연결 -->
+  <title>About</title>
 </head>
+
+
 <body>
-<div class="container">
-  <h1 class="title">판매자 정보</h1>
-  <div class="member-info">
-    <div class="profile-pic">
-      <img src="{member.profilePic}" alt="프로필 사진">
-    </div>
-    <div>
-      <h2>판매자 정보</h2>
-      <p>ID: <span th:text="${member.id}"></span></p>
-      <p>Login ID: <span th:text="${member.loginId}"></span></p>
-      <p>Name: <span th:text="${member.name}"></span></p>
-      <p>Email: <span th:text="${member.email}"></span></p>
-      <p>Phone: <span th:text="${member.phone}"></span></p>
-      <p>Address: <span th:text="${member.address}"></span></p>
-      <p>Member Role: <span th:text="${member.memberRole}"></span></p>
-      <p>Account: <span th:text="${member.account}"></span></p>
-    </div>
+<header>
+</header>
+<div class="menu-bar">
+  <div class="index">
+
+    <!-- 목차 내용 -->
+    <h3>ABOUT</h3>
+
   </div>
 </div>
+
+<section class="about">
+  <!-- 이름 -->
+  <header class="nickname">
+    <p><span th:text="${member.nickname}">이름</span>
+      <!-- 연락처 -->
+    <div class="contacts">
+      <p th:text="${member.phone}">연락처</p>
+      <p th:text="${member.email}">이메일</p>
+      <p th:text="${member.address}">주소</p>
+      <p th:text="${member.account}">계좌번호</p>
+    </div>
+  </header>
+  <br><br>
+
+  <br><br>
+
+</section>
+
+
 </body>
 </html>

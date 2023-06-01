@@ -1,10 +1,7 @@
-package com.likelion.ecommhub.Service;
+package com.likelion.ecommhub.service;
 
-import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
-import com.likelion.ecommhub.service.MemberService;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -45,8 +39,8 @@ class MemberServiceTest {
                 "failBuyer@google.com", "010-2345-2345", "failBuyer_address", null));
 
         // then
-        Assertions.assertThat(memberRepository.findByLoginId("seller").get().getName()).isNotEqualTo("failSeller_name");
-        Assertions.assertThat(memberRepository.findByLoginId("buyer").get().getName()).isNotEqualTo("failBuyer_name");
+        Assertions.assertThat(memberRepository.findByUsername("seller").get().getNickname()).isNotEqualTo("failSeller_name");
+        Assertions.assertThat(memberRepository.findByUsername("buyer").get().getNickname()).isNotEqualTo("failBuyer_name");
     }
 
     @Test
@@ -59,7 +53,7 @@ class MemberServiceTest {
                 "successBuyer@google.com", "010-2345-2345", "successBuyer_address", null));
 
         // then
-        Assertions.assertThat(memberRepository.findByLoginId("successSeller").isPresent()).isTrue();
-        Assertions.assertThat(memberRepository.findByLoginId("successBuyer").isPresent()).isTrue();
+        Assertions.assertThat(memberRepository.findByUsername("successSeller").isPresent()).isTrue();
+        Assertions.assertThat(memberRepository.findByUsername("successBuyer").isPresent()).isTrue();
     }
 }

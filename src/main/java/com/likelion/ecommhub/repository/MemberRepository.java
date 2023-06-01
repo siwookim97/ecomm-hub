@@ -10,9 +10,6 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findByMemberRole(MemberRole memberRole);
-    Optional<Member> findByLoginId(String loginId);
-
-    Member findByMemberRoleAndName(MemberRole memberRole, String name);
-
-
+    Optional<Member> findByUsername(String username);
+    Member findByMemberRoleAndNickname(MemberRole memberRole, String nickname);
 }

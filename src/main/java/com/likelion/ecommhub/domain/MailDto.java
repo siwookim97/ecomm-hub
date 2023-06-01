@@ -1,7 +1,5 @@
 package com.likelion.ecommhub.domain;
 
-import javax.validation.Valid;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,9 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Valid
+@Validated
 public class MailDto {
-	private String address;
+	private String[] address;
 	private String title;
 	private String message;
 	private MultipartFile file;
