@@ -21,7 +21,6 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private String detail;
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("ON_SALE")
     private ProductState productState;
     @Column(nullable = false)
     private int inventory;
@@ -31,6 +30,14 @@ public class Product extends BaseEntity {
         this.price = price;
         this.detail = detail;
         this.inventory = inventory;
+    }
+
+    public Product( String name, int price, String detail, int inventory, ProductState productState) {
+        this.name = name;
+        this.price = price;
+        this.detail = detail;
+        this.inventory = inventory;
+        this.productState = productState;
     }
 
     public void setProductState() {
