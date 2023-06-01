@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.likelion.ecommhub.domain.Cart;
-import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.service.CartService;
 
 @RestController
@@ -61,7 +60,7 @@ public class CartController {
 		@PathVariable Long productId) {
 		try {
 			cartService.removeFromCart(cartId, productId);
-			return ResponseEntity.ok("상품이 장바구니에서 제거되었습니다.");
+			return ResponseEntity.ok("상품이 장바구니에서 삭제되었습니다.");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("상품 제거에 실패했습니다.");
 		}
@@ -74,7 +73,7 @@ public class CartController {
 		@RequestParam("quantity") int quantity) {
 		try {
 			cartService.updateCartItemQuantity(cartId, productId,quantity);
-			return ResponseEntity.ok("상품이 장바구니에서 수정되었습니다.");
+			return ResponseEntity.ok("상품 수량이 업데이트되었습니다.");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("상품 수정에 실패했습니다.");
 		}

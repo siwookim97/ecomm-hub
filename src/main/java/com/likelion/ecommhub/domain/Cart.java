@@ -36,7 +36,6 @@ public class Cart extends BaseEntity {
 	private int totalPrice;
 	private int quantity;
 
-	// Constructor without ID and Order ID
 	public Cart(Product product, int productCount, int price, int totalPrice, int quantity) {
 		this.product = product;
 		this.productCount = productCount;
