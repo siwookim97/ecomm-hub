@@ -52,13 +52,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="cartDto : ${cartDto}">
-      <td th:text="${cartDto.productName}"></td>
-      <td th:text="${cartDto.price}"></td>
-      <td th:text="${cartDto.productCount}"></td>
-      <td th:text="${cartDto.totalPrice}"></td>
+    <tr th:each="cart : ${cart}">
+      <td th:text="${cart.productName}"></td>
+      <td th:text="${cart.price}"></td>
+      <td th:text="${cart.productCount}"></td>
+      <td th:text="${cart.totalPrice}"></td>
       <td>
-        <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cartDto.cartId}, productId=${cartDto.productId})}"
+        <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cart.cartId}, productId=${cart.productId})}"
               method="post">
           <input type="hidden" name="_method" value="delete">
           <button type="submit" class="remove-btn">제거</button>

@@ -23,7 +23,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none #테스트 위해 잠시 비활성화 해놓음
+      ddl-auto: create #테스트 위해 잠시 비활성화 해놓음
       dialect: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:

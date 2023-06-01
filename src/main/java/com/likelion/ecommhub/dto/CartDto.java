@@ -13,6 +13,7 @@ public class CartDto {
 
 	private Long cartId;
 	private Long orderId;
+	private Long memberId;
 	private Long productId;
 	private String productName;
 	private int productCount;
