@@ -18,7 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Cart extends BaseEntity {
 
 	@Id
@@ -30,11 +29,25 @@ public class Cart extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	private Product product;
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
 	private int productCount;
 	private int price;
 	private int totalPrice;
 	private int quantity;
+
+	public Cart(Long cartId, Long orderId, Product product, Member member, int productCount, int price, int totalPrice,
+		int quantity) {
+		this.cartId = cartId;
+		this.orderId = orderId;
+		this.product = product;
+		this.member = member;
+		this.productCount = productCount;
+		this.price = price;
+		this.totalPrice = totalPrice;
+		this.quantity = quantity;
+	}
 
 	public Cart(Product product, int productCount, int price, int totalPrice, int quantity) {
 		this.product = product;
@@ -43,5 +56,6 @@ public class Cart extends BaseEntity {
 		this.totalPrice = totalPrice;
 		this.quantity = quantity;
 	}
+
 
 }

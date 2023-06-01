@@ -3,6 +3,7 @@ package com.likelion.ecommhub.controller;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.service.CartService;
 
-@RestController
+
+
+@Controller
 @RequestMapping("/carts")
 public class CartController {
 
@@ -35,9 +38,8 @@ public class CartController {
 	@GetMapping("/{cartId}/list")
 	public String getCartList(@PathVariable Long cartId, Model model) {
 		Optional<Cart> cartDto = cartService.getCartById(cartId);
-		model.addAttribute("cartDto", cartDto);
+		model.addAttribute("cartDto", cartDto.orElse(null));
 		return "cartList";
-
 	}
 
 	@PostMapping("/{cartId}/products/{productId}")

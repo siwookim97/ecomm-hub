@@ -1,37 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
   <meta charset="UTF-8">
   <title>장바구니</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+    /* 장바구니 테이블 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    /* 제거 버튼 스타일 */
+    .remove-btn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 12px;
+      margin: 2px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<h1>장바구니</h1>
-<table>
-  <thead>
-  <tr>
-    <th>상품명</th>
-    <th>가격</th>
-    <th>수량</th>
-    <th>총 가격</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-
-  <tr th:each="cartDto : ${cartDto}">
-    <td th:text="${cartDto.productName}"></td>
-    <td th:text="${cartDto.price}"></td>
-    <td th:text="${cartDto.productCount}"></td>
-    <td th:text="${cartDto.totalPrice}"></td>
-    <td>
-
-      <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cartDto.cartId}, productId=${cartDto.productId})}" method="post">
-        <input type="hidden" name="_method" value="delete">
-        <button type="submit">제거</button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="container">
+  <h1>장바구니</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>상품명</th>
+      <th>가격</th>
+      <th>수량</th>
+      <th>총 가격</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cartDto : ${cartDto}">
+      <td th:text="${cartDto.productName}"></td>
+      <td th:text="${cartDto.price}"></td>
+      <td th:text="${cartDto.productCount}"></td>
+      <td th:text="${cartDto.totalPrice}"></td>
+      <td>
+        <form th:action="@{/carts/{cartId}/products/{productId}(cartId=${cartDto.cartId}, productId=${cartDto.productId})}"
+              method="post">
+          <input type="hidden" name="_method" value="delete">
+          <button type="submit" class="remove-btn">제거</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 </body>
 </html>
