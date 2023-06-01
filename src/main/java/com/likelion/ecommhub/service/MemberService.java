@@ -56,7 +56,7 @@ public class MemberService {
         );
     }
 
-    public Member findByNameFromSeller(MemberRole memberRole, String name) {
-        return memberRepository.findByMemberRoleAndName(memberRole, name);
+    public Member findByNameFromSeller(MemberRole memberRole, String username) {
+        return memberRepository.findByMemberRoleAndUsername(memberRole, username);
     }
 }

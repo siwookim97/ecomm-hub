@@ -5,6 +5,7 @@ import com.likelion.ecommhub.domain.ProductState;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+
+    @Autowired
     ProductRepository productRepository;
 
     @Transactional
