@@ -1,11 +1,13 @@
 package com.likelion.ecommhub.dto;
 
+import com.likelion.ecommhub.domain.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,4 +26,6 @@ public class ProductDto {
 
     @NotEmpty(message = "상품 수량은 공백이 불가합니다.")
     private int inventory;
+
+    private List<Image> images;
 }

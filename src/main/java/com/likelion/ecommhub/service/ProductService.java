@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import com.likelion.ecommhub.domain.Image;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.domain.ProductState;
 import com.likelion.ecommhub.dto.ProductDto;
@@ -20,9 +21,10 @@ public class ProductService {
     ProductRepository productRepository;
 
     @Transactional
-    public String enroll(ProductDto productDto) {
+    public String enroll(ProductDto productDto, List<Image> images) {
 
-        Product product = createProduct(productDto);
+        Product product = createProduct(productDto, images);
+
         productRepository.save(product);
         return "상품 등록 성공";
     }
@@ -31,20 +33,20 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    private Product createProduct(ProductDto productDto) {
+    private Product createProduct(ProductDto productDto, List<Image> images) {
 
-        ProductState productState = ProductState.ON_SALE;
-        
-        if(productDto.getInventory() == 0){
-            productState = ProductState.SOLD_OUT;
-        }
-        
-        return new Product(
-                productDto.getName(),
-                productDto.getPrice(),
-                productDto.getDetail(),
-                productDto.getInventory(),
-                productState
-        );
+        ProductState productState = productDto.getInventory() == 0
+                ? ProductState.SOLD_OUT : ProductState.ON_SALE;
+
+        Product product = Product.builder()
+                .name(productDto.getName())
+                .price(productDto.getPrice())
+                .detail(productDto.getDetail())
+                .inventory(productDto.getInventory())
+                .productState(productState)
+                .images(images)
+                .build();
+
+        return product;
     }
 }
