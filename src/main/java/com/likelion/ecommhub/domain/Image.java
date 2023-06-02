@@ -23,13 +23,17 @@ public class Image {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public void setProduct(Product product) {
+    @Builder
+    public Image(String originFilename, String storeFilename, Product product) {
+        this.originFilename = originFilename;
+        this.storeFilename = storeFilename;
         this.product = product;
     }
 
-    @Builder
-    public Image(String originFilename, String storeFilename) {
-        this.originFilename = originFilename;
-        this.storeFilename = storeFilename;
+    public void setProduct(Product product) {
+        if (this.product != null) {
+            this.product = product;
+        }
+        product.getImages().add(this);
     }
 }

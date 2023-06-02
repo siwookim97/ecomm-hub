@@ -1,7 +1,5 @@
 package com.likelion.ecommhub.controller;
 
-
-import com.likelion.ecommhub.domain.Image;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.service.ImageService;
@@ -10,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -34,19 +31,15 @@ public class ProductController {
 
     @GetMapping("/enroll")
     public String showEnrollProductForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
 
         return "product/enroll";
     }
 
     @PostMapping("/enroll")
-    public String enroll(
-            @RequestPart("images") List<MultipartFile> files,
-            @ModelAttribute("productDto") @Valid ProductDto productDto) throws IOException {
+    public String enroll(@ModelAttribute("productDto") @Valid ProductDto productDto) throws IOException {
 
-        List<Image> images = imageService.uploadImages(files);
-        String result = productService.enroll(productDto, images);
-        System.out.println("result = " + result);
+        Product enrolledProduct = productService.enroll(productDto);
+        imageService.uploadImages(productDto.getImages(), enrolledProduct);
 
         return "redirect:/product/home";
     }

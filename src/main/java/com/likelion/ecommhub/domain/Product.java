@@ -35,41 +35,19 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-    // Test에만 사용되는데?
-    public Product( String name, int price, String detail, int inventory) {
-        this.name = name;
-        this.price = price;
-        this.detail = detail;
-        this.inventory = inventory;
-    }
-
     @Builder
     public Product(String name, int price, String detail, int inventory,
-                   ProductState productState, List<Image> images) {
+                   ProductState productState) {
         this.name = name;
         this.price = price;
         this.detail = detail;
         this.inventory = inventory;
         this.productState = productState;
-        addPhotos(images);
-    }
-
-    public void addPhotos(List<Image> images) {
-        for (Image image : images) {
-            if (image.getProduct() != null) {
-                addPhoto(image);
-            }
-        }
     }
 
     public void updateProductSoldOut() {
         if(inventory == 0){
             productState = ProductState.SOLD_OUT;
         }
-    }
-
-    private void addPhoto(Image image) {
-        this.images.add(image);
-        image.setProduct(this);
     }
 }

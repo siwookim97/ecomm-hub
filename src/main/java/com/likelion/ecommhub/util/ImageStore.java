@@ -14,11 +14,14 @@ import java.util.UUID;
 @Component
 public class ImageStore {
 
-    @Value("${file.dir}")
+    @Value("${file.windowDir}")
     private String fileDirPath;
+//    @Value("${file.rinuxDir}")
+//    private String fileDirPath;
 
     public List<Image> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> images = new ArrayList<>();
+
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 images.add(storeFile(multipartFile));
@@ -35,7 +38,7 @@ public class ImageStore {
 
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFilename = createStoreFilename(originalFilename);
-        multipartFile.transferTo(new File(createPath(storeFilename)));
+        multipartFile.transferTo(new File(fileDirPath));
 
         return Image.builder()
                 .originFilename(originalFilename)

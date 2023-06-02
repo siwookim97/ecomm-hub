@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.util.ImageStore;
 import com.likelion.ecommhub.domain.Image;
 import com.likelion.ecommhub.repository.ImageRepository;
@@ -19,9 +20,18 @@ public class ImageService {
     private final ImageStore imageStore;
 
     @Transactional
-    public List<Image> uploadImages(List<MultipartFile> multipartFiles) throws IOException {
+    public List<Image> uploadImages(List<MultipartFile> multipartFiles, Product product) throws IOException {
         List<Image> images = imageStore.storeFiles(multipartFiles);
-        imageRepository.saveAll(images);
+
+        for (Image image : images) {
+            Image uploadImage = Image.builder()
+                    .originFilename(image.getOriginFilename())
+                    .storeFilename(image.getStoreFilename())
+                    .product(product)
+                    .build();
+            uploadImage.setProduct(product);
+            imageRepository.save(uploadImage);
+        }
 
         return images;
     }

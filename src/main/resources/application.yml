@@ -1,4 +1,3 @@
-
 spring:
   mail:
     host: smtp.gmail.com
@@ -22,16 +21,22 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create #테스트 위해 잠시 비활성화 해놓음
       dialect: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
         # show_sql: true
         format_sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
 
 file:
-  dir: src/main/resources/static/
+  windowDir: C:\load\img
+  linuxDir: /load/img
