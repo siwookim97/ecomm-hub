@@ -5,6 +5,7 @@ import com.likelion.ecommhub.dto.NoticeDto;
 import com.likelion.ecommhub.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
+    @Transactional
     public String register(NoticeDto noticeDto) {
 
         if (findSameTitle(noticeDto.getTitle())) {
@@ -23,6 +25,12 @@ public class NoticeService {
         Notice notice = create(noticeDto);
         noticeRepository.save(notice);
         return "공지 등록 완료";
+    }
+
+    @Transactional
+    public String delete(Notice notice){
+        noticeRepository.delete(notice);
+        return "삭제에 성공하였습니다";
     }
 
     private Notice create(NoticeDto noticeDto) {
