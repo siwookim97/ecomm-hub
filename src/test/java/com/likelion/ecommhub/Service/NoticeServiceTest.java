@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.Service;
 
+import com.likelion.ecommhub.domain.Notice;
 import com.likelion.ecommhub.domain.NoticeType;
 import com.likelion.ecommhub.dto.NoticeDto;
 import com.likelion.ecommhub.repository.NoticeRepository;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -51,5 +54,19 @@ class NoticeServiceTest {
         String registerResult = noticeService.register(noticeDto4);
 
         Assertions.assertThat(registerResult).isEqualTo("같은 제목의 공지가 존재합니다");
+    }
+
+    @Test
+    @DisplayName("같은 제목의 공지 등록 ")
+    void delete(){
+
+        Optional<Notice> byId = noticeRepository.findById(1L);
+        if (byId.isPresent()) {
+            Notice notice = byId.get();
+            noticeRepository.delete(notice);
+        }
+
+        int size = noticeRepository.findAll().size();
+        Assertions.assertThat(size).isEqualTo(2);
     }
 }
