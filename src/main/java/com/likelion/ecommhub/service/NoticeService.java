@@ -28,9 +28,22 @@ public class NoticeService {
     }
 
     @Transactional
-    public String delete(Notice notice){
+    public String delete(Notice notice) {
         noticeRepository.delete(notice);
         return "삭제에 성공하였습니다";
+    }
+
+    @Transactional
+    public String modify(Long id, NoticeDto noticeDto) {
+
+        Optional<Notice> existingNotice = noticeRepository.findById(id);
+        if (existingNotice.isEmpty()) {
+            return "존재하지 않습니다";
+        }
+        Notice notice = existingNotice.get();
+        notice.update(noticeDto.getNoticeType(), noticeDto.getTitle(), noticeDto.getContent());
+
+        return "업데이트에 성공했습니다";
     }
 
     private Notice create(NoticeDto noticeDto) {
