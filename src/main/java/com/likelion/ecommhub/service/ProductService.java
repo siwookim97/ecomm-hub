@@ -6,7 +6,6 @@ import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,31 +19,28 @@ public class ProductService {
     ProductRepository productRepository;
 
     @Transactional
-    public String enroll(ProductDto productDto) {
+    public Product enroll(ProductDto productDto) {
 
-        Product product = createProduct(productDto);
-        productRepository.save(product);
-        return "상품 등록 성공";
+        Product product = saveProduct(productDto);
+
+        return productRepository.save(product);
     }
 
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
 
-    private Product createProduct(ProductDto productDto) {
+    private Product saveProduct(ProductDto productDto) {
 
-        ProductState productState = ProductState.ON_SALE;
-        
-        if(productDto.getInventory() == 0){
-            productState = ProductState.SOLD_OUT;
-        }
-        
-        return new Product(
-                productDto.getName(),
-                productDto.getPrice(),
-                productDto.getDetail(),
-                productDto.getInventory(),
-                productState
-        );
+        ProductState productState = productDto.getInventory() == 0
+                ? ProductState.SOLD_OUT : ProductState.ON_SALE;
+
+        return Product.builder()
+                .name(productDto.getName())
+                .price(productDto.getPrice())
+                .detail(productDto.getDetail())
+                .inventory(productDto.getInventory())
+                .productState(productState)
+                .build();
     }
 }

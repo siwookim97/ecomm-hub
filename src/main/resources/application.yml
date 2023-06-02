@@ -28,6 +28,15 @@ spring:
         # show_sql: true
         format_sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
 logging.level:
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
+file:
+  windowDir: C:\load\img
+  linuxDir: /load/img

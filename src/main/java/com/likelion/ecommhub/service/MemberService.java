@@ -5,7 +5,6 @@ import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
 
-
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;

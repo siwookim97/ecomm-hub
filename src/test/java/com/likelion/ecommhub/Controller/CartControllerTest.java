@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.likelion.ecommhub.domain.ProductState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -56,7 +57,7 @@ public class CartControllerTest {
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 
-		Product product = new Product("상품1",100,"상품상세설명1",10);
+		Product product = new Product("상품1",100,"상품상세설명1",10, ProductState.ON_SALE);
 		productRepository.save(product);
 
 		ResponseEntity<String> response = cartController.addToCart(cart.getCartId(), product.getId(), 1);
@@ -78,7 +79,7 @@ public class CartControllerTest {
 		cartRepository.save(cart);
 
 
-		Product product = new Product("상품1", 100, "상품상세설명1", 10);
+		Product product = new Product("상품1", 100, "상품상세설명1", 10, ProductState.ON_SALE);
 		productRepository.save(product);
 
 
@@ -109,14 +110,13 @@ public class CartControllerTest {
 		cartRepository.save(cart);
 
 
-		Product product = new Product("상품1", 100, "상품상세설명1", 10);
+		Product product = new Product("상품1", 100, "상품상세설명1", 10, ProductState.ON_SALE);
 		productRepository.save(product);
 
 
 		ResponseEntity<String> addToCartResponse = cartController.addToCart(cart.getCartId(), product.getId(), 1);
 		assertEquals(HttpStatus.OK, addToCartResponse.getStatusCode());
 		assertEquals("상품이 장바구니에 추가되었습니다.", addToCartResponse.getBody());
-
 
 		ResponseEntity<String> removeFromCartResponse = cartController.removeFromCart(cart.getCartId(), product.getId());
 		assertEquals(HttpStatus.OK, removeFromCartResponse.getStatusCode());

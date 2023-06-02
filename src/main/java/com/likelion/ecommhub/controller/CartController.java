@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.service.CartService;
-
-
 
 @Controller
 @RequestMapping("/carts")
