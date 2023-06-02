@@ -69,4 +69,18 @@ class NoticeServiceTest {
         int size = noticeRepository.findAll().size();
         Assertions.assertThat(size).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("업데이트 테스트")
+    void update(){
+
+        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM,"제목4","내용 변경 전");
+        noticeService.register(noticeDto4);
+
+        NoticeDto updateNoticeDto = new NoticeDto(NoticeType.SYSTEM,"제목4","내용 변경 후");
+        noticeService.modify(4L,updateNoticeDto);
+
+        Notice notice = noticeRepository.findById(4L).orElse(null);
+        Assertions.assertThat(notice.getContent()).isEqualTo("내용 변경 후");
+    }
 }
