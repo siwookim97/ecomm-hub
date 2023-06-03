@@ -35,6 +35,10 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Builder
     public Product(String name, int price, String detail, int inventory,
                    ProductState productState) {
@@ -49,5 +53,13 @@ public class Product extends BaseEntity {
         if(inventory == 0){
             productState = ProductState.SOLD_OUT;
         }
+    }
+
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getProducts().remove(this);
+        }
+        this.member = member;
+        member.getProducts().add(this);
     }
 }

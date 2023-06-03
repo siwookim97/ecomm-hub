@@ -30,7 +30,6 @@ public class Member extends BaseEntity {
 
     private String email;
 
-
     @Column(nullable = false)
     private String phone; // 기존 seller_number에서 변경
 
@@ -44,6 +43,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cart> carts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
 
     public Member(String username, String password, String nickname,
                   String email, String phone, String address,
