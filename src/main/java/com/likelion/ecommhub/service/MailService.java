@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.likelion.ecommhub.domain.MailDto;
+import com.likelion.ecommhub.dto.MailDto;
 import org.springframework.transaction.annotation.Transactional;
 
 

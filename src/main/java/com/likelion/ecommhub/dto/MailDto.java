@@ -1,4 +1,4 @@
-package com.likelion.ecommhub.domain;
+package com.likelion.ecommhub.dto;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
