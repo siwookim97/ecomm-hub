@@ -31,6 +31,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Product findProductById(Long productId) {
+        return productRepository.findById(productId).get();
+    }
+
     private Product saveProduct(ProductDto productDto, Member member) {
 
         ProductState productState = productDto.getInventory() == 0
