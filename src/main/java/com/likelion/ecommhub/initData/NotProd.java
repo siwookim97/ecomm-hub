@@ -55,14 +55,14 @@ public class NotProd {
         Product product2 = new Product("상품2", 200, "상품상세설명2", 20,ProductState.ON_SALE);
         productRepository.save(product2);
 
-        Cart cart1 = new Cart(1L, 1L, product1,"상품1", member1, 10, 100, 1000, 10);
-        cartRepository.save(cart1);
+//        Cart cart1 = new Cart(1L, 1L, product1,"상품1", member1, 10, 100, 1000, 10);
+//        cartRepository.save(cart1);
+//
+//        Cart cart2 = new Cart(2L, 2L, product2,"상품2", member2, 10, 200, 4000, 20);
+//        cartRepository.save(cart2);
 
-        Cart cart2 = new Cart(2L, 2L, product2,"상품2", member2, 10, 200, 4000, 20);
-        cartRepository.save(cart2);
-
-        member1.addCart(cart1);
-        member2.addCart(cart2);
+//        member1.addCart(cart1);
+//        member2.addCart(cart2);
 
         memberRepository.save(member1);
         memberRepository.save(member2);

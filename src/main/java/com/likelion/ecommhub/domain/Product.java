@@ -32,24 +32,38 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private int inventory;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Inquiry> inquiries = new ArrayList<>();
 
     @Builder
     public Product(String name, int price, String detail, int inventory,
-                   ProductState productState) {
+        ProductState productState) {
         this.name = name;
         this.price = price;
         this.detail = detail;
         this.inventory = inventory;
         this.productState = productState;
+    }
+
+    public Product(Long id,String name, int price, String detail, int inventory,
+        ProductState productState,List<CartItem> cartItems) {
+        this.id =id;
+        this.name = name;
+        this.price = price;
+        this.detail = detail;
+        this.inventory = inventory;
+        this.productState = productState;
+        this.cartItems =cartItems;
     }
 
     public void updateProductSoldOut() {
