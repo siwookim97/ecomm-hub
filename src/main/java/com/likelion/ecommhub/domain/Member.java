@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(name = "USERNAME_UK", columnNames = {"USERNAME"})
+    @UniqueConstraint(name = "USERNAME_UK", columnNames = {"USERNAME"})
 })
 public class Member extends BaseEntity {
 
@@ -42,12 +42,12 @@ public class Member extends BaseEntity {
 
     private String account; // 계좌번호는 String을 권장 (ex, 019-1234136-1234)
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cart> carts = new ArrayList<>();
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private Cart cart;
 
     public Member(String username, String password, String nickname,
-                  String email, String phone, String address,
-                  MemberRole memberRole) {
+        String email, String phone, String address,
+        MemberRole memberRole) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -58,8 +58,8 @@ public class Member extends BaseEntity {
     }
 
     public Member(String username, String password, String nickname,
-                  String email, String phone, String address,
-                  MemberRole memberRole, String account) {
+        String email, String phone, String address,
+        MemberRole memberRole, String account, Cart cart) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -68,15 +68,14 @@ public class Member extends BaseEntity {
         this.address = address;
         this.memberRole = memberRole;
         this.account = account;
+        this.cart = cart;
     }
 
-    public void addCart(Cart cart) {
-        carts.add(cart);
-        cart.setMember(this);
+    public void setPassword(String encPassword) {
+        this.password =password;
     }
 
-    public void removeCart(Cart cart) {
-        carts.remove(cart);
-        cart.setMember(null);
+    public void setMemberRole(String roleGuest) {
+        this.memberRole =memberRole;
     }
 }
