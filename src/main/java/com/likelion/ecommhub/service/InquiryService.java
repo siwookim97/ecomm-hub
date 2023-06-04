@@ -5,12 +5,10 @@ import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.InquiryDto;
 import com.likelion.ecommhub.repository.InquiryRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +29,12 @@ public class InquiryService {
         inquiryRepository.save(createdInquiry);
 
         return createdInquiry;
+    }
+
+    @Transactional
+    public void deleteInquiry(Long inquiryId, Member member) {
+        // TODO: 주문 테이블 검증로직 필요
+
+        inquiryRepository.deleteById(inquiryId);
     }
 }

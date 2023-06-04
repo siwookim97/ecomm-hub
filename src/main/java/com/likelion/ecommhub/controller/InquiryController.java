@@ -41,4 +41,14 @@ public class InquiryController {
 
         return "redirect:/product/home";
     }
+
+    // TODO: 주문 테이블 추가 후 삭제 기능 작업
+//    @PostMapping("delete/{productId}")
+//    public String deleteInquiry(@PathVariable Long productId, Principal principal) {
+//
+//        Member findMember = memberService.findMembrByUsername(principal.getName());
+//
+//
+//        return "redirect:/product/home";
+//    }
 }
