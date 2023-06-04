@@ -62,5 +62,16 @@ public class Product extends BaseEntity {
             productState = ProductState.SOLD_OUT;
         }
     }
+    public void removeInventory(int inventory) {
+
+        int restInventory = this.inventory - inventory;
+        if (restInventory < 0) {
+            throw new RuntimeException("상품의 재고가 부족합니다. (현재 재고 수량: " + this.inventory + ")");
+        }
+        this.inventory = restInventory;
+    }
+    public void addInventory(int inventory) {
+        this.inventory += inventory;
+    }
 
 }
