@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,8 +29,12 @@ public class NoticeService {
     }
 
     @Transactional
-    public String delete(Notice notice) {
-        noticeRepository.delete(notice);
+    public String delete(Long id) {
+        Optional<Notice> existingNotice = noticeRepository.findById(id);
+        if (existingNotice.isEmpty()) {
+            return "존재하지 않습니다";
+        }
+        noticeRepository.delete(existingNotice.get());
         return "삭제에 성공하였습니다";
     }
 
@@ -57,5 +62,14 @@ public class NoticeService {
     private boolean findSameTitle(String title) {
         Optional<Notice> findResult = noticeRepository.findByTitle(title);
         return findResult.isPresent();
+    }
+
+    public List<Notice> getAllNotice() {
+        return noticeRepository.findAll();
+    }
+
+    public Notice findById(Long id){
+        Optional<Notice> byId = noticeRepository.findById(id);
+        return byId.orElse(null);
     }
 }
