@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {
-        @UniqueConstraint(name = "USERNAME_UK", columnNames = {"USERNAME"})
+    @UniqueConstraint(name = "USERNAME_UK", columnNames = {"USERNAME"})
 })
 public class Member extends BaseEntity {
 
@@ -50,10 +50,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Inquiry> inquiries = new ArrayList<>();
 
-
     public Member(String username, String password, String nickname,
-                  String email, String phone, String address,
-                  MemberRole memberRole) {
+        String email, String phone, String address,
+        MemberRole memberRole) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -64,8 +63,8 @@ public class Member extends BaseEntity {
     }
 
     public Member(String username, String password, String nickname,
-                  String email, String phone, String address,
-                  MemberRole memberRole, String account) {
+        String email, String phone, String address,
+        MemberRole memberRole, String account, Cart cart) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -83,5 +82,6 @@ public class Member extends BaseEntity {
 
     public void setMemberRole(String roleGuest) {
         this.memberRole = memberRole;
+        this.password =password;
     }
 }
