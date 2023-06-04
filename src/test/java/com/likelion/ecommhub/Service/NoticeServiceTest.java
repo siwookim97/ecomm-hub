@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @SpringBootTest
 @Transactional
 class NoticeServiceTest {
@@ -26,10 +24,10 @@ class NoticeServiceTest {
 
 
     @BeforeEach
-    void init(){
-        NoticeDto noticeDto1 = new NoticeDto(NoticeType.SYSTEM,"제목1","내용");
-        NoticeDto noticeDto2 = new NoticeDto(NoticeType.SYSTEM,"제목2","내용");
-        NoticeDto noticeDto3 = new NoticeDto(NoticeType.SYSTEM,"제목3","내용");
+    void init() {
+        NoticeDto noticeDto1 = new NoticeDto(NoticeType.SYSTEM, "제목1", "내용");
+        NoticeDto noticeDto2 = new NoticeDto(NoticeType.SYSTEM, "제목2", "내용");
+        NoticeDto noticeDto3 = new NoticeDto(NoticeType.SYSTEM, "제목3", "내용");
 
         noticeService.register(noticeDto1);
         noticeService.register(noticeDto2);
@@ -38,8 +36,8 @@ class NoticeServiceTest {
 
     @Test
     @DisplayName("공지 등록 성공")
-    void register(){
-        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM,"제목4","내용");
+    void register() {
+        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM, "제목4", "내용");
 
         String registerResult = noticeService.register(noticeDto4);
 
@@ -48,8 +46,8 @@ class NoticeServiceTest {
 
     @Test
     @DisplayName("같은 제목의 공지 등록 ")
-    void registerSameTitle(){
-        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM,"제목1","내용");
+    void registerSameTitle() {
+        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM, "제목1", "내용");
 
         String registerResult = noticeService.register(noticeDto4);
 
@@ -58,13 +56,9 @@ class NoticeServiceTest {
 
     @Test
     @DisplayName("같은 제목의 공지 등록 ")
-    void delete(){
+    void delete() {
 
-        Optional<Notice> byId = noticeRepository.findById(1L);
-        if (byId.isPresent()) {
-            Notice notice = byId.get();
-            noticeRepository.delete(notice);
-        }
+        noticeService.delete(1L);
 
         int size = noticeRepository.findAll().size();
         Assertions.assertThat(size).isEqualTo(2);
@@ -72,13 +66,13 @@ class NoticeServiceTest {
 
     @Test
     @DisplayName("업데이트 테스트")
-    void update(){
+    void update() {
 
-        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM,"제목4","내용 변경 전");
+        NoticeDto noticeDto4 = new NoticeDto(NoticeType.SYSTEM, "제목4", "내용 변경 전");
         noticeService.register(noticeDto4);
 
-        NoticeDto updateNoticeDto = new NoticeDto(NoticeType.SYSTEM,"제목4","내용 변경 후");
-        noticeService.modify(4L,updateNoticeDto);
+        NoticeDto updateNoticeDto = new NoticeDto(NoticeType.SYSTEM, "제목4", "내용 변경 후");
+        noticeService.modify(4L, updateNoticeDto);
 
         Notice notice = noticeRepository.findById(4L).orElse(null);
         Assertions.assertThat(notice.getContent()).isEqualTo("내용 변경 후");

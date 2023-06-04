@@ -19,13 +19,6 @@ public class Notice extends BaseEntity {
     private String title;
     private String content;
 
-    public Notice(Long id, NoticeType noticeType, String title, String content) {
-        this.id = id;
-        this.noticeType = noticeType;
-        this.title = title;
-        this.content = content;
-    }
-
     public Notice(NoticeType noticeType, String title, String content) {
         this.noticeType = noticeType;
         this.title = title;
