@@ -2,6 +2,8 @@ package com.likelion.ecommhub.controller;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,68 +15,72 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Cart;
+import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.service.CartService;
+import com.likelion.ecommhub.service.MemberService;
+import com.likelion.ecommhub.service.ProductService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/carts")
+@Transactional
+@RequiredArgsConstructor
 public class CartController {
 
 	private final CartService cartService;
+	private final MemberService memberService;
+	private final ProductService productService;
 
-	public CartController(CartService cartService) {
-		this.cartService = cartService;
-	}
 
-	@GetMapping("/{cartId}")
-	public Optional<Cart> getCart(@PathVariable Long cartId) {
-		Optional<Cart> cartDto = cartService.getCartById(cartId);
-		return cartDto;
+	// 내 장바구니 조회
+	@GetMapping("/member/{memberid}/cart")
+	public String myCartPage(@PathVariable("memberid") long memberid, Model model,@AuthenticationPrincipal MemberDetails memberDetails){
+		// 로그인 User == 접속 User
+		if(memberDetails.getMember().getId()== memberid){
+			// User의 장바구니를 가져온다.
+			Cart cart = memberDetails.getMember().getCart();
+			// 장바구니의 아이템을 가져온다.
 
-	}
-	@GetMapping("/{cartId}/list")
-	public String getCartList(@PathVariable Long cartId, Model model) {
-		Optional<Cart> cart = cartService.getCartById(cartId);
-		model.addAttribute("cart", cart.orElse(null));
-		return "cartList";
-	}
+			List<CartItem> cartItems = cartService.MemberCartView(cart);
 
-	@PostMapping("/{cartId}/products/{productId}")
-	public ResponseEntity<String> addToCart(
-		@PathVariable Long cartId,
-		@PathVariable Long productId,
-		@RequestParam("quantity") int quantity) {
+			int totalPrice = 0;
+			for(CartItem cartItem : cartItems){
+				totalPrice += ( cartItem.getProduct().getPrice() * cartItem.getCount());
+			}
 
-		try {
-			cartService.addToCart(cartId, productId, quantity);
-			return ResponseEntity.ok("상품이 장바구니에 추가되었습니다.");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("상품 추가에 실패했습니다.");
+			model.addAttribute("cartItemList",cartItems);
+			model.addAttribute("totalPrice",totalPrice);
+			model.addAttribute("user",memberService.getMemberId(memberid));
+
+			return "cart";
+		}else{
+			return "redirect:/main";
 		}
 	}
+	//특정 상품 장바구니에 추가
+	@GetMapping("/member/{memberid}/cart/{productId}")
+	public String myCartAdd(@PathVariable("memberid") Long memberId, @PathVariable("productId") Long productId, @RequestParam("count") int count) {
+		Optional<Member> member = memberService.getMemberId(memberId);
+		Optional<Product> product = productService.getProductId(productId);
 
-	@DeleteMapping("/{cartId}/products/{productId}")
-	public ResponseEntity<String> removeFromCart(
-		@PathVariable Long cartId,
-		@PathVariable Long productId) {
-		try {
-			cartService.removeFromCart(cartId, productId);
-			return ResponseEntity.ok("상품이 장바구니에서 삭제되었습니다.");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("상품 제거에 실패했습니다.");
+		if (member.isPresent() && product.isPresent()) {
+			cartService.addCart(member.get(), product.get(), count);
 		}
+
+		return "cartAdd";
 	}
 
-	@PutMapping("/{cartId}/products/{productId}")
-	public ResponseEntity<String> updateCartItemQuantity(
-		@PathVariable Long cartId,
-		@PathVariable Long productId,
-		@RequestParam("quantity") int quantity) {
-		try {
-			cartService.updateCartItemQuantity(cartId, productId,quantity);
-			return ResponseEntity.ok("상품 수량이 업데이트되었습니다.");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("상품 수정에 실패했습니다.");
+	//특정 상품 장바구니에서 삭제
+	@GetMapping("/member/{memberid}/cart/{cartItemid}/delete")
+	public String myCartDelete(@PathVariable("memberid") Long memberid, @PathVariable("cartItemid") Long cartItemid
+	) {
+		Optional<Member> member = memberService.getMemberId(memberid);
+		if (member.isPresent()) {
+			cartService.cartItemDelete(cartItemid);
 		}
+		return "redirect:/member/{memberid}/cart";
 	}
+
 }
