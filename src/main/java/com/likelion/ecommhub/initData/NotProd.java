@@ -34,26 +34,26 @@ public class NotProd {
 
     @PostConstruct
     public void initializeData() {
-        cartRepository.deleteAll();
-        memberRepository.deleteAll();
-        productRepository.deleteAll();
-
-        Member member1 = new Member("loginId1", encoder.encode("password1"), "Seller1",
-                "seller1@email.com", "010-1234-1234", "address1",
-                MemberRole.ROLE_SELLER, "account1");
-
-        Member member2 = new Member("loginId2", encoder.encode("password2"), "Seller2",
-                "seller2@email.com", "010-1111-1111", "address2",
-                MemberRole.ROLE_SELLER, "account2");
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-
-        Product product1 = new Product("상품1", 100, "상품상세설명1", 10, ProductState.ON_SALE);
-        productRepository.save(product1);
-
-        Product product2 = new Product("상품2", 200, "상품상세설명2", 20,ProductState.ON_SALE);
-        productRepository.save(product2);
+//        cartRepository.deleteAll();
+//        memberRepository.deleteAll();
+//        productRepository.deleteAll();
+//
+//        Member member1 = new Member("loginId1", encoder.encode("password1"), "Seller1",
+//                "seller1@email.com", "010-1234-1234", "address1",
+//                MemberRole.ROLE_SELLER, "account1");
+//
+//        Member member2 = new Member("loginId2", encoder.encode("password2"), "Seller2",
+//                "seller2@email.com", "010-1111-1111", "address2",
+//                MemberRole.ROLE_SELLER, "account2");
+//
+//        memberRepository.save(member1);
+//        memberRepository.save(member2);
+//
+//        Product product1 = new Product("상품1", 100, "상품상세설명1", 10, ProductState.ON_SALE);
+//        productRepository.save(product1);
+//
+//        Product product2 = new Product("상품2", 200, "상품상세설명2", 20,ProductState.ON_SALE);
+//        productRepository.save(product2);
 
 //        Cart cart1 = new Cart(1L, 1L, product1,"상품1", member1, 10, 100, 1000, 10);
 //        cartRepository.save(cart1);
@@ -63,8 +63,8 @@ public class NotProd {
 
 //        member1.addCart(cart1);
 //        member2.addCart(cart2);
-
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+//
+//        memberRepository.save(member1);
+//        memberRepository.save(member2);
     }
 }
