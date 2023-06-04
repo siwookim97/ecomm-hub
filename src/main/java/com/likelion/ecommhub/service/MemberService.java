@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
@@ -54,14 +55,15 @@ public class MemberService {
             requestDto.getPhone(),
             requestDto.getAddress(),
             memberRole,
-            requestDto.getAccount()
+            requestDto.getAccount(),
+            new Cart()
         );
     }
 
 
-	public Optional<Member> getMemberId(Long memberId) {
+    public Optional<Member> getMemberId(Long memberId) {
         return memberRepository.findById(memberId);
-	}
+    }
 
     public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
         return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
