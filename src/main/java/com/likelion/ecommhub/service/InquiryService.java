@@ -20,6 +20,8 @@ public class InquiryService {
 
     @Transactional
     public Inquiry postInquiry(InquiryDto inquiryDto, Member member, Product product) {
+        // TODO: 주문 테이블 검증로직 필요
+
         Inquiry createdInquiry = Inquiry.builder()
                 .title(inquiryDto.getTitle())
                 .content(inquiryDto.getContent())
