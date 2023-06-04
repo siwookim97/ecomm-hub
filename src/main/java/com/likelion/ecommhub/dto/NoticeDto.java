@@ -14,7 +14,6 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class NoticeDto {
 
-    @NotEmpty(message = "공지 타입을 선택해주세요.")
     private NoticeType noticeType;
     @NotEmpty(message = "제목은 공백이 불가합니다.")
     private String title;
