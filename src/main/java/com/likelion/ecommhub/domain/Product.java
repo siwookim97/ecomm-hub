@@ -34,10 +34,11 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
-
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems = new ArrayList<>();
     @Builder
     public Product(String name, int price, String detail, int inventory,
-                   ProductState productState) {
+        ProductState productState) {
         this.name = name;
         this.price = price;
         this.detail = detail;
@@ -45,9 +46,21 @@ public class Product extends BaseEntity {
         this.productState = productState;
     }
 
+    public Product(Long id,String name, int price, String detail, int inventory,
+        ProductState productState,List<CartItem> cartItems) {
+        this.id =id;
+        this.name = name;
+        this.price = price;
+        this.detail = detail;
+        this.inventory = inventory;
+        this.productState = productState;
+        this.cartItems =cartItems;
+    }
+
     public void updateProductSoldOut() {
         if(inventory == 0){
             productState = ProductState.SOLD_OUT;
         }
     }
+
 }

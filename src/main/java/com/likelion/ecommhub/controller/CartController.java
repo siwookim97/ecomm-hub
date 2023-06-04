@@ -1,10 +1,12 @@
 package com.likelion.ecommhub.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Cart;
+import com.likelion.ecommhub.domain.CartItem;
+import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.service.CartService;
 import com.likelion.ecommhub.service.MemberService;

@@ -1,13 +1,17 @@
 package com.likelion.ecommhub.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.likelion.ecommhub.domain.Cart;
+import com.likelion.ecommhub.domain.CartItem;
+import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
+import com.likelion.ecommhub.repository.CartItemRepository;
 import com.likelion.ecommhub.repository.CartRepository;
 import com.likelion.ecommhub.repository.ProductRepository;
 import org.springframework.transaction.annotation.Transactional;
