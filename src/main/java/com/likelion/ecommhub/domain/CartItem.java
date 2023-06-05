@@ -11,10 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,7 +61,7 @@ public class CartItem {
 	}
 
 	private void setCount(int count) {
-		this.count =count;
+		this.count = count;
 	}
 
 	private void setProduct(Product product) {
@@ -72,3 +76,5 @@ public class CartItem {
 		this.count += count;
 	}
 }
+
+

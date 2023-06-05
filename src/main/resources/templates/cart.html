@@ -55,6 +55,7 @@
              th:text="${cartItem.product.name}"></a>
         </td>
         <td th:text="${cartItem.count}">수량</td>
+
         <td class="btn btn-outline-dark">
           <form th:action="@{/member/{id}/cart/{cartItemId}(id=${cartItem.cart.member.id}, cartItemId=${cartItem.id})}" method="get">
             <input type="hidden" name="_method" value="PUT" />
@@ -62,6 +63,7 @@
             <button type="submit">수량추가</button>
           </form>
         </td>
+
         <td th:text="${cartItem.product.price * cartItem.count}">가격</td>
         <td th:text="${cartItem.createDate}">날짜</td>
         <td class="btn btn-outline-dark"><a th:href="@{/member/{memberid}/cart/{cartItemid}/delete(memberid=${cartItem.getCart().getMember().id}, cartItemid=${cartItem.getId()})}" style="text-decoration: none">삭제</a></td>

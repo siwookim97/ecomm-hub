@@ -27,7 +27,6 @@ public class ImageService {
             Image uploadImage = Image.builder()
                     .originFilename(image.getOriginFilename())
                     .storeFilename(image.getStoreFilename())
-                    .product(product)
                     .build();
             uploadImage.setProduct(product);
             imageRepository.save(uploadImage);

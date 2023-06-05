@@ -1,0 +1,54 @@
+package com.likelion.ecommhub.domain;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Review extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @Builder
+    public Review(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void setProduct(Product product) {
+        if (this.product != null) {
+            this.product.getReviews().remove(this);
+        }
+        this.product = product;
+        product.getReviews().add(this);
+    }
+
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getReviews().remove(this);
+        }
+        this.member = member;
+        member.getReviews().add(this);
+    }
+}
