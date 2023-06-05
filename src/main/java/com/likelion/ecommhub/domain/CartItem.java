@@ -12,60 +12,75 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cart_id", referencedColumnName = "id")
+	private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_id", referencedColumnName = "id")
+	private Product product;
 
-    private int count; // 카트에 담긴 상품 개수
+	private int count; // 카트에 담긴 상품 개수
 
-    @Column(nullable = false)
-    private LocalDate createDate; // 날짜
+	@Column(nullable = false)
+	private LocalDate createDate; // 날짜
 
-    @PrePersist
-    public void setCreateDate() {
-        this.createDate = LocalDate.now();
-    }
+	@PrePersist
+	public void setCreateDate() {
+		this.createDate = LocalDate.now();
+	}
 
-    public static CartItem createCartItem(Cart cart, Product product, int count) {
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setCount(count);
-        cartItem.setCreateDate(LocalDate.now());
+	@Builder
+	public CartItem(Cart cart, Product product, int count){
+		this.cart =cart;
+		this.product =product;
+		this.count =count;
+	}
 
-        // cart와 cartItem 간의 양방향 관계 설정
-        cart.getCartItems().add(cartItem);
-        cartItem.setCart(cart);
+	public void setCart(Cart cart) {
+		if (this.cart != null) {
+			this.cart.getCartItems().remove(this);
+		}
+		this.cart = cart;
+		cart.getCartItems().add(this);
+	}
 
-        // product와 cartItem 간의 양방향 관계 설정
-        product.getCartItems().add(cartItem);
-        cartItem.setProduct(product);
+	public void setProduct(Product product) {
+		if (this.product != null) {
+			this.product.getCartItems().remove(this);
+		}
+		this.product = product;
+		product.getCartItems().add(this);
+	}
 
-        return cartItem;
-    }
+	private void setCount(int count) {
+		this.count = count;
+	}
 
-    public void addCount(int count) {
-        this.count += count;
-    }
+	private void setProduct() {
+		this.product = product;
+	}
+
+	public void setCart() {
+		this.cart = cart;
+	}
+
+	public void addCount(int count) {
+		this.count += count;
+	}
 }
+
+

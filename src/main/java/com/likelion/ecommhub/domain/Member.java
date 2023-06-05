@@ -44,6 +44,7 @@ public class Member extends BaseEntity {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Cart cart;
 
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
@@ -52,6 +53,7 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
 
     public Member(String username, String password, String nickname,
         String email, String phone, String address,
@@ -80,11 +82,13 @@ public class Member extends BaseEntity {
     }
 
     public void setPassword(String encPassword) {
-        this.password = password;
+        this.password =password;
     }
 
     public void setMemberRole(String roleGuest) {
-        this.memberRole = memberRole;
-        this.password =password;
+        this.memberRole =memberRole;
+        this.password = password;
     }
+
+
 }
