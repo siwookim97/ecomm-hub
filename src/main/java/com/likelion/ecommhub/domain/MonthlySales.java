@@ -2,16 +2,12 @@ package com.likelion.ecommhub.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 
 @Entity
-@Table(name = "monthly_sales")
-@NoArgsConstructor
 public class MonthlySales {
 	@Id
 	private String date;
@@ -21,5 +17,9 @@ public class MonthlySales {
 	public MonthlySales(String date, long sales) {
 		this.date = date;
 		this.sales = sales;
+	}
+	@Builder
+	public MonthlySales() {
+
 	}
 }

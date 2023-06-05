@@ -16,110 +16,128 @@
 </div>
 
 <script type="text/javascript">
-  var context = document
+  var context1 = document
           .getElementById('myChart1')
           .getContext('2d');
-  var myChart = new Chart(context, {
-    type: 'line', // 차트의 형태
-    data: { // 차트에 들어갈 데이터
-      labels: [
-        //x 축
-        '1','2','3','4','5','6','7'
-      ],
+  var myChart1 = new Chart(context1, {
+    type: 'line',
+    data: {
+      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
       datasets: [
-        { //데이터
-          label: 'test1', //차트 제목
-          fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-          data: [
-            21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
-          ],
-          backgroundColor: [
-            //색상
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            //경계선 색상
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1 //경계선 굵기
-        }
-      ]
+        {
+          label: '월 매출액',
+          fill: false,
+          data: [], // Monthly sales data will be fetched dynamically
+          backgroundColor: [], // Monthly sales data colors
+          borderColor: [], // Monthly sales data border colors
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       scales: {
         yAxes: [
           {
             ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
-      }
-    }
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
   });
+
+  // Fetch monthly sales data and update the chart
+  fetch('/monthly-sales/2023')
+          .then((response) => response.json())
+          .then((data) => {
+            // Extract sales data and colors from the fetched data
+            var salesData = data.map((entry) => entry.sales);
+            var colors = [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(128, 0, 128, 0.2)',
+              'rgba(0, 128, 0, 0.2)',
+              'rgba(0, 0, 255, 0.2)',
+              'rgba(255, 0, 0, 0.2)',
+              'rgba(0, 255, 255, 0.2)',
+              'rgba(255, 255, 0, 0.2)',
+            ];
+
+            // Update chart data and colors
+            myChart1.data.datasets[0].data = salesData;
+            myChart1.data.datasets[0].backgroundColor = colors;
+            myChart1.data.datasets[0].borderColor = colors;
+
+            // Update the chart
+            myChart1.update();
+          });
 </script>
 <script type="text/javascript">
-  var context = document
+  var context1 = document
           .getElementById('myChart2')
           .getContext('2d');
-  var myChart = new Chart(context, {
-    type: 'bar', // 차트의 형태
-    data: { // 차트에 들어갈 데이터
-      labels: [
-        //x 축
-        '1','2','3','4','5','6','7'
-      ],
+  var myChart1 = new Chart(context1, {
+    type: 'bar',
+    data: {
+      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
       datasets: [
-        { //데이터
-          label: 'test2', //차트 제목
-          fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-          data: [
-            21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
-          ],
-          backgroundColor: [
-            //색상
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            //경계선 색상
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1 //경계선 굵기
-        }
-      ]
+        {
+          label: '월 매출액',
+          fill: false,
+          data: [], // Monthly sales data will be fetched dynamically
+          backgroundColor: [], // Monthly sales data colors
+          borderColor: [], // Monthly sales data border colors
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
       scales: {
         yAxes: [
           {
             ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
-      }
-    }
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
   });
+
+  // Fetch monthly sales data and update the chart
+  fetch('/monthly-sales/2023')
+          .then((response) => response.json())
+          .then((data) => {
+            // Extract sales data and colors from the fetched data
+            var salesData = data.map((entry) => entry.sales);
+            var colors = [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(128, 0, 128, 0.2)',
+              'rgba(0, 128, 0, 0.2)',
+              'rgba(0, 0, 255, 0.2)',
+              'rgba(255, 0, 0, 0.2)',
+              'rgba(0, 255, 255, 0.2)',
+              'rgba(255, 255, 0, 0.2)',
+            ];
+
+            // Update chart data and colors
+            myChart2.data.datasets[0].data = salesData;
+            myChart2.data.datasets[0].backgroundColor = colors;
+            myChart2.data.datasets[0].borderColor = colors;
+
+            // Update the chart
+            myChart2.update();
+          });
 </script>
 </body>
 </html>
