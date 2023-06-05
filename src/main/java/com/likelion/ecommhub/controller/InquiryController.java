@@ -1,6 +1,5 @@
 package com.likelion.ecommhub.controller;
 
-import com.likelion.ecommhub.domain.Inquiry;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.InquiryDto;
@@ -26,7 +25,6 @@ public class InquiryController {
 
     @GetMapping("/enroll")
     public String enrollInquiryForm(Model model) {
-
         return "inquiry/enroll";
     }
 
@@ -42,13 +40,11 @@ public class InquiryController {
         return "redirect:/product/home";
     }
 
-    // TODO: 주문 테이블 추가 후 삭제 기능 작업
-//    @PostMapping("delete/{productId}")
-//    public String deleteInquiry(@PathVariable Long productId, Principal principal) {
-//
-//        Member findMember = memberService.findMembrByUsername(principal.getName());
-//
-//
-//        return "redirect:/product/home";
-//    }
+    @PostMapping("/delete/{productId}")
+    public String deleteInquiry(@PathVariable Long productId, Principal principal) {
+        Member findMember = memberService.findMembrByUsername(principal.getName());
+        inquiryService.deleteInquiry(productId, findMember);
+
+        return "redirect:/product/home";
+    }
 }
