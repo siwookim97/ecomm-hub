@@ -43,7 +43,7 @@ public class ProductController {
     public String enroll(@ModelAttribute("productDto") @Valid ProductDto productDto,
                          Principal principal) throws IOException {
 
-        Member findMember = memberService.findMembrByUsername(principal.getName());
+        Member findMember = memberService.findMemberByUsername(principal.getName());
         Product enrolledProduct = productService.enroll(productDto, findMember);
         imageService.uploadImages(productDto.getImages(), enrolledProduct);
 

@@ -35,7 +35,7 @@ public class InquiryController {
                                 @PathVariable Long productId,
                                 Principal principal) {
 
-        Member findMember = memberService.findMembrByUsername(principal.getName());
+        Member findMember = memberService.findMemberByUsername(principal.getName());
         Product findProduct = productService.findProductById(productId);
         inquiryService.postInquiry(inquiryDto, findMember, findProduct);
 
@@ -44,7 +44,7 @@ public class InquiryController {
 
     @PostMapping("/delete/{productId}")
     public String deleteInquiry(@PathVariable Long productId, Principal principal) {
-        Member findMember = memberService.findMembrByUsername(principal.getName());
+        Member findMember = memberService.findMemberByUsername(principal.getName());
         inquiryService.deleteInquiry(productId, findMember);
 
         return "redirect:/product/home";

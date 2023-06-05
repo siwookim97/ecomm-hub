@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -63,19 +64,19 @@ public class Product extends BaseEntity {
         this.productState = productState;
     }
 
-    public Product(Long id,String name, int price, String detail, int inventory,
-        ProductState productState,List<CartItem> cartItems) {
-        this.id =id;
+    public Product(Long id, String name, int price, String detail, int inventory,
+        ProductState productState, List<CartItem> cartItems) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.detail = detail;
         this.inventory = inventory;
         this.productState = productState;
-        this.cartItems =cartItems;
+        this.cartItems = cartItems;
     }
 
     public void updateProductSoldOut() {
-        if(inventory == 0){
+        if (inventory == 0) {
             productState = ProductState.SOLD_OUT;
         }
     }
@@ -86,6 +87,19 @@ public class Product extends BaseEntity {
         }
         this.member = member;
         member.getProducts().add(this);
+    }
+
+    public void increaseInventory(int amount) {
+        this.inventory += amount;
+        updateProductSoldOut();
+    }
+
+    public void decreaseInventory(int amount) {
+        if (this.inventory < amount) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.inventory -= amount;
+        updateProductSoldOut();
     }
 
 }

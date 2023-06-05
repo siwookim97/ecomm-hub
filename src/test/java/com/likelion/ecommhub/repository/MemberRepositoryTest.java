@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.repository;
 
+import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +36,10 @@ class MemberRepositoryTest {
 
         Member seller_A = new Member("seller_A", "seller1234", "판매자1",
                 "seller_A@naver.com", "010-4444-4444", "서울시 서초구",
-                MemberRole.ROLE_SELLER, "343-11111-111111");
+                MemberRole.ROLE_SELLER, "343-11111-111111", new Cart());
         Member seller_B = new Member("seller_B", "seller1234", "판매자2",
                 "seller_B@gmail.com", "010-4444-4444", "서울시 강남구",
-                MemberRole.ROLE_SELLER, "434-33333-333333");
+                MemberRole.ROLE_SELLER, "434-33333-333333", new Cart());
         memberRepository.save(seller_A);
         memberRepository.save(seller_B);
     }
