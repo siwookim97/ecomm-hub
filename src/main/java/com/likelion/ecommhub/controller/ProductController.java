@@ -1,8 +1,10 @@
 package com.likelion.ecommhub.controller;
 
+import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.service.ImageService;
+import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -18,6 +21,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
 
+    private final MemberService memberService;
     private final ProductService productService;
     private final ImageService imageService;
 
@@ -36,11 +40,20 @@ public class ProductController {
     }
 
     @PostMapping("/enroll")
-    public String enroll(@ModelAttribute("productDto") @Valid ProductDto productDto) throws IOException {
+    public String enroll(@ModelAttribute("productDto") @Valid ProductDto productDto,
+                         Principal principal) throws IOException {
 
-        Product enrolledProduct = productService.enroll(productDto);
+        Member findMember = memberService.findMembrByUsername(principal.getName());
+        Product enrolledProduct = productService.enroll(productDto, findMember);
         imageService.uploadImages(productDto.getImages(), enrolledProduct);
 
         return "redirect:/product/home";
+    }
+
+    @PostMapping("/search")
+    public String searchProduct(@RequestParam("keyword") String keyword,Model model){
+        List<Product> products = productService.searchProduct(keyword);
+        model.addAttribute("products",products);
+        return "product/home";
     }
 }
