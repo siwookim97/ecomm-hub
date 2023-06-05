@@ -34,13 +34,13 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
-<<<<<<< HEAD
-    @OneToMany(mappedBy = "product")
-    private List<CartItem> cartItems = new ArrayList<>();
-=======
 
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItem = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -52,7 +52,7 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
->>>>>>> main
+
     @Builder
     public Product(String name, int price, String detail, int inventory,
         ProductState productState) {
@@ -80,8 +80,7 @@ public class Product extends BaseEntity {
         }
     }
 
-<<<<<<< HEAD
-=======
+
     public void setMember(Member member) {
         if (this.member != null) {
             this.member.getProducts().remove(this);
@@ -89,5 +88,5 @@ public class Product extends BaseEntity {
         this.member = member;
         member.getProducts().add(this);
     }
->>>>>>> main
+
 }
