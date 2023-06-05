@@ -1,6 +1,5 @@
 package com.likelion.ecommhub.controller;
 
-import com.likelion.ecommhub.dto.InquiryDto;
 import com.likelion.ecommhub.dto.ReviewDto;
 import com.likelion.ecommhub.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.PrinterName;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -19,10 +17,11 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/enroll")
-    public String enrollReviewForm(Model model) {
+    @GetMapping("/enroll/{productId}")
+    public String enrollReviewForm(@PathVariable Long productId, Model model) {
+        model.addAttribute("productId", productId);
 
-        return "reveiw/enroll";
+        return "review/enroll";
     }
 
     @PostMapping("/enroll/{productId}")
