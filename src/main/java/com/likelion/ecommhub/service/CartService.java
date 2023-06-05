@@ -44,7 +44,7 @@ public class CartService {
 		CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product);
 
 		if (cartItem == null) {
-			cartItem = CartItem.createCartItem(cart, product, count);
+			cartItem = new CartItem(cart, product, count);
 			cart.addCartItem(cartItem);  // cart와 cartItem 간의 관계 설정
 			cartItemRepository.save(cartItem);  // cartItem 저장
 		} else {

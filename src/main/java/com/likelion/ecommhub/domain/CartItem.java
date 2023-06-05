@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,33 +43,38 @@ public class CartItem {
 		this.createDate = LocalDate.now();
 	}
 
-	public static CartItem createCartItem(Cart cart, Product product, int count) {
-		CartItem cartItem = new CartItem();
-		cartItem.setCart(cart);
-		cartItem.setProduct(product);
-		cartItem.setCount(count);
-		cartItem.setCreateDate();
+	@Builder
+	public CartItem(Cart cart, Product product, int count){
+		this.cart =cart;
+		this.product =product;
+		this.count =count;
+	}
 
-		// cart와 cartItem 간의 양방향 관계 설정
-		cart.getCartItems().add(cartItem);
-		cartItem.setCart(cart);
+	public void setCart(Cart cart) {
+		if (this.cart != null) {
+			this.cart.getCartItems().remove(this);
+		}
+		this.cart = cart;
+		cart.getCartItems().add(this);
+	}
 
-		// product와 cartItem 간의 양방향 관계 설정
-		product.getCartItems().add(cartItem);
-		cartItem.setProduct(product);
-
-		return cartItem;
+	public void setProduct(Product product) {
+		if (this.product != null) {
+			this.product.getCartItems().remove(this);
+		}
+		this.product = product;
+		product.getCartItems().add(this);
 	}
 
 	private void setCount(int count) {
 		this.count = count;
 	}
 
-	private void setProduct(Product product) {
+	private void setProduct() {
 		this.product = product;
 	}
 
-	void setCart(Cart cart) {
+	public void setCart() {
 		this.cart = cart;
 	}
 
