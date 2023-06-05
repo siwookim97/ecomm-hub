@@ -33,6 +33,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+
     public Product findProductById(Long productId) {
         return productRepository.findById(productId).get();
     }
@@ -42,18 +43,20 @@ public class ProductService {
 
     }
 
+
+
     private Product saveProduct(ProductDto productDto, Member member) {
 
         ProductState productState = productDto.getInventory() == 0
             ? ProductState.SOLD_OUT : ProductState.ON_SALE;
 
         Product createdProduct = Product.builder()
-                .name(productDto.getName())
-                .price(productDto.getPrice())
-                .detail(productDto.getDetail())
-                .inventory(productDto.getInventory())
-                .productState(productState)
-                .build();
+            .name(productDto.getName())
+            .price(productDto.getPrice())
+            .detail(productDto.getDetail())
+            .inventory(productDto.getInventory())
+            .productState(productState)
+            .build();
         createdProduct.setMember(member);
 
         return createdProduct;

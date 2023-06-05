@@ -10,17 +10,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
 public class Cart extends BaseEntity {
+	@Builder
+	public Cart() {
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,14 +43,14 @@ public class Cart extends BaseEntity {
 
 		return cart;
 	}
+  
 	public void addCartItem(CartItem cartItem) {
 		cartItems.add(cartItem);
 		cartItem.setCart(this);
 		cartItem.getProduct().getCartItems().add(cartItem);
 	}
+  
 	public void setCartItemCount(int cartItemCount) {
 		this.cartItemCount =cartItemCount;
 	}
-
-
 }
