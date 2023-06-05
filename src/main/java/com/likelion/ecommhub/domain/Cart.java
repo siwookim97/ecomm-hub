@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 
-
 @Entity
 @Getter
 public class Cart extends BaseEntity {
@@ -37,7 +36,6 @@ public class Cart extends BaseEntity {
 	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<CartItem> cartItems = new ArrayList<>();
 
-
 	public static Cart createCart(Member member){
 		Cart cart = new Cart();
 		cart.member = member;
@@ -45,14 +43,14 @@ public class Cart extends BaseEntity {
 
 		return cart;
 	}
+  
 	public void addCartItem(CartItem cartItem) {
 		cartItems.add(cartItem);
 		cartItem.setCart(this);
 		cartItem.getProduct().getCartItems().add(cartItem);
 	}
+  
 	public void setCartItemCount(int cartItemCount) {
 		this.cartItemCount =cartItemCount;
 	}
-
-
 }

@@ -6,7 +6,6 @@ import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.service.ImageService;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.ProductService;
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,5 +48,12 @@ public class ProductController {
         imageService.uploadImages(productDto.getImages(), enrolledProduct);
 
         return "redirect:/product/home";
+    }
+
+    @PostMapping("/search")
+    public String searchProduct(@RequestParam("keyword") String keyword,Model model){
+        List<Product> products = productService.searchProduct(keyword);
+        model.addAttribute("products",products);
+        return "product/home";
     }
 }
