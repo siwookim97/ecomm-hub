@@ -29,8 +29,12 @@ public class Sales {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id")
+	private Order order;
+
 	@Column(nullable = false)
-	private BigDecimal price;
+	private BigDecimal sales; //매출액
 
 	@Column(nullable = false)
 	private LocalDateTime saleDate;
@@ -38,9 +42,10 @@ public class Sales {
 	// Other relevant fields or relationships
 
 	@Builder
-	public Sales(Product product, BigDecimal price, LocalDateTime saleDate) {
+	public Sales(Product product, Order order, BigDecimal sales, LocalDateTime saleDate) {
 		this.product = product;
-		this.price = price;
+		this.order = order;
+		this.sales = sales;
 		this.saleDate = saleDate;
 	}
 }
