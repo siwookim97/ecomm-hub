@@ -23,8 +23,10 @@ public class InquiryController {
     private final MemberService memberService;
     private final ProductService productService;
 
-    @GetMapping("/enroll")
-    public String enrollInquiryForm(Model model) {
+    @GetMapping("/enroll/{productId}")
+    public String enrollInquiryForm(@PathVariable Long productId, Model model) {
+        model.addAttribute("productId", productId);
+
         return "inquiry/enroll";
     }
 
