@@ -30,7 +30,6 @@ public class Member extends BaseEntity {
 
     private String email;
 
-
     @Column(nullable = false)
     private String phone; // 기존 seller_number에서 변경
 
@@ -44,6 +43,12 @@ public class Member extends BaseEntity {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Cart cart;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inquiry> inquiries = new ArrayList<>();
 
     public Member(String username, String password, String nickname,
         String email, String phone, String address,
@@ -72,10 +77,11 @@ public class Member extends BaseEntity {
     }
 
     public void setPassword(String encPassword) {
-        this.password =password;
+        this.password = password;
     }
 
     public void setMemberRole(String roleGuest) {
-        this.memberRole =memberRole;
+        this.memberRole = memberRole;
+        this.password =password;
     }
 }

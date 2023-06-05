@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.domain.ProductState;
 import com.likelion.ecommhub.dto.ProductDto;
@@ -20,9 +21,9 @@ public class ProductService {
     ProductRepository productRepository;
 
     @Transactional
-    public Product enroll(ProductDto productDto) {
+    public Product enroll(ProductDto productDto, Member member) {
 
-        Product product = saveProduct(productDto);
+        Product product = saveProduct(productDto, member);
 
         return productRepository.save(product);
     }
@@ -31,22 +32,29 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Product findProductById(Long productId) {
+        return productRepository.findById(productId).get();
+    }
+
     public Optional<Product> getProductId(long id){
         return productRepository.findById(id);
 
     }
 
-    private Product saveProduct(ProductDto productDto) {
+    private Product saveProduct(ProductDto productDto, Member member) {
 
         ProductState productState = productDto.getInventory() == 0
             ? ProductState.SOLD_OUT : ProductState.ON_SALE;
 
-        return Product.builder()
-            .name(productDto.getName())
-            .price(productDto.getPrice())
-            .detail(productDto.getDetail())
-            .inventory(productDto.getInventory())
-            .productState(productState)
-            .build();
+        Product createdProduct = Product.builder()
+                .name(productDto.getName())
+                .price(productDto.getPrice())
+                .detail(productDto.getDetail())
+                .inventory(productDto.getInventory())
+                .productState(productState)
+                .build();
+        createdProduct.setMember(member);
+
+        return createdProduct;
     }
 }

@@ -60,6 +60,9 @@ public class MemberService {
         );
     }
 
+    public Member findMembrByUsername(String username) {
+        return memberRepository.findByUsername(username).get();
+    }
 
     public Optional<Member> getMemberId(Long memberId) {
         return memberRepository.findById(memberId);
@@ -68,5 +71,4 @@ public class MemberService {
     public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
         return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
     }
-
 }

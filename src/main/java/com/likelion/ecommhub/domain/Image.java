@@ -24,16 +24,16 @@ public class Image {
     private Product product;
 
     @Builder
-    public Image(String originFilename, String storeFilename, Product product) {
+    public Image(String originFilename, String storeFilename) {
         this.originFilename = originFilename;
         this.storeFilename = storeFilename;
-        this.product = product;
     }
 
     public void setProduct(Product product) {
         if (this.product != null) {
-            this.product = product;
+            this.product.getImages().remove(this);
         }
+        this.product = product;
         product.getImages().add(this);
     }
 }

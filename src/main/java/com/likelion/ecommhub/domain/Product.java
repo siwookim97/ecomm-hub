@@ -34,8 +34,17 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
+
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Inquiry> inquiries = new ArrayList<>();
+
     @Builder
     public Product(String name, int price, String detail, int inventory,
         ProductState productState) {
@@ -63,4 +72,11 @@ public class Product extends BaseEntity {
         }
     }
 
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getProducts().remove(this);
+        }
+        this.member = member;
+        member.getProducts().add(this);
+    }
 }
