@@ -52,7 +52,13 @@ public class NotProd {
         Product product1 = new Product("상품1", 100, "상품상세설명1", 10, ProductState.ON_SALE);
         productRepository.save(product1);
 
-        Product product2 = new Product("상품2", 200, "상품상세설명2", 20,ProductState.ON_SALE);
+        Product product2 = new Product("상품2", 200, "상품상세설명2", 20, ProductState.ON_SALE);
         productRepository.save(product2);
+
+        for (int i = 3; i <= 300; i++) {
+            String name = String.format("상품%d",i);
+            Product product = new Product(name, 100, "상품상세설명", 10, ProductState.ON_SALE);
+            productRepository.save(product);
+        }
     }
 }
