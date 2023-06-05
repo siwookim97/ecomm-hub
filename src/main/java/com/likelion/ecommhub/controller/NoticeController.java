@@ -45,17 +45,17 @@ public class NoticeController {
         return "redirect:/notice/list";
     }
 
-    @GetMapping("/modify/{id}")
-    public String showModifyForm(@PathVariable Long id,Model model) {
-        Notice notice = noticeService.findById(id);
+    @GetMapping("/modify/{noticeId}")
+    public String showModifyForm(@PathVariable Long noticeId,Model model) {
+        Notice notice = noticeService.findById(noticeId);
         model.addAttribute("notice", notice);
         model.addAttribute("noticeDto", new NoticeDto());
         return "notice/edit-form";
     }
 
-    @PostMapping("/modify/{id}")
-    public String modify(@PathVariable Long id, @Valid NoticeDto noticeDto) {
-        noticeService.modify(id,noticeDto);
+    @PostMapping("/modify/{noticeId}")
+    public String modify(@PathVariable Long noticeId, @Valid NoticeDto noticeDto) {
+        noticeService.modify(noticeId,noticeDto);
         return "redirect:/notice/list";
     }
 }
