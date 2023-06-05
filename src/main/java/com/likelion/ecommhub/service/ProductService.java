@@ -7,6 +7,9 @@ import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +32,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> findAllProducts(int page) {
+        Pageable pageable = PageRequest.of(page,12);
+        return productRepository.findAll(pageable);
     }
 
 
