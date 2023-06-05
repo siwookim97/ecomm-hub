@@ -80,7 +80,6 @@ public class Product extends BaseEntity {
         }
     }
 
-
     public void setMember(Member member) {
         if (this.member != null) {
             this.member.getProducts().remove(this);

@@ -19,12 +19,20 @@
     <th>Price</th>
     <th>Description</th>
     <th>Inventory</th>
+    <th>Inquiry</th>
+    <th>Review</th>
   </tr>
   <tr th:each="product : ${products}">
     <td th:text="${product.name}"></td>
     <td th:text="${product.price}"></td>
     <td th:text="${product.detail}"></td>
     <td th:text="${product.inventory}"></td>
+    <td>
+      <a th:href="@{/inquiry/enroll/{productId}(productId=${product.id})}" class="btn btn-primary">문의 등록</a>
+    </td>
+    <td>
+      <a th:href="@{/review/enroll/{productId}(productId=${product.id})}" class="btn btn-primary">리뷰 등록</a>
+    </td>
   </tr>
 </table>
 
