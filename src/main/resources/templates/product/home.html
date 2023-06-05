@@ -22,7 +22,7 @@
     <th>Inquiry</th>
     <th>Review</th>
   </tr>
-  <tr th:each="product : ${products}">
+  <tr th:each="product , loop : ${pagingProducts}">
     <td th:text="${product.name}"></td>
     <td th:text="${product.price}"></td>
     <td th:text="${product.detail}"></td>

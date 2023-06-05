@@ -7,6 +7,7 @@ import com.likelion.ecommhub.service.ImageService;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,9 @@ public class ProductController {
     private final ImageService imageService;
 
     @GetMapping("/home")
-    public String showProducts(Model model) {
-        List<Product> productList = productService.findAllProducts();
-        model.addAttribute("products", productList);
-
+    public String showProducts(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+        Page<Product> pagingProducts = productService.findAllProducts(page);
+        model.addAttribute("pagingProducts", pagingProducts);
         return "product/home";
     }
 
@@ -51,9 +51,9 @@ public class ProductController {
     }
 
     @PostMapping("/search")
-    public String searchProduct(@RequestParam("keyword") String keyword,Model model){
+    public String searchProduct(@RequestParam("keyword") String keyword, Model model) {
         List<Product> products = productService.searchProduct(keyword);
-        model.addAttribute("products",products);
+        model.addAttribute("products", products);
         return "product/home";
     }
 }
