@@ -3,6 +3,7 @@ package com.likelion.ecommhub.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,14 +16,13 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 
 @NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,26 +32,15 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member; // 구매자
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDateTime orderDate;
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
 
     @Builder
     public Order(Long id, Member member, List<OrderItem> orderItems, LocalDateTime orderDate) {
         this.id = id;
         this.member = member;
         this.orderItems = orderItems;
-        this.orderDate = orderDate;
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -65,7 +54,6 @@ public class Order {
         for (OrderItem orderItem : orderItemList) {
             order.addOrderItem(orderItem);
         }
-        order.setOrderDate(order.orderDate);
         return order;
     }
 
@@ -74,6 +62,13 @@ public class Order {
             .member(member)
             .orderDate(LocalDateTime.now())
             .build();
+    }
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getOrders().remove(this);
+        }
+        this.member = member;
+        member.getOrders().add(this);
     }
 
 }

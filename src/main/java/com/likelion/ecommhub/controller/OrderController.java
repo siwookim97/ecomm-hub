@@ -27,7 +27,7 @@ public class OrderController {
     private final CartService cartService;
     private final OrderService orderService;
 
-    @GetMapping("/user/orderList/{id}")
+    @GetMapping("/member/orderList/{id}")
     public String orderList(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         if (memberDetails.getMember().getId() == id) {
@@ -52,7 +52,7 @@ public class OrderController {
     }
 
     @Transactional
-    @PostMapping("/user/cart/checkout/{id}")
+    @PostMapping("/member/cart/checkout/{id}")
     public String cartCheckout(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         if (memberDetails.getMember().getId() == id) {
@@ -90,13 +90,13 @@ public class OrderController {
             model.addAttribute("cartItems", userCartItems);
             model.addAttribute("user", memberService.getMemberId(id));
 
-            return "redirect:/user/cart/{id}";
+            return "redirect:/member/{memberid}/cart";
         } else {
             return "redirect:/main";
         }
     }
 
-    @PostMapping("/user/{id}/checkout/cancel/{orderItemId}")
+    @PostMapping("/member/{id}/checkout/cancel/{orderItemId}")
     public String cancelOrder(@PathVariable("id") Long id,
         @PathVariable("orderItemId") Long orderItemId, Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
@@ -116,7 +116,7 @@ public class OrderController {
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("orderItems", orderItemList);
 
-            return "redirect:/user/orderHist/{id}";
+            return "redirect:/member/orderList/{id}";
 
         } else {
             return "redirect:/main";

@@ -35,7 +35,6 @@ public class CartService {
 
     }
 
-    @Transactional
     public void addCart(Member member, Product product, int count) {
         Cart cart = cartRepository.findByMemberId(member.getId());
 

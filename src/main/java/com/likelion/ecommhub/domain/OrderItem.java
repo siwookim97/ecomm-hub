@@ -7,16 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @NoArgsConstructor
 @Getter
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +35,6 @@ public class OrderItem {
     private int productTotalPrice; // 가격*수량
 
     private int isCancel; // 주문 취소 여부 (0:주문완료 / 1:주문취소)
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public void setIsCancel(int isCancel) {
         this.isCancel = isCancel;
@@ -70,6 +64,20 @@ public class OrderItem {
             .productCount(cartItem.getCount())
             .productTotalPrice(cartItem.getProduct().getPrice() * cartItem.getCount())
             .build();
+    }
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.getOrderItems().remove(this);
+        }
+        this.member = member;
+        member.getOrderItems().add(this);
+    }
+    public void setOrder(Order order) {
+        if (this.order != null) {
+            this.order.getOrderItems().remove(this);
+        }
+        this.order = order;
+        order.getOrderItems().add(this);
     }
 
 
