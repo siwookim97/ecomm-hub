@@ -11,18 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
 @Entity
 public class CartItem {
 	@Id
@@ -52,7 +43,7 @@ public class CartItem {
 		cartItem.setCart(cart);
 		cartItem.setProduct(product);
 		cartItem.setCount(count);
-		cartItem.setCreateDate(LocalDate.now());
+		cartItem.setCreateDate();
 
 		// cart와 cartItem 간의 양방향 관계 설정
 		cart.getCartItems().add(cartItem);
@@ -63,6 +54,18 @@ public class CartItem {
 		cartItem.setProduct(product);
 
 		return cartItem;
+	}
+
+	private void setCount(int count) {
+		this.count =count;
+	}
+
+	private void setProduct(Product product) {
+		this.product = product;
+	}
+
+	void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	public void addCount(int count) {
