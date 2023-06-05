@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +57,29 @@ public class ProductService {
         createdProduct.setMember(member);
 
         return createdProduct;
+    }
+
+    public List<Product> searchProduct(String keyword) {
+
+        String normalizeKeyword = normalizeKeyword(keyword);
+
+        System.out.println(normalizeKeyword);
+
+        List<Product> collect = productRepository.findAll()
+                .stream()
+                .filter(product -> product.getName().contains(normalizeKeyword))
+                .collect(Collectors.toList());
+        for (Product product : collect) {
+            System.out.println(product.getName());
+        }
+        return collect;
+    }
+
+    private String normalizeKeyword(String keyword){
+        String normalizeKeyword = keyword.trim();
+
+        normalizeKeyword = normalizeKeyword.toLowerCase();
+
+        return normalizeKeyword;
     }
 }
