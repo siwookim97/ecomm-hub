@@ -20,11 +20,6 @@ public class ChartService {
 	@Autowired
 	MonthlySalesRepository monthlySalesRepository;
 
-	/**
-	 * 월별 매출액 조회
-	 * @param year
-	 * @return
-	 */
 	public List<MonthlySales> getMonthlySales(String year) {
 		List<MonthlySales> monthlySalesList = new ArrayList<>();
 
@@ -44,11 +39,6 @@ public class ChartService {
 
 		return monthlySalesList;
 	}
-
-	/**
-	 * Generates a random sales value between 1000 and 10000 (inclusive).
-	 * @return
-	 */
 	private long generateRandomSales() {
 		Random random = new Random();
 		return random.nextInt(9001) + 1000;
