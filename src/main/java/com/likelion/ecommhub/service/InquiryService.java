@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
 public class InquiryService {
@@ -18,8 +17,6 @@ public class InquiryService {
 
     @Transactional
     public Inquiry postInquiry(InquiryDto inquiryDto, Member member, Product product) {
-        // TODO: 주문 테이블 검증로직 필요
-
         Inquiry createdInquiry = Inquiry.builder()
                 .title(inquiryDto.getTitle())
                 .content(inquiryDto.getContent())
@@ -33,7 +30,12 @@ public class InquiryService {
 
     @Transactional
     public void deleteInquiry(Long inquiryId, Member member) {
-        // TODO: 주문 테이블 검증로직 필요
+        Inquiry findInquiry = inquiryRepository.findById(inquiryId)
+                .orElseGet(() -> Inquiry.builder().title(null).content(null).build());
+
+        if (member.getId().equals(findInquiry.getMember().getId())) {
+            System.out.println("AUTHENTICATION FAIL");
+        }
 
         inquiryRepository.deleteById(inquiryId);
     }

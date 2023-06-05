@@ -35,11 +35,6 @@ public class Cart extends BaseEntity {
 	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<CartItem> cartItems = new ArrayList<>();
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> main
 	public static Cart createCart(Member member){
 		Cart cart = new Cart();
 		cart.member = member;
