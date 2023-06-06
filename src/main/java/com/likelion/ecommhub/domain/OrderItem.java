@@ -42,9 +42,8 @@ public class OrderItem extends BaseEntity{
     }
 
     @Builder
-    public OrderItem(Long id, Order order, Member member, Long productId, String productName,
+    public OrderItem(Order order, Member member, Long productId, String productName,
         int productPrice, int productCount, int productTotalPrice, int isCancel) {
-        this.id = id;
         this.order = order;
         this.member = member;
         this.productId = productId;

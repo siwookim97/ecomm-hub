@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 public class Order extends BaseEntity {
 
     @Id
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -38,8 +40,7 @@ public class Order extends BaseEntity {
 
 
     @Builder
-    public Order(Long id, Member member, List<OrderItem> orderItems, LocalDateTime orderDate) {
-        this.id = id;
+    public Order(Member member, List<OrderItem> orderItems, LocalDateTime orderDate) {
         this.member = member;
         this.orderItems = orderItems;
     }
