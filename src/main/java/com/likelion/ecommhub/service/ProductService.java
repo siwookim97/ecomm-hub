@@ -8,6 +8,7 @@ import com.likelion.ecommhub.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -66,20 +67,22 @@ public class ProductService {
         return createdProduct;
     }
 
-    public List<Product> searchProduct(String keyword) {
+    public Page<Product> searchProduct(String keyword, int page) {
 
         String normalizeKeyword = normalizeKeyword(keyword);
 
-        System.out.println(normalizeKeyword);
-
-        List<Product> collect = productRepository.findAll()
+        List<Product> keywordList = productRepository.findAll()
                 .stream()
                 .filter(product -> product.getName().contains(normalizeKeyword))
                 .collect(Collectors.toList());
-        for (Product product : collect) {
-            System.out.println(product.getName());
-        }
-        return collect;
+
+        PageRequest pageRequest = PageRequest.of(page, 12);
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start+pageRequest.getPageSize()),keywordList.size());
+
+        Page<Product> keywordPage = new PageImpl<>(keywordList.subList(start,end),pageRequest, keywordList.size());
+
+        return keywordPage;
     }
 
     private String normalizeKeyword(String keyword){
