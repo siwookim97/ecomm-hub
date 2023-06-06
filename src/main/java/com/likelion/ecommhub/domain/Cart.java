@@ -27,6 +27,8 @@ public class Cart extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String name;
+
 	private int cartItemCount; //카트에 담긴 상품의 종류
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -43,6 +45,7 @@ public class Cart extends BaseEntity {
 
 		return cart;
 	}
+
   
 	public void addCartItem(CartItem cartItem) {
 		cartItems.add(cartItem);
@@ -52,5 +55,14 @@ public class Cart extends BaseEntity {
   
 	public void setCartItemCount(int cartItemCount) {
 		this.cartItemCount =cartItemCount;
+	}
+	public void makeName() {
+		String name = cartItems.get(0).getProduct().getName();
+
+		if (cartItems.size() > 1) {
+			name +=  String.format(" 외 %d개", cartItems.size() - 1);
+		}
+
+		this.name = name;
 	}
 }

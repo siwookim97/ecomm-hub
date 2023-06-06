@@ -27,7 +27,7 @@ public class OrderController {
     private final CartService cartService;
     private final OrderService orderService;
 
-    @GetMapping("/member/orderList/{id}")
+    @GetMapping( "/member/orderList/{id}")
     public String orderList(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         if (memberDetails.getMember().getId() == id) {
@@ -49,6 +49,10 @@ public class OrderController {
         } else {
             return "redirect:/main";
         }
+    }
+    @GetMapping("/member/order")
+    public String order(){
+        return "redirect:/member/orderList/{id}";
     }
 
     @Transactional
@@ -123,10 +127,11 @@ public class OrderController {
         }
     }
     @GetMapping("/member/paid")
-    public String paid(int amount, @AuthenticationPrincipal MemberDetails memberDetails){
+    public String Paid(int amount, @AuthenticationPrincipal MemberDetails memberDetails){
         Member member = memberService.getMemberId(memberDetails.getMember().getId()).orElseThrow();
-        memberService.payments(member.getId(),amount);
+        memberService.paidPrice(member.getId(),amount);
         return "redirect:/main";
     }
+
 
 }

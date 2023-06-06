@@ -40,7 +40,7 @@ public class Order extends BaseEntity {
 
 
     @Builder
-    public Order(Member member, List<OrderItem> orderItems, LocalDateTime orderDate) {
+    public Order(Member member, List<OrderItem> orderItems) {
         this.member = member;
         this.orderItems = orderItems;
     }
@@ -62,7 +62,6 @@ public class Order extends BaseEntity {
     public static Order createOrder(Member member) {
         return Order.builder()
             .member(member)
-            .orderDate(LocalDateTime.now())
             .build();
     }
     public void setMember(Member member) {
@@ -72,5 +71,6 @@ public class Order extends BaseEntity {
         this.member = member;
         member.getOrders().add(this);
     }
+
 
 }

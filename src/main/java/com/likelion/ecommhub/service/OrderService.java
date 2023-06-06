@@ -8,6 +8,7 @@ import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.repository.OrderItemRepository;
 import com.likelion.ecommhub.repository.OrderRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public class OrderService {
     public List<OrderItem> findUserOrderItems(Long memberId) {
         return orderItemRepository.findOrderItemsByMemberId(memberId);
     }
+
 
     // OrderItem 하나 찾기
     public OrderItem findOrderitem(Long orderItemId) {return orderItemRepository.findOrderItemById(orderItemId);}

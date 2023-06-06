@@ -66,6 +66,7 @@ public class CartItem {
 		product.getCartItems().add(this);
 	}
 
+
 	private void setCount(int count) {
 		this.count = count;
 	}

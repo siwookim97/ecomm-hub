@@ -40,14 +40,18 @@ public class NotProd {
 
         Member member1 = new Member("loginId1", encoder.encode("password1"), "Seller1",
                 "seller1@email.com", "010-1234-1234", "address1",
-                MemberRole.ROLE_SELLER);
+                MemberRole.ROLE_SELLER,2);
 
         Member member2 = new Member("loginId2", encoder.encode("password2"), "Seller2",
                 "seller2@email.com", "010-1111-1111", "address2",
-                MemberRole.ROLE_SELLER);
+                MemberRole.ROLE_SELLER,2);
+        Member member3 = new Member("user", encoder.encode("user"), "user",
+            "user2@email.com", "010-2222-1111", "address",
+            MemberRole.ROLE_BUYER,2);
 
         memberRepository.save(member1);
         memberRepository.save(member2);
+        memberRepository.save(member3);
 
         for (int i = 1; i <= 300; i++) {
             String name = String.format("상품%d",i);

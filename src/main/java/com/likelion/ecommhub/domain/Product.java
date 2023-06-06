@@ -40,9 +40,6 @@ public class Product extends BaseEntity {
     private List<CartItem> cartItems = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "product")
-    private List<CartItem> cartItem = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -101,5 +98,6 @@ public class Product extends BaseEntity {
         this.inventory -= amount;
         updateProductSoldOut();
     }
+
 
 }

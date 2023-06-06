@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,13 +67,12 @@ public class CartService {
     public List<CartItem> MemberCartView(Cart cart) {
         List<CartItem> cartItems = cartItemRepository.findAll();
         List<CartItem> MemberItems = new ArrayList<>();
-
         for (CartItem cartItem : cartItems) {
             if (cartItem.getCart().getId().equals(cart.getId())) {
                 MemberItems.add(cartItem);
             }
         }
-
+//        cart.makeName();
         return MemberItems;
     }
 
