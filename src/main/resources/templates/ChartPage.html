@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monthly Sales Chart</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</head>
+<body>
+<div style="display: flex; flex-wrap: wrap;">
+  <div style="width: 100%; display: flex; justify-content: center; margin-bottom: 10px;">
+    <!-- First chart -->
+    <div style="width: 450px; height: 450px; margin-right: 20px;">
+      <canvas id="myChart1"></canvas>
+    </div>
+    <!-- Second chart -->
+    <div style="width: 450px; height: 450px;">
+      <canvas id="myChart2"></canvas>
+    </div>
+  </div>
+  <div style="width: 100%; display: flex; justify-content: center;">
+  </div>
+</div>
+
+<script type="text/javascript">
+  var context1 = document
+          .getElementById('myChart1')
+          .getContext('2d');
+  var myChart1 = new Chart(context1, {
+    type: 'line',
+    data: {
+      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+      datasets: [
+        {
+          label: '월 매출액',
+          fill: false,
+          data: [], // Monthly sales data will be fetched dynamically
+          backgroundColor: [], // Monthly sales data colors
+          borderColor: [], // Monthly sales data border colors
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  // Fetch monthly sales data and update the chart
+  fetch('/monthly-sales/2023')
+          .then((response) => response.json())
+          .then((data) => {
+            // Extract sales data and colors from the fetched data
+            var salesData = data.map((entry) => entry.sales);
+            var colors = [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(128, 0, 128, 0.2)',
+              'rgba(0, 128, 0, 0.2)',
+              'rgba(0, 0, 255, 0.2)',
+              'rgba(255, 0, 0, 0.2)',
+              'rgba(0, 255, 255, 0.2)',
+              'rgba(255, 255, 0, 0.2)',
+            ];
+
+            // Update chart data and colors
+            myChart1.data.datasets[0].data = salesData;
+            myChart1.data.datasets[0].backgroundColor = colors;
+            myChart1.data.datasets[0].borderColor = colors;
+
+            // Update the chart
+            myChart1.update();
+          });
+</script>
+<script type="text/javascript">
+  var context2 = document
+          .getElementById('myChart2')
+          .getContext('2d');
+  var myChart2 = new Chart(context2, {
+    type: 'bar',
+    data: {
+      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+      datasets: [
+        {
+          label: '월 매출액',
+          fill: false,
+          data: [], // Monthly sales data will be fetched dynamically
+          backgroundColor: [], // Monthly sales data colors
+          borderColor: [], // Monthly sales data border colors
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
+  });
+
+  // Fetch monthly sales data and update the chart
+  fetch('/monthly-sales/2023')
+          .then((response) => response.json())
+          .then((data) => {
+            // Extract sales data and colors from the fetched data
+            var salesData = data.map((entry) => entry.sales);
+            var colors = [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(128, 0, 128, 0.2)',
+              'rgba(0, 128, 0, 0.2)',
+              'rgba(0, 0, 255, 0.2)',
+              'rgba(255, 0, 0, 0.2)',
+              'rgba(0, 255, 255, 0.2)',
+              'rgba(255, 255, 0, 0.2)',
+            ];
+
+            // Update chart data and colors
+            myChart2.data.datasets[0].data = salesData;
+            myChart2.data.datasets[0].backgroundColor = colors;
+            myChart2.data.datasets[0].borderColor = colors;
+
+            // Update the chart
+            myChart2.update();
+          });
+</script>
+</body>
+</html>
