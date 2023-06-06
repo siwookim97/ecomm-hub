@@ -60,7 +60,7 @@ public class MemberService {
         );
     }
 
-    public Member findMembrByUsername(String username) {
+    public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username).get();
     }
 

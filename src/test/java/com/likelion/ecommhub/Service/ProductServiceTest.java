@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.repository.ProductRepository;
