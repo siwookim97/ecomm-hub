@@ -39,13 +39,15 @@ public class Sales {
 	@Column(nullable = false)
 	private LocalDateTime saleDate;
 
-	// Other relevant fields or relationships
+	@Column(nullable = false)
+	private int saleYear; // 1년 동안의 매출액
 
 	@Builder
-	public Sales(Product product, Order order, BigDecimal sales, LocalDateTime saleDate) {
+	public Sales(Product product, Order order, BigDecimal sales, LocalDateTime saleDate, int saleYear) {
 		this.product = product;
 		this.order = order;
 		this.sales = sales;
 		this.saleDate = saleDate;
+		this.saleYear = saleYear;
 	}
 }

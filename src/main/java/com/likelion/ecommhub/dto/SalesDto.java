@@ -3,7 +3,6 @@ package com.likelion.ecommhub.dto;
 import java.math.BigDecimal;
 
 
-import lombok.Setter;
 
 
 public class SalesDto {
