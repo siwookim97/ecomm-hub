@@ -67,7 +67,7 @@ public class CartService {
         List<CartItem> MemberItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {
-            if (cartItem.getCart().getId() == cart.getId()) {
+            if (cartItem.getCart().getId().equals(cart.getId())) {
                 MemberItems.add(cartItem);
             }
         }
