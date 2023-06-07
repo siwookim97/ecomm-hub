@@ -1,6 +1,7 @@
 package com.likelion.ecommhub.repository;
 
 import com.likelion.ecommhub.domain.Product;
+import com.likelion.ecommhub.domain.ProductState;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -26,8 +27,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         List<Product> content = queryFactory
                 .selectFrom(product)
                 .where(
-                    productNameContains(condition.getProductName()),
-                    sellerNameContains(condition.getSellerName())
+                        productNameContains(condition.getProductName()),
+                        sellerNameContains(condition.getSellerName()),
+                        productStateEq(condition.getProductState())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -39,7 +41,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .from(product)
                 .where(
                         productNameContains(condition.getProductName()),
-                        sellerNameContains(condition.getProductName())
+                        sellerNameContains(condition.getProductName()),
+                        productStateEq(condition.getProductState())
                 );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -51,5 +54,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     private BooleanExpression sellerNameContains(String nickname) {
         return hasText(nickname) ? product.member.nickname.contains(nickname) : null;
+    }
+
+    private BooleanExpression productStateEq(String productState) {
+        return hasText(productState) ?
+                product.productState.eq(ProductState.valueOf(ProductState.fromLabel(productState).name())) : null;
     }
 }
