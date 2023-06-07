@@ -41,7 +41,6 @@ public class Member extends BaseEntity {
 
     private String account; // 계좌번호는 String을 권장 (ex, 019-1234136-1234)
 
-    private int paid;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Cart cart;
@@ -64,7 +63,7 @@ public class Member extends BaseEntity {
 
     public Member(String username, String password, String nickname,
         String email, String phone, String address,
-        MemberRole memberRole,int paid) {
+        MemberRole memberRole) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -72,12 +71,12 @@ public class Member extends BaseEntity {
         this.phone = phone;
         this.address = address;
         this.memberRole = memberRole;
-        this.paid = paid;
+
     }
 
     public Member(String username, String password, String nickname,
         String email, String phone, String address,
-        MemberRole memberRole,String account, Cart cart,int paid) {
+        MemberRole memberRole,String account, Cart cart) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -87,7 +86,7 @@ public class Member extends BaseEntity {
         this.memberRole = memberRole;
         this.account = account;
         this.cart = cart;
-        this.paid = paid;
+
     }
 
     public void setPassword(String encPassword) {
@@ -99,7 +98,4 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
-    public void setPaid(int paid) {
-        this.paid = paid;
-    }
 }

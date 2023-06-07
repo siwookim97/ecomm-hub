@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import com.likelion.ecommhub.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-
+    private final ProductRepository productRepository;
 
     //Member에게 장바구니 생성
     public void createCart(Member member) {
@@ -67,12 +68,12 @@ public class CartService {
     public List<CartItem> MemberCartView(Cart cart) {
         List<CartItem> cartItems = cartItemRepository.findAll();
         List<CartItem> MemberItems = new ArrayList<>();
+
         for (CartItem cartItem : cartItems) {
             if (cartItem.getCart().getId().equals(cart.getId())) {
                 MemberItems.add(cartItem);
             }
         }
-//        cart.makeName();
         return MemberItems;
     }
 

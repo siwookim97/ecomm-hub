@@ -67,11 +67,11 @@ public class CartItem {
 	}
 
 
-	private void setCount(int count) {
+	public void setCount(int count) {
 		this.count = count;
 	}
 
-	private void setProduct() {
+	public void setProduct() {
 		this.product = product;
 	}
 

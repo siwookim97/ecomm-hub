@@ -56,8 +56,7 @@ public class MemberService {
             requestDto.getAddress(),
             memberRole,
             requestDto.getAccount(),
-            new Cart(),
-            requestDto.getPaid()
+            new Cart()
         );
     }
 
@@ -72,11 +71,6 @@ public class MemberService {
     public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
         return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
     }
-    public void paidPrice(Long id,int amount){
-        Member member = memberRepository.findById(id).orElseThrow();
-        member.setPaid(member.getPaid() + amount);
 
-        memberRepository.save(member);
-    }
 
 }

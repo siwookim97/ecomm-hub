@@ -126,12 +126,4 @@ public class OrderController {
             return "redirect:/main";
         }
     }
-    @GetMapping("/member/paid")
-    public String Paid(int amount, @AuthenticationPrincipal MemberDetails memberDetails){
-        Member member = memberService.getMemberId(memberDetails.getMember().getId()).orElseThrow();
-        memberService.paidPrice(member.getId(),amount);
-        return "redirect:/main";
-    }
-
-
 }
