@@ -2,6 +2,7 @@ package com.likelion.ecommhub.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,7 +78,15 @@ public class CartService {
 
     //장바구니 Item 삭제하기
     public void cartItemDelete(long id) {
-        cartItemRepository.deleteById(id);
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
+        if (cartItemOptional.isPresent()) {
+            CartItem cartItem = cartItemOptional.get();
+            Cart cart = cartItem.getCart();
+            cart.setCartItemCount(cart.getCartItemCount() - 1);
+            cart.getCartItems().remove(cartItem);
+            cartRepository.save(cart);
+            cartItemRepository.deleteById(id);
+        }
     }
 
     //장바구니 Item 전체삭제
