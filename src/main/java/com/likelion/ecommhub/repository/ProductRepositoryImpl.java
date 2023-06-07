@@ -1,14 +1,13 @@
 package com.likelion.ecommhub.repository;
 
+import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
-import com.likelion.ecommhub.dto.ProductSearchResult;
-import com.likelion.ecommhub.dto.QProductSearchResult;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
@@ -23,37 +22,29 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<ProductSearchResult> search(ProductSearchCondition condition) {
-        PageRequest pageRequest = PageRequest.of(0, 12);
-
-        List<ProductSearchResult> content = queryFactory
-                .select(new QProductSearchResult(
-                        product.id.as("productId"),
-                        product.name.as("productName"),
-                        product.price,
-                        product.inventory,
-                        product.images,
-                        member.id.as("sellerId"),
-                        member.nickname.as("sellerName")
-                ))
-                .from(product)
-                .leftJoin(product.member, member)
+    public Page<Product> search(ProductSearchCondition condition, Pageable pageable) {
+        List<Product> content = queryFactory
+                .selectFrom(product)
                 .where(
                     productNameContains(condition.getProductName()),
                     sellerNameContains(condition.getSellerName())
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(product.createdDate.desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(product.count())
                 .from(product)
-                .leftJoin(product.member, member)
                 .where(
                         productNameContains(condition.getProductName()),
                         sellerNameContains(condition.getProductName())
                 );
 
-        return PageableExecutionUtils.getPage(content, pageRequest, countQuery::fetchOne);
+        System.out.println("pageable = " + pageable);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression productNameContains(String name) {
@@ -61,6 +52,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     }
 
     private BooleanExpression sellerNameContains(String nickname) {
-        return hasText(nickname) ? member.nickname.contains(nickname) : null;
+        return hasText(nickname) ? product.member.nickname.contains(nickname) : null;
     }
 }

@@ -35,8 +35,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> findAllProducts(int page) {
-        Pageable pageable = PageRequest.of(page, 12);
+    public Page<Product> findAllProducts(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
 
@@ -67,8 +66,8 @@ public class ProductService {
         return createdProduct;
     }
 
-    public Page<ProductSearchResult> search(ProductSearchCondition condition) {
-        return productRepository.search(condition);
+    public Page<Product> search(ProductSearchCondition condition, Pageable pageable) {
+        return productRepository.search(condition, pageable);
     }
 
     public Page<Product> searchProduct(String keyword, int page) {
