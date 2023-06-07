@@ -33,9 +33,6 @@ public class ProductController {
     public String showProducts(Model model,
                                @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Product> pagingProducts = productService.findAllProducts(pageable);
-        System.out.println("pagingProducts = " + pagingProducts);
-        System.out.println("pagingProducts.getSize() = " + pagingProducts.getSize());
-        System.out.println("pagingProducts.getTotalPages() = " + pagingProducts.getTotalPages());
         model.addAttribute("pagingProducts", pagingProducts);
         return "product/home";
     }
@@ -61,9 +58,6 @@ public class ProductController {
     public String searchProduct(ProductSearchCondition condition, Model model,
                                 @PageableDefault(size = 12) Pageable pageable) {
         Page<Product> pagingProducts = productService.search(condition, pageable);
-        System.out.println("pagingProducts = " + pagingProducts);
-        System.out.println("pagingProducts.getSize() = " + pagingProducts.getSize());
-        System.out.println("pagingProducts.getTotalPages() = " + pagingProducts.getTotalPages());
         model.addAttribute("condition", condition);
         model.addAttribute("pagingProducts", pagingProducts);
 

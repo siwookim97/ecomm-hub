@@ -41,7 +41,7 @@ public class NoticeController {
     @PostMapping("/delete")
     public String delete(@RequestParam("noticeId") Long id) {
         String result = noticeService.delete(id);
-        System.out.println(result);
+
         return "redirect:/notice/list";
     }
 
@@ -50,12 +50,14 @@ public class NoticeController {
         Notice notice = noticeService.findById(noticeId);
         model.addAttribute("notice", notice);
         model.addAttribute("noticeDto", new NoticeDto());
+
         return "notice/edit-form";
     }
 
     @PostMapping("/modify/{noticeId}")
     public String modify(@PathVariable Long noticeId, @Valid NoticeDto noticeDto) {
         noticeService.modify(noticeId,noticeDto);
+
         return "redirect:/notice/list";
     }
 }

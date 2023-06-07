@@ -42,8 +42,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                         sellerNameContains(condition.getProductName())
                 );
 
-        System.out.println("pageable = " + pageable);
-
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
