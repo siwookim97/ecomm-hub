@@ -36,7 +36,6 @@ public class MemberController {
     public String joinSeller(@ModelAttribute() @Valid MemberJoinDto memberJoinDto) {
 
         String result = memberService.joinSeller(memberJoinDto);
-        System.out.println("result = " + result);
 
         return "redirect:/member/loginForm";
     }
@@ -45,7 +44,6 @@ public class MemberController {
     public String joinBuyer(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto) {
 
         String result = memberService.joinBuyer(memberJoinDto);
-        System.out.println("result = " + result);
 
         return "redirect:/member/loginForm";
     }
