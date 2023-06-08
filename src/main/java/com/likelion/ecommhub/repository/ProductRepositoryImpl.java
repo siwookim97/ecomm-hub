@@ -2,8 +2,10 @@ package com.likelion.ecommhub.repository;
 
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.domain.ProductState;
+import com.likelion.ecommhub.domain.QProduct;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
 import com.likelion.ecommhub.dto.ProductSearchResult;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,7 +17,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.likelion.ecommhub.domain.QImage.*;
+import static com.likelion.ecommhub.domain.QImage.image;
 import static com.likelion.ecommhub.domain.QProduct.product;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -36,7 +38,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(product.createdDate.desc())
+                .orderBy(getOrderByExpression(condition.getSortCode()))
                 .fetch();
 
         List<ProductSearchResult> cont = content.stream()
@@ -68,5 +70,18 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private BooleanExpression productStateEq(String productState) {
         return hasText(productState) ?
                 product.productState.eq(ProductState.valueOf(productState)) : null;
+    }
+
+    private OrderSpecifier<?> getOrderByExpression(int sortCode) {
+        QProduct product = QProduct.product;
+        if (sortCode == 2) {
+            return product.inventory.desc();
+        }
+
+        if (sortCode == 3) {
+            return product.price.desc();
+        }
+
+        return product.createdDate.desc();
     }
 }
