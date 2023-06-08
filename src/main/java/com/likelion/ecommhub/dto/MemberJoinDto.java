@@ -32,7 +32,5 @@ public class MemberJoinDto {
     @NotEmpty(message = "회원 주소는 공백이 불가합니다.")
     private String address;
 
-    private int paid;
-
     private String account;
 }
