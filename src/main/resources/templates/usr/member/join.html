@@ -89,7 +89,7 @@
         <div class="join-form">
             <h1>판매자 회원가입</h1>
 
-            <form th:action="@{/member/joinSeller}" th:object="${memberJoinDto}" method="post">
+            <form th:action="@{/templates/usr/member/joinSeller}" th:object="${memberJoinDto}" method="post">
                 <table>
                     <tr>
                         <td>로그인 아이디</td>
@@ -141,7 +141,7 @@
         <div class="join-form">
             <h1>구매자 회원가입</h1>
 
-            <form th:action="@{/member/joinBuyer}" th:object="${memberJoinDto}" method="post">
+            <form th:action="@{/templates/usr/member/joinBuyer}" th:object="${memberJoinDto}" method="post">
                 <table>
                     <tr>
                         <td>로그인 아이디</td>
