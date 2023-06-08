@@ -11,7 +11,6 @@ import com.likelion.ecommhub.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,9 +30,9 @@ public class ProductController {
     private final ImageService imageService;
 
     @GetMapping("/home")
-    public String showProducts(Model model,
-                               @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<ProductSearchResult> pagingProducts = productService.search(new ProductSearchCondition(), pageable);
+    public String showProducts(Model model, ProductSearchCondition condition,
+                               @PageableDefault(size = 12) Pageable pageable) {
+        Page<ProductSearchResult> pagingProducts = productService.search(condition, pageable);
         model.addAttribute("pagingProducts", pagingProducts);
         return "product/home";
     }
