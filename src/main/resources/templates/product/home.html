@@ -11,7 +11,7 @@
   <input type="text" name="productName" placeholder="상품 검색" />
   <input type="text" name="sellerName" placeholder="판매자 검색" />
   <select name="productState">
-    <option value="">전체</option>
+    <option value="">제품 상태</option>
     <option value="ON_SALE">판매중</option>
     <option value="SOLD_OUT">품절</option>
   </select>  <input type="submit" value="Search" />
@@ -45,7 +45,7 @@
   <ul class="pagination justify-content-center">
     <li class="page-item" th:classappend="${!pagingProducts.hasPrevious} ? 'disabled'">
       <a class="page-link"
-         th:href="@{|?page=${pagingProducts.number-1}|}">
+         th:href="@{/product/search(page=${pagingProducts.number-1}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}">
         <span>이전</span>
       </a>
     </li>
@@ -53,10 +53,11 @@
         th:if="${page >= pagingProducts.number-5 and page <= pagingProducts.number+5}"
         th:classappend="${page == pagingProducts.number} ? 'active'"
         class="page-item">
-      <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+      <a th:text="${page + 1}" class="page-link" th:href="@{/product/search(page=${page}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}"></a>
     </li>
     <li class="page-item" th:classappend="${!pagingProducts.hasNext} ? 'disabled'">
-      <a class="page-link" th:href="@{|?page=${pagingProducts.number+1}|}">
+      <a class="page-link"
+         th:href="@{/product/search(page=${pagingProducts.number+1}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}">
         <span>다음</span>
       </a>
     </li>
