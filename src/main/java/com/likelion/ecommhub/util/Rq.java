@@ -52,6 +52,8 @@ public class Rq {
 		}
 	}
 
+
+
 	public boolean isRefererAdminPage() {
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 

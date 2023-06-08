@@ -42,3 +42,4 @@ logging.level:
 file:
   windowDir: C:\load\img
   linuxDir: /load/img
+
