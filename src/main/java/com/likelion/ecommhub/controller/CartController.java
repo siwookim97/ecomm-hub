@@ -37,7 +37,7 @@ public class CartController {
 	@GetMapping("/member/{memberid}/cart")
 	public String myCartPage(@PathVariable("memberid") Long memberid, Model model,@AuthenticationPrincipal MemberDetails memberDetails){
 		// 로그인 User == 접속 User
-		if(memberDetails.getMember().getId()== memberid){
+		if(memberDetails.getMember().getId().equals(memberid)){
 			// User의 장바구니를 가져온다.
 			Cart cart = memberDetails.getMember().getCart();
 			// 장바구니의 아이템을 가져온다.

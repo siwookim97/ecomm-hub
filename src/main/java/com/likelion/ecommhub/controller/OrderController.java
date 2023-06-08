@@ -31,7 +31,7 @@ public class OrderController {
     @GetMapping( "/member/orderList/{id}")
     public String orderList(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        if (memberDetails.getMember().getId() == id) {
+        if (memberDetails.getMember().getId().equals(id)) {
 
             List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
 
@@ -56,7 +56,7 @@ public class OrderController {
     @PostMapping("/member/cart/checkout/{id}")
     public String cartCheckout(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        if (memberDetails.getMember().getId() == id) {
+        if (memberDetails.getMember().getId().equals(id)) {
             Member member = memberService.getMemberId(id).orElseThrow();
 
             Cart userCart = cartService.findMemberCart(member.getId());
@@ -101,7 +101,7 @@ public class OrderController {
     public String cancelOrder(@PathVariable("id") Long id,
         @PathVariable("orderItemId") Long orderItemId, Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
-        if (memberDetails.getMember().getId() == id) {
+        if (memberDetails.getMember().getId().equals(id)) {
             OrderItem cancelItem = orderService.findOrderitem(orderItemId);
             Member member = memberService.getMemberId(id).orElseThrow();
 

@@ -33,7 +33,7 @@ public class Cart extends BaseEntity {
 	@JoinColumn(name = "member_id", referencedColumnName = "id")
 	private Member member;
 
-	@OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<CartItem> cartItems = new ArrayList<>();
 
 	public static Cart createCart(Member member){
@@ -48,7 +48,6 @@ public class Cart extends BaseEntity {
 	public void addCartItem(CartItem cartItem) {
 		cartItems.add(cartItem);
 		cartItem.setCart(this);
-		cartItem.getProduct().getCartItems().add(cartItem);
 	}
   
 	public void setCartItemCount(int cartItemCount) {

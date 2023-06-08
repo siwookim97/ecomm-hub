@@ -23,9 +23,9 @@ class MemberServiceTest {
     @BeforeEach
     void init() {
         memberService.joinSeller(new MemberJoinDto("seller", "seller_password", "seller_name",
-                "seller@google.com", "010-1111-1111", "seller_address",1, "account"));
+                "seller@google.com", "010-1111-1111", "seller_address", "account"));
         memberService.joinBuyer(new MemberJoinDto("buyer", "buyer_password", "buyer_name",
-                "buyer@google.com", "010-2222-2222", "buyer_address",1, null));
+                "buyer@google.com", "010-2222-2222", "buyer_address", null));
     }
 
     @Test
@@ -34,9 +34,9 @@ class MemberServiceTest {
     void memberJoinFailTest() {
         // when
         memberService.joinSeller(new MemberJoinDto("seller", "failSeller_password", "failSeller_name",
-                "failSeller@google.com", "010-1234-1234", "failSeller_address", 2,"fail_account"));
+                "failSeller@google.com", "010-1234-1234", "failSeller_address", "fail_account"));
         memberService.joinBuyer(new MemberJoinDto("buyer", "failBuyer_password", "failBuyer_name",
-                "failBuyer@google.com", "010-2345-2345", "failBuyer_address", 3,null));
+                "failBuyer@google.com", "010-2345-2345", "failBuyer_address", null));
 
         // then
         Assertions.assertThat(memberRepository.findByUsername("seller").get().getNickname()).isNotEqualTo("failSeller_name");
@@ -48,9 +48,9 @@ class MemberServiceTest {
     void memberJoinSuccessTest() {
         // when
         memberService.joinSeller(new MemberJoinDto("successSeller", "successSeller_password", "successSeller_name",
-                "successSeller@google.com", "010-1234-1234", "successSeller_address", 1,"success_account"));
+                "successSeller@google.com", "010-1234-1234", "successSeller_address", "success_account"));
         memberService.joinBuyer(new MemberJoinDto("successBuyer", "successBuyer_password", "successBuyer_name",
-                "successBuyer@google.com", "010-2345-2345", "successBuyer_address",1, null));
+                "successBuyer@google.com", "010-2345-2345", "successBuyer_address", null));
 
         // then
         Assertions.assertThat(memberRepository.findByUsername("successSeller").isPresent()).isTrue();

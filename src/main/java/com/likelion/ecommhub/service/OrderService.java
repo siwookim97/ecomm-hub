@@ -23,6 +23,7 @@ public class OrderService {
     private final ProductService productService;
 
     // 회원가입 하면 회원 당 주문 하나 생성
+    @Transactional
     public void createOrder(Member member){
 
         Order order = Order.createOrder(member);

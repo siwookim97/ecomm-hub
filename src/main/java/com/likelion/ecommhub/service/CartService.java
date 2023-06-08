@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,6 @@ import com.likelion.ecommhub.repository.CartRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class CartService {
 
@@ -27,6 +25,7 @@ public class CartService {
     private final ProductRepository productRepository;
 
     //Member에게 장바구니 생성
+    @Transactional
     public void createCart(Member member) {
         Cart cart = Cart.createCart(member);
         cartRepository.save(cart);
@@ -38,6 +37,7 @@ public class CartService {
 
     }
 
+    @Transactional
     public void addCart(Member member, Product product, int count) {
         Cart cart = cartRepository.findByMemberId(member.getId());
 
@@ -78,6 +78,7 @@ public class CartService {
     }
 
     //장바구니 Item 삭제하기
+    @Transactional
     public void cartItemDelete(long id) {
         Optional<CartItem> cartItemOptional = cartItemRepository.findById(id);
         if (cartItemOptional.isPresent()) {
@@ -91,6 +92,7 @@ public class CartService {
     }
 
     //장바구니 Item 전체삭제
+    @Transactional
     public void cartDelete(long id) {
         List<CartItem> cartItems = cartItemRepository.findAll(); // 전체 cart_item 찾기
 
