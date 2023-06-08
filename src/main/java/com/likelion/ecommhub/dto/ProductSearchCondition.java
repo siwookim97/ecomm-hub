@@ -10,7 +10,6 @@ import lombok.*;
 public class ProductSearchCondition {
 
     private String productName;
-    //private String productCategory;
     private String sellerName;
     private String productState;
 }

@@ -35,10 +35,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> findAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<ProductSearchResult> findAllProducts(ProductSearchCondition productSearchCondition, Pageable pageable) {
+        return productRepository.search(productSearchCondition, pageable);
     }
-
 
     public Product findProductById(Long productId) {
         return productRepository.findById(productId).get();
@@ -66,7 +65,7 @@ public class ProductService {
         return createdProduct;
     }
 
-    public Page<Product> search(ProductSearchCondition condition, Pageable pageable) {
+    public Page<ProductSearchResult> search(ProductSearchCondition condition, Pageable pageable) {
         return productRepository.search(condition, pageable);
     }
 
