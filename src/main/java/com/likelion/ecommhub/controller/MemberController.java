@@ -66,6 +66,6 @@ public class MemberController {
     public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
         Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);
         model.addAttribute("member", member);
-        return "member/seller-info";
+        return "member/member-info";
     }
 }
