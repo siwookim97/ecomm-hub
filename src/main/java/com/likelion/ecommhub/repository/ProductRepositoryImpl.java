@@ -58,6 +58,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     private BooleanExpression productStateEq(String productState) {
         return hasText(productState) ?
-                product.productState.eq(ProductState.valueOf(ProductState.fromLabel(productState).name())) : null;
+                product.productState.eq(ProductState.valueOf(productState)) : null;
     }
 }

@@ -23,7 +23,6 @@ public class ProductSearchResult {
     private String sellerName;
 
     @QueryProjection
-
     public ProductSearchResult(Long productId, String productName, int price,
                                int inventory, List<Image> images, Long sellerId,
                                String sellerName) {
