@@ -16,17 +16,15 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String originFilename;
-    private String storeFilename;
+    private String bucketObjectUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
     @Builder
-    public Image(String originFilename, String storeFilename) {
-        this.originFilename = originFilename;
-        this.storeFilename = storeFilename;
+    public Image(String bucketObjectUrl) {
+        this.bucketObjectUrl = bucketObjectUrl;
     }
 
     public void setProduct(Product product) {
