@@ -22,7 +22,6 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final ProductRepository productRepository;
 
     //Member에게 장바구니 생성
     @Transactional

@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -103,7 +102,6 @@ public class OrderController {
         @AuthenticationPrincipal MemberDetails memberDetails) {
         if (memberDetails.getMember().getId().equals(id)) {
             OrderItem cancelItem = orderService.findOrderitem(orderItemId);
-            Member member = memberService.getMemberId(id).orElseThrow();
 
             List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
             int totalCount = 0;

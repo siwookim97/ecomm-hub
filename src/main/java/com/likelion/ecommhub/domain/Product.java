@@ -98,9 +98,5 @@ public class Product extends BaseEntity {
         this.inventory -= amount;
         updateProductSoldOut();
     }
-    public void addCartItem(CartItem cartItem) {
-        this.cartItems.add(cartItem);
-        cartItem.setProduct(this);
-    }
 
 }
