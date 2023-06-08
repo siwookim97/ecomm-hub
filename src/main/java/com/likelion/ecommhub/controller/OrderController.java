@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,10 +50,6 @@ public class OrderController {
         } else {
             return "redirect:/main";
         }
-    }
-    @GetMapping("/member/order")
-    public String order(){
-        return "redirect:/member/orderList/{id}";
     }
 
     @Transactional
@@ -94,7 +91,7 @@ public class OrderController {
             model.addAttribute("cartItems", userCartItems);
             model.addAttribute("user", memberService.getMemberId(id));
 
-            return "redirect:/member/{memberid}/cart";
+            return "redirect:/member/{id}/cart";
         } else {
             return "redirect:/main";
         }

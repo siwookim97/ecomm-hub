@@ -1,5 +1,8 @@
 package com.likelion.ecommhub.initData;
 
+import com.likelion.ecommhub.domain.CartItem;
+import com.likelion.ecommhub.repository.CartItemRepository;
+import java.util.List;
 import javax.annotation.PostConstruct;
 
 import com.likelion.ecommhub.domain.Cart;
@@ -23,12 +26,14 @@ public class NotProd {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final BCryptPasswordEncoder encoder;
+    private final CartItemRepository cartItemRepository;
 
     public NotProd(MemberRepository memberRepository, CartRepository cartRepository,
-                   ProductRepository productRepository, BCryptPasswordEncoder encoder) {
+                   ProductRepository productRepository, CartItemRepository cartItemRepository, BCryptPasswordEncoder encoder) {
         this.memberRepository = memberRepository;
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
         this.encoder = encoder;
     }
 
@@ -37,17 +42,18 @@ public class NotProd {
         cartRepository.deleteAll();
         memberRepository.deleteAll();
         productRepository.deleteAll();
+        cartItemRepository.deleteAll();
 
         Member member1 = new Member("loginId1", encoder.encode("password1"), "Seller1",
                 "seller1@email.com", "010-1234-1234", "address1",
-                MemberRole.ROLE_SELLER,2);
+                MemberRole.ROLE_SELLER);
 
         Member member2 = new Member("loginId2", encoder.encode("password2"), "Seller2",
                 "seller2@email.com", "010-1111-1111", "address2",
-                MemberRole.ROLE_SELLER,2);
+                MemberRole.ROLE_SELLER);
         Member member3 = new Member("user", encoder.encode("user"), "user",
             "user2@email.com", "010-2222-1111", "address",
-            MemberRole.ROLE_BUYER,2);
+            MemberRole.ROLE_BUYER);
 
         memberRepository.save(member1);
         memberRepository.save(member2);
@@ -65,6 +71,24 @@ public class NotProd {
                 product.setMember(member2);
             }
             productRepository.save(product);
+        }
+        List<Member> members = memberRepository.findAll();
+        List<Product> products = productRepository.findAll();
+
+        for (Member member : members) {
+            if (member.getMemberRole() == MemberRole.ROLE_BUYER) {
+                Cart cart = Cart.createCart(member);
+                cartRepository.save(cart);
+
+                for (int i = 0; i < 10; i++) {
+                    CartItem cartItem = new CartItem(cart, products.get(i), (i % 2) + 1);
+                    cartItemRepository.save(cartItem);
+                    cart.addCartItem(cartItem);
+                }
+
+                cart.setCartItemCount(cart.getCartItems().size());
+                cartRepository.save(cart);
+            }
         }
     }
 //    private final MemberRepository memberRepository;

@@ -36,7 +36,7 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private List<CartItem> cartItems = new ArrayList<>();
 
 
