@@ -2,69 +2,77 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Product List</title>
+    <meta charset="UTF-8">
+    <title>Product List</title>
 </head>
 <body>
 
 <form method="get" action="/product/search">
-  <input type="text" name="productName" placeholder="상품 검색" />
-  <input type="text" name="sellerName" placeholder="판매자 검색" />
-  <select name="productState">
-    <option value="">전체</option>
-    <option value="ON_SALE">판매중</option>
-    <option value="SOLD_OUT">품절</option>
-  </select>  <input type="submit" value="Search" />
+    <input type="text" name="productName" placeholder="상품 검색"/>
+    <input type="text" name="sellerName" placeholder="판매자 검색"/>
+    <select name="productState">
+        <option value="">제품 상태</option>
+        <option value="ON_SALE">판매중</option>
+        <option value="SOLD_OUT">품절</option>
+    </select> <input type="submit" value="Search"/>
 </form>
 <h1>Product List</h1>
 
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Inventory</th>
-    <th>Inquiry</th>
-    <th>Review</th>
-  </tr>
-  <tr th:each="product , loop : ${pagingProducts}">
-    <td th:text="${product.name}"></td>
-    <td th:text="${product.price}"></td>
-    <td th:text="${product.detail}"></td>
-    <td th:text="${product.inventory}"></td>
-    <td>
-      <a th:href="@{/inquiry/enroll/{productId}(productId=${product.id})}" class="btn btn-primary">문의 등록</a>
-    </td>
-    <td>
-      <a th:href="@{/review/enroll/{productId}(productId=${product.id})}" class="btn btn-primary">리뷰 등록</a>
-    </td>
-  </tr>
+    <tr>
+        <th>제품 이름</th>
+        <th>가격</th>
+        <th>설명</th>
+        <th>수량</th>
+        <th>판매자</th>
+<!--        <th>이미지</th>-->
+        <th>게시일</th>
+    </tr>
+    <tr th:each="productSearchResult , loop : ${pagingProducts}">
+        <td th:text="${productSearchResult.productName}"></td>
+        <td th:text="${productSearchResult.price}"></td>
+        <td th:text="${productSearchResult.detail}"></td>
+        <td th:text="${productSearchResult.inventory}"></td>
+        <td th:text="${productSearchResult.sellerName}"></td>
+<!--        <td>-->
+<!--            <img th:if="${productSearchResult.images != null}" th:src="@{|file:///C:/load/img|}" alt="이미지">-->
+<!--        </td>-->
+        <td th:text="${#temporals.format(productSearchResult.modifiedDate, 'yyyy-MM-dd HH시 mm분')}"></td>
+            <td>
+              <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">문의 등록</a>
+            </td>
+            <td>
+              <a th:href="@{/review/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">리뷰 등록</a>
+            </td>
+    </tr>
 </table>
 
 <div th:if="${!pagingProducts.isEmpty()}">
-  <ul class="pagination justify-content-center">
-    <li class="page-item" th:classappend="${!pagingProducts.hasPrevious} ? 'disabled'">
-      <a class="page-link"
-         th:href="@{|?page=${pagingProducts.number-1}|}">
-        <span>이전</span>
-      </a>
-    </li>
-    <li th:each="page: ${#numbers.sequence(0, pagingProducts.totalPages-1)}"
-        th:if="${page >= pagingProducts.number-5 and page <= pagingProducts.number+5}"
-        th:classappend="${page == pagingProducts.number} ? 'active'"
-        class="page-item">
-      <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
-    </li>
-    <li class="page-item" th:classappend="${!pagingProducts.hasNext} ? 'disabled'">
-      <a class="page-link" th:href="@{|?page=${pagingProducts.number+1}|}">
-        <span>다음</span>
-      </a>
-    </li>
-  </ul>
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${!pagingProducts.hasPrevious} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/product/search(page=${pagingProducts.number-1}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}">
+                <span>이전</span>
+            </a>
+        </li>
+        <li th:each="page: ${#numbers.sequence(0, pagingProducts.totalPages-1)}"
+            th:if="${page >= pagingProducts.number-5 and page <= pagingProducts.number+5}"
+            th:classappend="${page == pagingProducts.number} ? 'active'"
+            class="page-item">
+            <a th:text="${page + 1}" class="page-link"
+               th:href="@{/product/search(page=${page}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}"></a>
+        </li>
+        <li class="page-item" th:classappend="${!pagingProducts.hasNext} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/product/search(page=${pagingProducts.number+1}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}">
+                <span>다음</span>
+            </a>
+        </li>
+    </ul>
 </div>
 
 <form method="get" action="/product/enroll">
-  <input type="submit" value="Add Product">
+    <input type="submit" value="Add Product">
 </form>
 </body>
 </html>

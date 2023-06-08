@@ -4,6 +4,7 @@ import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
+import com.likelion.ecommhub.dto.ProductSearchResult;
 import com.likelion.ecommhub.service.ImageService;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.ProductService;
@@ -32,7 +33,7 @@ public class ProductController {
     @GetMapping("/home")
     public String showProducts(Model model,
                                @PageableDefault(size = 12, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Product> pagingProducts = productService.findAllProducts(pageable);
+        Page<ProductSearchResult> pagingProducts = productService.search(new ProductSearchCondition(), pageable);
         model.addAttribute("pagingProducts", pagingProducts);
         return "product/home";
     }
@@ -57,7 +58,8 @@ public class ProductController {
     @GetMapping("/search")
     public String searchProduct(ProductSearchCondition condition, Model model,
                                 @PageableDefault(size = 12) Pageable pageable) {
-        Page<Product> pagingProducts = productService.search(condition, pageable);
+
+        Page<ProductSearchResult> pagingProducts = productService.search(condition, pageable);
         model.addAttribute("condition", condition);
         model.addAttribute("pagingProducts", pagingProducts);
 
