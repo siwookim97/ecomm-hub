@@ -22,6 +22,7 @@ public class OrderService {
     private final ProductService productService;
 
     // 회원가입 하면 회원 당 주문 하나 생성
+    @Transactional
     public void createOrder(Member member){
 
         Order order = Order.createOrder(member);
@@ -33,6 +34,7 @@ public class OrderService {
     public List<OrderItem> findUserOrderItems(Long memberId) {
         return orderItemRepository.findOrderItemsByMemberId(memberId);
     }
+
 
     // OrderItem 하나 찾기
     public OrderItem findOrderitem(Long orderItemId) {return orderItemRepository.findOrderItemById(orderItemId);}

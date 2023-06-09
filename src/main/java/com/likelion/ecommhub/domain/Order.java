@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,18 +14,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
     @Id
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -37,8 +40,7 @@ public class Order extends BaseEntity {
 
 
     @Builder
-    public Order(Long id, Member member, List<OrderItem> orderItems, LocalDateTime orderDate) {
-        this.id = id;
+    public Order(Member member, List<OrderItem> orderItems) {
         this.member = member;
         this.orderItems = orderItems;
     }
@@ -60,7 +62,6 @@ public class Order extends BaseEntity {
     public static Order createOrder(Member member) {
         return Order.builder()
             .member(member)
-            .orderDate(LocalDateTime.now())
             .build();
     }
     public void setMember(Member member) {
@@ -70,5 +71,6 @@ public class Order extends BaseEntity {
         this.member = member;
         member.getOrders().add(this);
     }
+
 
 }
