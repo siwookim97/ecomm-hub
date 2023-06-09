@@ -31,7 +31,7 @@ public class ImageService {
         List<Image> images = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFiles) {
-            String originalFilename = multipartFile.getOriginalFilename() + "_" + UUID.randomUUID();
+            String originalFilename = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
 
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(multipartFile.getSize());
