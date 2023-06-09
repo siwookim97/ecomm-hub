@@ -46,8 +46,13 @@ public class NotProd {
                 "seller2@email.com", "010-1111-1111", "address2",
                 MemberRole.ROLE_SELLER);
 
+        Member member3 = new Member("loginId3", encoder.encode("password3"), "Seller3",
+                "seller3@email.com", "010-1111-1112", "address3",
+                MemberRole.ROLE_SELLER);
+
         memberRepository.save(member1);
         memberRepository.save(member2);
+        memberRepository.save(member3);
 
         for (int i = 1; i <= 300; i++) {
             String name = String.format("상품%d",i);
@@ -62,6 +67,12 @@ public class NotProd {
             }
             productRepository.save(product);
         }
+
+        Product product3 = new Product("선풍기",1000,"선풍기 입니다.",100,ProductState.ON_SALE);
+        product3.setMember(member3);
+        productRepository.save(product3);
+
+
     }
 //    private final MemberRepository memberRepository;
 //    private final CartRepository cartRepository;

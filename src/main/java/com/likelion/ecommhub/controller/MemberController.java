@@ -1,7 +1,6 @@
 package com.likelion.ecommhub.controller;
 
 import com.likelion.ecommhub.domain.Member;
-import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberLoginDto;
 import com.likelion.ecommhub.service.MemberService;
@@ -67,5 +66,12 @@ public class MemberController {
         Member member = memberService.findByNameFromSeller(nickname);
         model.addAttribute("member", member);
         return "member/info";
+    }
+
+    @GetMapping("/info/{nickname}/modify")
+    public String showModifyForm(@PathVariable("nickname") String nickname,Model model){
+        Member member = memberService.findByNameFromSeller(nickname);
+        model.addAttribute("member", member);
+        return "member/modify";
     }
 }
