@@ -71,4 +71,6 @@ public class MemberService {
     public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
         return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
     }
+
+
 }
