@@ -1,0 +1,118 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <!-- 부트스트랩 CDN 링크 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <!-- 폰트 연결-->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&amp;family=Oswald:wght@500&amp;family=Roboto+Mono:wght@200&amp;family=Roboto:wght@300&amp;display=swap"
+          rel="stylesheet">
+  <!-- js 파일 연결 -->
+  <title>About</title>
+  <style>
+    .nickname h4 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    .contacts p {
+      font-size: 16px;
+      color: #555;
+    }
+    .contacts p span {
+      font-weight: bold;
+      color: #000;
+    }
+    .contacts table {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+</header>
+<div class="menu-bar bg-dark">
+  <div class="container">
+    <!-- 목차 내용 -->
+    <h3 class="text-white text-center mt-3 mb-0">ABOUT</h3>
+  </div>
+</div>
+<section class="about">
+  <div class="container py-5">
+    <!-- 이름 -->
+    <header class="nickname text-center">
+      <h4 class="mb-4" th:text="${member.nickname}">이름</h4>
+      <!-- 연락처 -->
+      <div class="contacts">
+        <p class="mb-2"><span>연락처:</span> <span th:text="${member.phone}">000-0000-0000</span></p>
+        <p class="mb-2"><span>이메일:</span> <span th:text="${member.email}">example@example.com</span></p>
+        <p class="mb-2"><span>주소:</span> <span th:text="${member.address}">주소</span></p>
+        <p class="mb-2"><span>계좌번호:</span> <span th:text="${member.account}">000-0000-0000</span></p>
+        <!--판매자이면 판매 상품 확인 -->
+        <div th:if="${member.memberRole.toString() eq 'ROLE_SELLER'}">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>상품이름</th>
+              <th>가격</th>
+              <th>재고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${member.products}">
+              <td th:text="${product.name}"></td>
+              <td th:text="${product.price}"></td>
+              <td th:text="${product.inventory}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!--구매자이면 구매 상품,리뷰 작성,문의 내용 확인 -->
+        <div th:if="${member.memberRole.toString() eq 'ROLE_BUYER'}">
+          <table>
+            <thead>
+            <tr>
+              <th>주문 번호</th>
+              <th>상품명</th>
+              <th>가격</th>
+              <th>수량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${member.orders}">
+              <td th:text="${order.orderItems}"></td>
+              <td>
+                <table>
+                  <tbody>
+                  <tr th:each="item : ${order.orderItems}">
+                    <td th:text="${item.productName}"></td>
+                    <td th:text="${item.productPrice}"></td>
+                    <td th:text="${order.modifiedDate}"></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </header>
+    <div class="text-center mt-4">
+      <a class="btn btn-primary mr-2" th:href="@{'/member/info/' + ${member.nickname} + '/modify'}">수정</a>
+      <a class="btn btn-secondary" th:href="@{/member/loginSuccess}">나가기</a>
+    </div>
+  </div>
+</section>
+
+<!-- 부트스트랩 스크립트 CDN 링크 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.14.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
