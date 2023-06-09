@@ -1,40 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>장바구니</title>
-  <!-- Bootstrap icons-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="/resource/style.css" rel="stylesheet" />
-
+  <title class="title">장바구니</title>
   <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
+    .title{
+      display: flex;
+      justify-content: center;
     }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
+    .table-responsive table {
+      width: 100%;
     }
   </style>
-
 </head>
 <body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">장바구니</h1>
-  </div>
+<main layout:fragment="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>
@@ -97,7 +78,7 @@
   /*<![CDATA[*/
   $(document).ready(function() {
     $("#iamportPayment").click(function() {
-        payment();
+      payment();
     });
   })
   var buyerEmail = /*[[${user.get().email}]]*/ 'email@email.com';
@@ -131,20 +112,20 @@
       buyer_name: buyerName,
       buyer_tel: buyerTel,
     }, function (rsp) {
-          if (rsp.success) {
-            alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
-            $.ajax({
-              type: "POST",
-              url: "/member/cart/checkout/" + /*[[${user.get().id}]]*/,
-              contentType: "application/json",
-              data: JSON.stringify(cartItems),
-              dataType: "json"
-            });
-          } else {
-            alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
-          }
-          document.location.href = /*[[ @{/member/loginForm} ]]*/;
+      if (rsp.success) {
+        alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
+        $.ajax({
+          type: "POST",
+          url: "/member/cart/checkout/" + /*[[${user.get().id}]]*/,
+          contentType: "application/json",
+          data: JSON.stringify(cartItems),
+          dataType: "json"
         });
+      } else {
+        alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
+      }
+      document.location.href = /*[[ @{/member/loginForm} ]]*/;
+    });
   }
   /*]]>*/
 </script>
