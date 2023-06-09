@@ -1,11 +1,16 @@
 package com.likelion.ecommhub.service;
 
+import static com.likelion.ecommhub.domain.Cart.createCart;
+import static com.likelion.ecommhub.domain.Order.createOrder;
+
 import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
+import com.likelion.ecommhub.domain.Order;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +47,8 @@ public class MemberService {
 
         Member createdMember = createMember(request, MemberRole.ROLE_BUYER);
         memberRepository.save(createdMember);
+        createCart(createdMember);
+        createOrder(createdMember);
 
         return "JOINBUYER 성공";
     }
@@ -55,9 +62,9 @@ public class MemberService {
             requestDto.getPhone(),
             requestDto.getAddress(),
             memberRole,
-            requestDto.getAccount(),
-            new Cart()
+            requestDto.getAccount()
         );
+
     }
 
     public Member findMemberByUsername(String username) {
@@ -72,5 +79,19 @@ public class MemberService {
         return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
     }
 
+    @Transactional
+    public void memberModify(Long id, Member member) {
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if (optionalMember.isPresent()) {
+            Member update = optionalMember.get();
+            update.setNickname(member.getNickname());
+            update.setEmail(member.getEmail());
+            update.setAddress(member.getAddress());
+            update.setPhone(member.getPhone());
+            memberRepository.save(update);
+        } else {
+            throw new NoSuchElementException("이 아이디를 가진 유저가 없습니다 " + id);
+        }
+    }
 
 }

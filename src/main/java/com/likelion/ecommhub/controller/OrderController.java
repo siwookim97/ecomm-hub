@@ -27,7 +27,7 @@ public class OrderController {
     private final CartService cartService;
     private final OrderService orderService;
 
-    @GetMapping( "/member/orderList/{id}")
+    @GetMapping("/member/orderList/{id}")
     public String orderList(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         if (memberDetails.getMember().getId().equals(id)) {

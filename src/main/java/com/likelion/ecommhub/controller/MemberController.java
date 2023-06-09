@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.controller;
 
+import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
@@ -8,6 +9,7 @@ import com.likelion.ecommhub.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,4 +70,42 @@ public class MemberController {
         model.addAttribute("member", member);
         return "usr/member/seller-info";
     }
+
+    @GetMapping("/{id}")
+    public String userPage(@PathVariable("id") Long id, Model model,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
+        if (memberDetails.getMember().getId().equals(id)) {
+
+            model.addAttribute("user", memberService.getMemberId(id));
+
+            return "/member/memberPage";
+        } else {
+            return "redirect:/main";
+        }
+    }
+
+    @GetMapping("/modify/{id}")
+    public String memberModify(@PathVariable("id") Long id, Model model,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
+        if (memberDetails.getMember().getId().equals(id)) {
+
+            model.addAttribute("user", memberService.getMemberId(id));
+
+            return "/member/memberModify";
+        } else {
+            return "redirect:/main";
+        }
+
+    }
+
+    @PostMapping("/update/{id}")
+    public String userUpdate(@PathVariable("id") Long id, Member member,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
+        if (memberDetails.getMember().getId().equals(id)) {
+            memberService.memberModify(id, member);
+        }
+        return "redirect:/member/{id}";
+    }
+
+
 }
