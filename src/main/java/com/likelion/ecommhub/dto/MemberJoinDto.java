@@ -1,6 +1,5 @@
 package com.likelion.ecommhub.dto;
 
-import com.likelion.ecommhub.domain.MemberRole;
 import lombok.*;
 
 import javax.validation.constraints.Email;

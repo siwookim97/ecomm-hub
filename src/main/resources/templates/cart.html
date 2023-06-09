@@ -78,14 +78,13 @@
         <div class="card-header py-3">
           <h4 class="my-0 fw-normal">총 결제금액</h4>
         </div>
-        <form class="card-body" >
+        <form class="card-body">
           <h1 class="card-title pricing-card-title" th:text="${totalPrice} + '₩'">$0</h1>
           <ul class="list-unstyled mt-3 mb-4">
             <li>잘못 담은 물건이 있는지 확인해보세요!</li>
           </ul>
           <button id="iamportPayment" type="button" class="w-100 btn btn-lg btn-outline-primary">구매하기</button>
         </form>
-
       </div>
     </div>
   </div>
@@ -94,13 +93,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="/js/scripts.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript" th:if="${user.isPresent()}">
+  /*<![CDATA[*/
   $(document).ready(function() {
     $("#iamportPayment").click(function() {
-      payment();
+        payment();
     });
   })
+  var buyerEmail = /*[[${user.get().email}]]*/ 'email@email.com';
+  var buyerName = /*[[${user.get().nickname}]]*/ 'user';
+  var buyerTel = /*[[${user.get().phone}]]*/ '010-0000-0000';
+  var totalPrice = /*[[${totalPrice}]]*/ 'default';
 
+  var cartItems = [] ;
+
+  /*[[${cartItems}]].forEach(function(cartItem) {
+  cartItems.push({
+    productId: cartItem.getProductId(),
+    productName: cartItem.getProductName(),
+    productCount: cartItem.getProductCount(),
+    productPrice: cartItem.getProductPrice(),
+    productTotalPrice: cartItem.getProductTotalPrice(),
+    orderCreatedDate: cartItem.getCart().getCreatedDate(),
+    isCancel: cartItem.getIsCancel(),
+  });
+});
+   */
   function payment() {
     IMP.init('imp86104056');
     IMP.request_pay({
@@ -108,26 +126,27 @@
       pay_method: "card",
       merchant_uid: "merchant_" + new Date().getTime(),
       name: "도서",
-      amount: 13700,
-      buyer_email: 'testiamport@naver.com',
-      buyer_name: '홍길동',
-      buyer_tel: '01012345678',
+      amount: totalPrice,
+      buyer_email: buyerEmail,
+      buyer_name: buyerName,
+      buyer_tel: buyerTel,
     }, function (rsp) {
           if (rsp.success) {
             alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
             $.ajax({
-              type: "GET",
-              url: "",
-              data: {
-                amount : rsp.paid_amount,
-              }
+              type: "POST",
+              url: "/member/cart/checkout/" + /*[[${user.get().id}]]*/,
+              contentType: "application/json",
+              data: JSON.stringify(cartItems),
+              dataType: "json"
             });
           } else {
             alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
           }
-          document.location.href = "/main";
+          document.location.href = /*[[ @{/member/loginForm} ]]*/;
         });
   }
+  /*]]>*/
 </script>
 </body>
 </html>

@@ -5,16 +5,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.likelion.ecommhub.config.auth.MemberDetails;
@@ -40,9 +35,9 @@ public class CartController {
 
 	// 내 장바구니 조회
 	@GetMapping("/member/{memberid}/cart")
-	public String myCartPage(@PathVariable("memberid") long memberid, Model model,@AuthenticationPrincipal MemberDetails memberDetails){
+	public String myCartPage(@PathVariable("memberid") Long memberid, Model model,@AuthenticationPrincipal MemberDetails memberDetails){
 		// 로그인 User == 접속 User
-		if(memberDetails.getMember().getId()== memberid){
+		if(memberDetails.getMember().getId().equals(memberid)){
 			// User의 장바구니를 가져온다.
 			Cart cart = memberDetails.getMember().getCart();
 			// 장바구니의 아이템을 가져온다.

@@ -4,6 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Product List</title>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortSelect = document.querySelector('select[name="sortCode"]');
+
+            sortSelect.addEventListener('change', function () {
+                const selectedValue = sortSelect.value;
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('sortCode', selectedValue);
+                const newUrl = window.location.pathname + '?' + urlParams.toString();
+                window.location.href = newUrl;
+            });
+        });
+    </script>
+
 </head>
 <body>
 
@@ -17,7 +32,12 @@
     </select> <input type="submit" value="Search"/>
 </form>
 <h1>Product List</h1>
-
+<select name="sortCode">
+    <option value="0">정렬</option>
+    <option value="1">날짜순</option>
+    <option value="2">재고량순</option>
+    <option value="3">가격</option>
+</select>
 <table>
     <tr>
         <th>제품 이름</th>
@@ -25,7 +45,7 @@
         <th>설명</th>
         <th>수량</th>
         <th>판매자</th>
-<!--        <th>이미지</th>-->
+        <!--        <th>이미지</th>-->
         <th>게시일</th>
     </tr>
     <tr th:each="productSearchResult , loop : ${pagingProducts}">
@@ -34,16 +54,16 @@
         <td th:text="${productSearchResult.detail}"></td>
         <td th:text="${productSearchResult.inventory}"></td>
         <td th:text="${productSearchResult.sellerName}"></td>
-<!--        <td>-->
-<!--            <img th:if="${productSearchResult.images != null}" th:src="@{|file:///C:/load/img|}" alt="이미지">-->
-<!--        </td>-->
+        <!--        <td>-->
+        <!--            <img th:if="${productSearchResult.images != null}" th:src="@{|file:///C:/load/img|}" alt="이미지">-->
+        <!--        </td>-->
         <td th:text="${#temporals.format(productSearchResult.modifiedDate, 'yyyy-MM-dd HH시 mm분')}"></td>
-            <td>
-              <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">문의 등록</a>
-            </td>
-            <td>
-              <a th:href="@{/review/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">리뷰 등록</a>
-            </td>
+        <td>
+            <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">문의 등록</a>
+        </td>
+        <td>
+            <a th:href="@{/review/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">리뷰 등록</a>
+        </td>
     </tr>
 </table>
 
@@ -76,3 +96,10 @@
 </form>
 </body>
 </html>
+
+
+
+
+
+
+

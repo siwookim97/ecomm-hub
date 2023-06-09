@@ -58,10 +58,10 @@
             <td th:text="${orderItem.getProductCount()}">수량</td>
             <td th:text="${orderItem.getProductPrice()}">가격</td>
             <td th:text="${orderItem.getProductTotalPrice()}">주문금액</td>
-            <td th:text="${orderItem.getOrder().getOrderDate()}">날짜</td>
+            <td th:text="${orderItem.getOrder().getCreatedDate()}">날짜</td>
             <td th:if="${orderItem.getIsCancel()} == 1">취소완료</a></td>
             <td th:unless="${orderItem.getIsCancel()} == 1">
-              <form onsubmit="return cancel();" th:action="@{/user/{id}/checkout/cancel/{orderItemId}(id=${user.id}, orderItemId=${orderItem.id})}" th:method="POST">
+              <form onsubmit="return cancel();" th:if="${user.isPresent()}" th:action="@{/member/{id}/checkout/cancel/{orderItemId}(id=${user.get().id}, orderItemId=${orderItem.id})}" th:method="POST">
                 <button type="submit">주문취소</button>
               </form>
               <script th:inline="javascript">
