@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/usr/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -29,7 +29,7 @@ public class MemberController {
     public String join(Model model) {
         model.addAttribute("memberJoinDto", new MemberJoinDto());
 
-        return "member/join";
+        return "usr/member/join";
     }
 
     @PostMapping("/joinSeller")
@@ -37,7 +37,7 @@ public class MemberController {
 
         String result = memberService.joinSeller(memberJoinDto);
 
-        return "redirect:member/loginForm";
+        return "redirect:/usr/member/loginForm";
     }
 
     @PostMapping("/joinBuyer")
@@ -45,7 +45,7 @@ public class MemberController {
 
         String result = memberService.joinBuyer(memberJoinDto);
 
-        return "redirect:member/loginForm";
+        return "redirect:/usr/member/loginForm";
     }
 
     @GetMapping("/loginForm")
@@ -58,7 +58,7 @@ public class MemberController {
     @GetMapping("/loginSuccess")
     public String loginSuccessTest() {
 
-        return "member/loginSuccess";
+        return "usr/member/loginSuccess";
     }
 
 
@@ -66,6 +66,6 @@ public class MemberController {
     public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
         Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);
         model.addAttribute("member", member);
-        return "/member/seller-info";
+        return "usr/member/seller-info";
     }
 }
