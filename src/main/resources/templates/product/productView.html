@@ -17,9 +17,9 @@
 <section class="py-5">
   <div class="container px-4 px-lg-5 my-5">
     <div class="row gx-4 gx-lg-5 align-items-center">
-      <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{${item.getImgPath()}}" alt="..." /></div>
+<!--      <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{${item.getImgPath()}}" alt="..." /></div>-->
       <div class="col-md-6">
-        <div class="small mb-1" th:text="|판매자 : ${item.getMember().getMemberRole().ROLE_SELLER.name()}|">판매자 이름</div>
+        <a  th:href="@{usr/member/{id}(id=user.id)}" class="link-primary" th:text="|판매자 : ${item.getMember().getNickname()}|">판매자 이름</a>
         <div class="small mb-1" th:if="${item.getProductState().ON_SALE} == 0" th:text="|재고 : ${item.getInventory()}개|">재고</div>
         <div class="small mb-1" th:unless="${item.getProductState().SOLD_OUT} == 0" th:text="|품절|">재고</div>
         <h1 class="display-5 fw-bolder" th:text="${item.getName()}">상품 이름</h1>
@@ -30,7 +30,19 @@
 
         <form class="d-flex" sec:authorize="hasRole('ROLE_USER')" onsubmit="return additem();" th:action="@{/usr/member/{memberid}/cart/{productId}(memberid=${user.id}, productId=${item.id})}" method="post">
           <input class="form-control text-center me-3" id="amount" name="amount" type="num" value="1" style="max-width: 3rem"/>
-          <button class="btn btn-outline-dark flex-shrink-0" id="basket" type="submit"><i class="bi-cart-fill me-1"></i>장바구니</button>
+          <button class="btn btn-outline-dark flex-shrink-0" id="basket" type="submit"><i class="bi-cart4 me-1"></i>장바구니</button>
+        </form>
+        <form class="d-flex">
+          <div class="d-flex">
+            <a th:href="@{/inquiry/enroll/{productId}(productId=${item.id})}">
+              <button  class="btn btn-outline-dark flex-shrink-0" type="button"><i class="bi bi-envelope"></i>문의</button>
+            </a>
+          </div>
+          <div>
+            <a th:href="@{/review/enroll/{productId}(productId=${item.id})}">
+              <button class="btn btn-outline-dark flex-shrink-0" type="button"><i class="bi bi-chat-left-dots"></i>리뷰</button>
+            </a>
+          </div>
         </form>
         <script th:inline="javascript">
           /* <![CDATA[ */
