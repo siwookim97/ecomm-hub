@@ -93,7 +93,7 @@ public class MemberController {
 
     @PutMapping("/update/{id}")
     public String userUpdate(@PathVariable("id") Long id, Member member,
-        @AuthenticationPrincipal MemberDetails memberDetails) {
+        @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
         if (memberDetails.getMember().getId().equals(id)) {
             memberService.memberModify(id, member);
         }

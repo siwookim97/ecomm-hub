@@ -74,23 +74,75 @@ public class MemberService {
     public Optional<Member> getMemberId(Long memberId) {
         return memberRepository.findById(memberId);
     }
+    public boolean emailDuplicationCheck(Long id, String email){
+        Optional<Member> existingMember = memberRepository.findByEmail(email);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean nicknameDuplicationCheck(Long id, String nickname){
+        Optional<Member> existingMember = memberRepository.findByNickname(nickname);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean addressDuplicationCheck(Long id, String address){
+        Optional<Member> existingMember = memberRepository.findByAddress(address);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean phoneDuplicationCheck(Long id, String phone){
+        Optional<Member> existingMember = memberRepository.findByPhone(phone);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Transactional
-    public void memberModify(Long id, Member member) {
+    public void memberModify(Long id, Member member) throws Exception {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if (optionalMember.isPresent()) {
             Member update = optionalMember.get();
             if (member.getNickname() != null && !member.getNickname().isEmpty()) {
-                update.setNickname(member.getNickname());
+                if (nicknameDuplicationCheck(id, member.getNickname())) {
+                    throw new Exception("이미 사용중인 닉네임입니다.");
+                } else {
+                    update.setNickname(member.getNickname());
+                }
             }
             if (member.getEmail() != null && !member.getEmail().isEmpty()) {
-                update.setEmail(member.getEmail());
+                if (emailDuplicationCheck(id, member.getEmail())) {
+                    throw new Exception("이미 사용중인 이메일입니다.");
+                } else {
+                    update.setEmail(member.getEmail());
+                }
             }
             if (member.getAddress() != null && !member.getAddress().isEmpty()) {
-                update.setAddress(member.getAddress());
+                if (addressDuplicationCheck(id, member.getAddress())) {
+                    throw new Exception("이미 사용중인 주소입니다.");
+                } else {
+                    update.setAddress(member.getAddress());
+                }
             }
             if (member.getPhone() != null && !member.getPhone().isEmpty()) {
-                update.setPhone(member.getPhone());
+                if (phoneDuplicationCheck(id, member.getPhone())) {
+                    throw new Exception("이미 사용중인 전화번호입니다.");
+                } else {
+                    update.setPhone(member.getPhone());
+                }
             }
             memberRepository.save(update);
         } else {
