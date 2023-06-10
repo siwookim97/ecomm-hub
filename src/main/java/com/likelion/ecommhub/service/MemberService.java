@@ -80,10 +80,18 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if (optionalMember.isPresent()) {
             Member update = optionalMember.get();
-            update.setNickname(member.getNickname());
-            update.setEmail(member.getEmail());
-            update.setAddress(member.getAddress());
-            update.setPhone(member.getPhone());
+            if (member.getNickname() != null && !member.getNickname().isEmpty()) {
+                update.setNickname(member.getNickname());
+            }
+            if (member.getEmail() != null && !member.getEmail().isEmpty()) {
+                update.setEmail(member.getEmail());
+            }
+            if (member.getAddress() != null && !member.getAddress().isEmpty()) {
+                update.setAddress(member.getAddress());
+            }
+            if (member.getPhone() != null && !member.getPhone().isEmpty()) {
+                update.setPhone(member.getPhone());
+            }
             memberRepository.save(update);
         } else {
             throw new NoSuchElementException("이 아이디를 가진 유저가 없습니다 " + id);

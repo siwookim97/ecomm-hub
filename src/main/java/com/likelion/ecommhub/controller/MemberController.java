@@ -91,7 +91,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String userUpdate(@PathVariable("id") Long id, Member member,
         @AuthenticationPrincipal MemberDetails memberDetails) {
         if (memberDetails.getMember().getId().equals(id)) {
