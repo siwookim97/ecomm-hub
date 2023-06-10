@@ -17,16 +17,22 @@
               <span th:text="#{c.pageNameStart}"></span>
             </a>
           </li>
-          <li th:if="${@rq.login}">
-            <a href="/usr/member/pop">
-              <th:block th:utext="#{c.iconPop}"></th:block>
-              <span th:text="#{c.pageNamePop}"></span>
+          <li th:if="${@rq.logout}">
+            <a href="usr/member/join">
+              <th:block th:utext="#{c.iconJoin}"></th:block>
+              <span th:text="#{c.join}"></span>
+            </a>
+          </li>
+          <li th:if="${@rq.logout}">
+            <a href="/product/home">
+              <th:block th:utext="#{c.iconProduct}"></th:block>
+              <span th:text="#{c.Product}"></span>
             </a>
           </li>
           <li th:if="${@rq.login}">
-            <a href="/usr/likeablePerson/toList">
-              <th:block th:utext="#{c.iconLikesIReceived}"></th:block>
-              <span th:text="#{c.pageNameLikesIReceived}"></span>
+            <a href="/product/enroll?">
+              <th:block th:utext="#{c.iconProductEnroll}"></th:block>
+              <span th:text="#{c.ProductEnroll}"></span>
             </a>
           </li>
           <li th:if="${@rq.login}">
@@ -61,12 +67,6 @@
 
           <div th:if="${@rq.login}" class="divider"></div>
 
-          <li>
-            <a href="/usr/home/about">
-              <th:block th:utext="#{c.iconWhatIsThisService}"></th:block>
-              <span th:text="#{c.whatIsThisService}"></span>
-            </a>
-          </li>
           <li th:if="${@rq.login}">
             <a href="javascript:" onclick="$(this).next().submit();">
               <th:block th:utext="#{c.iconLogout}"></th:block>
@@ -85,10 +85,6 @@
     <div class="navbar-end">
       <a href="/usr/member/pop" class="btn btn-ghost gap-1" th:if="${@rq.login}">
         <i class="fa-solid fa-chart-line"></i>
-      </a>
-
-      <a href="/usr/home/about" class="btn btn-ghost btn-circle" th:if="${@rq.logout}">
-        <th:block th:utext="#{c.iconWhatIsThisService}"></th:block>
       </a>
     </div>
   </div>
