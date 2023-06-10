@@ -49,7 +49,7 @@ public class ProductController {
 
         Member findMember = memberService.findMemberByUsername(principal.getName());
         Product enrolledProduct = productService.enroll(productDto, findMember);
-        imageService.saveFile(productDto.getImages(), enrolledProduct);
+        imageService.saveFile(productDto.getImage(), enrolledProduct);
 
         return "redirect:/product/home";
     }
