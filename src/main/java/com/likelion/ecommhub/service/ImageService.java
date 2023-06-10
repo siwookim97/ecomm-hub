@@ -1,43 +1,59 @@
 package com.likelion.ecommhub.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.likelion.ecommhub.domain.Product;
-import com.likelion.ecommhub.util.ImageStore;
 import com.likelion.ecommhub.domain.Image;
 import com.likelion.ecommhub.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
 
+    private final AmazonS3 amazonS3;
     private final ImageRepository imageRepository;
-    private final ImageStore imageStore;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     @Transactional
-    public List<Image> uploadImages(List<MultipartFile> multipartFiles, Product product) throws IOException {
-        List<Image> images = imageStore.storeFiles(multipartFiles);
+    public String saveFile(List<MultipartFile> multipartFiles, Product product) throws IOException {
+        List<Image> images = new ArrayList<>();
 
-        for (Image image : images) {
+        for (MultipartFile multipartFile : multipartFiles) {
+            String originalFilename = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(multipartFile.getSize());
+            metadata.setContentType(multipartFile.getContentType());
+
+            amazonS3.putObject(bucket, originalFilename, multipartFile.getInputStream(), metadata);
+
             Image uploadImage = Image.builder()
-                    .originFilename(image.getOriginFilename())
-                    .storeFilename(image.getStoreFilename())
+                    .bucketObjectUrl(amazonS3.getUrl(bucket, originalFilename).toString())
                     .build();
             uploadImage.setProduct(product);
-            imageRepository.save(uploadImage);
+            images.add(uploadImage);
         }
 
-        return images;
+        if (!images.isEmpty()) {
+            imageRepository.saveAll(images);
+        }
+
+        return "saveFile 실행 완료";
     }
 
-    public List<Image> findImages() {
-        List<Image> images = imageRepository.findAll();
-
-        return images;
+    public void deleteImage(String originalFilename)  {
+        amazonS3.deleteObject(bucket, originalFilename);
     }
 }

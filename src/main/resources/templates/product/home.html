@@ -45,7 +45,7 @@
         <th>설명</th>
         <th>수량</th>
         <th>판매자</th>
-        <!--        <th>이미지</th>-->
+        <th>이미지</th>
         <th>게시일</th>
     </tr>
     <tr th:each="productSearchResult , loop : ${pagingProducts}">
@@ -54,15 +54,17 @@
         <td th:text="${productSearchResult.detail}"></td>
         <td th:text="${productSearchResult.inventory}"></td>
         <td th:text="${productSearchResult.sellerName}"></td>
-        <!--        <td>-->
-        <!--            <img th:if="${productSearchResult.images != null}" th:src="@{|file:///C:/load/img|}" alt="이미지">-->
-        <!--        </td>-->
+        <td>
+            <img th:if="${not #lists.isEmpty(productSearchResult.images)}"
+                 th:src="${productSearchResult.images.get(0).bucketObjectUrl}" alt="이미지" width="200" height="150">
         <td th:text="${#temporals.format(productSearchResult.modifiedDate, 'yyyy-MM-dd HH시 mm분')}"></td>
         <td>
-            <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">문의 등록</a>
+            <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}"
+               class="btn btn-primary">문의 등록</a>
         </td>
         <td>
-            <a th:href="@{/review/enroll/{productId}(productId=${productSearchResult.productId})}" class="btn btn-primary">리뷰 등록</a>
+            <a th:href="@{/review/enroll/{productId}(productId=${productSearchResult.productId})}"
+               class="btn btn-primary">리뷰 등록</a>
         </td>
     </tr>
 </table>
