@@ -9,6 +9,7 @@ import com.likelion.ecommhub.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -106,6 +107,5 @@ public class MemberController {
         }
         return "redirect:/member/{id}";
     }
-
 
 }
