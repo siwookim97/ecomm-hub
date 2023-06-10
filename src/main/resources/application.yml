@@ -1,4 +1,5 @@
-
+server:
+  port: 8081
 spring:
   mail:
     host: smtp.gmail.com
@@ -41,3 +42,4 @@ logging.level:
 file:
   windowDir: C:\load\img
   linuxDir: /load/img
+

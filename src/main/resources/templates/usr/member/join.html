@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>판매자 회원가입</title>
+</head>
+<body>
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+    <div class="max-w-2xl w-full px-4">
+        <h1 class="mb-4">
+            <i class="fa-solid fa-user-plus"></i>
+            판매자 회원가입
+        </h1>
+
+        <form th:action="@{/usr/member/joinSeller}" th:object="${memberJoinDto}" method="post" class="flex flex-col gap-6">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">아이디</span>
+                </label>
+                <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered" autofocus />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">비밀번호</span>
+                </label>
+                <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered" />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">이름</span>
+                </label>
+                <input type="text" th:field="*{nickname}" placeholder="이름" class="input input-bordered" />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">이메일</span>
+                </label>
+                <input type="text" th:field="*{email}" placeholder="이메일" class="input input-bordered" />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">전화번호</span>
+                </label>
+                <input type="text" th:field="*{phone}" placeholder="전화번호" class="input input-bordered" />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">주소</span>
+                </label>
+                <input type="text" th:field="*{address}" placeholder="주소" class="input input-bordered" />
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">계좌번호</span>
+                </label>
+                <input type="text" th:field="*{account}" placeholder="계좌번호" class="input input-bordered" />
+            </div>
+
+            <button id="btn-join-1" type="submit" class="btn btn-block btn-primary gap-1">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>판매자 회원가입</span>
+            </button>
+        </form>
+
+        <div class="flex flex-wrap justify-center">
+            <a href="/usr/member/login" class="btn btn-link">로그인</a>
+            <a href="#" class="btn btn-link">아이디찾기</a>
+            <a href="#" class="btn btn-link">비밀번호찾기</a>
+        </div>
+    </div>
+</main>
+</body>
+
+</html>

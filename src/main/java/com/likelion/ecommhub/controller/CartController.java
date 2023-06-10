@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.likelion.ecommhub.config.auth.MemberDetails;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @Transactional
 @RequiredArgsConstructor
+@RequestMapping("/usr/member")
 public class CartController {
 
 	private final CartService cartService;
@@ -34,7 +36,7 @@ public class CartController {
 
 
 	// 내 장바구니 조회
-	@GetMapping("/member/{memberid}/cart")
+	@GetMapping("/{memberid}/cart")
 	public String myCartPage(@PathVariable("memberid") Long memberid, Model model,@AuthenticationPrincipal MemberDetails memberDetails){
 		// 로그인 User == 접속 User
 		if(memberDetails.getMember().getId().equals(memberid)){
@@ -53,13 +55,13 @@ public class CartController {
 			model.addAttribute("totalPrice",totalPrice);
 			model.addAttribute("user",memberService.getMemberId(memberid));
 
-			return "cart";
+			return "usr/member/cart";
 		}else{
 			return "redirect:/main";
 		}
 	}
 	//특정 상품 장바구니에 추가
-	@GetMapping("/member/{memberid}/cart/{productId}")
+	@GetMapping("/{memberid}/cart/{productId}")
 	public String myCartAdd(@PathVariable("memberid") Long memberId, @PathVariable("productId") Long productId, @RequestParam("count") int count) {
 		Optional<Member> member = memberService.getMemberId(memberId);
 		Optional<Product> product = productService.getProductId(productId);
@@ -68,18 +70,18 @@ public class CartController {
 			cartService.addCart(member.get(), product.get(), count);
 		}
 
-		return "cartAdd";
+		return "usr/member/cartAdd";
 	}
 
 	//특정 상품 장바구니에서 삭제
-	@GetMapping("/member/{memberid}/cart/{cartItemid}/delete")
+	@GetMapping("/{memberid}/cart/{cartItemid}/delete")
 	public String myCartDelete(@PathVariable("memberid") Long memberid, @PathVariable("cartItemid") Long cartItemid
 	) {
 		Optional<Member> member = memberService.getMemberId(memberid);
 		if (member.isPresent()) {
 			cartService.cartItemDelete(cartItemid);
 		}
-		return "redirect:/member/{memberid}/cart";
+		return "redirect:/usr/member/{memberid}/cart";
 	}
 
 }
