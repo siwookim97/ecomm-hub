@@ -28,30 +28,40 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/joinForm")
-    public String join(Model model) {
-        model.addAttribute("memberJoinDto", new MemberJoinDto());
-
+    @GetMapping("/join")
+    public String join() {
         return "usr/member/join";
     }
 
-    @PostMapping("/joinSeller")
+    @GetMapping("/join/seller")
+    public String joinSeller(Model model) {
+        model.addAttribute("memberJoinDto", new MemberJoinDto());
+
+        return "usr/member/joinSeller";
+    }
+
+    @GetMapping("/join/buyer")
+    public String joinBuyer(Model model) {
+        model.addAttribute("memberJoinDto", new MemberJoinDto());
+
+        return "usr/member/joinBuyer";
+    }
+
+    @PostMapping("/join/seller")
     public String joinSeller(@ModelAttribute() @Valid MemberJoinDto memberJoinDto) {
+        memberService.joinSeller(memberJoinDto);
 
-        String result = memberService.joinSeller(memberJoinDto);
-
-        return "redirect:/usr/member/loginForm";
+        return "redirect:/usr/member/login";
     }
 
-    @PostMapping("/joinBuyer")
+    @PostMapping("/join/buyer")
     public String joinBuyer(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto) {
+        memberService.joinBuyer(memberJoinDto);
 
-        String result = memberService.joinBuyer(memberJoinDto);
-
-        return "redirect:/usr/member/loginForm";
+        return "redirect:/usr/member/login";
     }
 
-    @GetMapping("/loginForm")
+    @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("memberLoginDto", new MemberLoginDto());
 
@@ -71,22 +81,12 @@ public class MemberController {
 
             model.addAttribute("user", memberDetails.getMember());
 
-            return "usr/member/memberPage";
-        }
+    @GetMapping("/seller/{nickname}")
+    public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
+        Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);
+        model.addAttribute("member", member);
 
-
-    @GetMapping("/modify/{id}")
-    public String memberModify(@PathVariable("id") Long id, Model model,
-        @AuthenticationPrincipal MemberDetails memberDetails) {
-        if (memberDetails.getMember().getId().equals(id)) {
-
-            model.addAttribute("user", memberService.getMemberId(id));
-
-            return "usr/member/memberModify";
-        } else {
-            return "redirect:/main";
-        }
-
+        return "usr/member/seller-info";
     }
 
     @PutMapping("/update/{id}")
