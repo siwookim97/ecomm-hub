@@ -15,7 +15,7 @@ plugins {
 
 group = 'com.likelion'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "15"
+sourceCompatibility = "11"
 
 configurations {
 	compileOnly {
@@ -77,4 +77,3 @@ compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl // Q파일을 생성해준다.
 }
 //querydsl 추가 끝
-targetCompatibility = JavaVersion.VERSION_15

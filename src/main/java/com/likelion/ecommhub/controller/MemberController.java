@@ -64,14 +64,6 @@ public class MemberController {
         return "usr/member/loginSuccess";
     }
 
-
-    @GetMapping("/seller/{nickname}")
-    public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
-        Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);
-        model.addAttribute("member", member);
-        return "usr/member/seller-info";
-    }
-
     @GetMapping("/{id}")
     public String userPage(@PathVariable("id") Long id, Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
@@ -79,7 +71,7 @@ public class MemberController {
 
             model.addAttribute("user", memberService.getMemberId(id));
 
-            return "/member/memberPage";
+            return "usr/member/memberPage";
         } else {
             return "redirect:/main";
         }
@@ -92,7 +84,7 @@ public class MemberController {
 
             model.addAttribute("user", memberService.getMemberId(id));
 
-            return "/member/memberModify";
+            return "usr/member/memberModify";
         } else {
             return "redirect:/main";
         }
@@ -105,7 +97,7 @@ public class MemberController {
         if (memberDetails.getMember().getId().equals(id)) {
             memberService.memberModify(id, member);
         }
-        return "redirect:/member/{id}";
+        return "redirect:/usr/member/{id}";
     }
 
 }

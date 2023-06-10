@@ -75,10 +75,6 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
-    public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
-        return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
-    }
-
     @Transactional
     public void memberModify(Long id, Member member) {
         Optional<Member> optionalMember = memberRepository.findById(id);

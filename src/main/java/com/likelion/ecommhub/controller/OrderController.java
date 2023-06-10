@@ -90,7 +90,7 @@ public class OrderController {
             model.addAttribute("cartItems", userCartItems);
             model.addAttribute("user", memberService.getMemberId(id));
 
-            return "redirect:/member/{id}/cart";
+            return "redirect:/usr/member/{id}/cart";
         } else {
             return "redirect:/main";
         }
