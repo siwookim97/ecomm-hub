@@ -7,6 +7,7 @@ import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.CartItem;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
+import com.likelion.ecommhub.domain.Review;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
 import com.likelion.ecommhub.dto.ProductSearchResult;
@@ -14,9 +15,11 @@ import com.likelion.ecommhub.service.CartService;
 import com.likelion.ecommhub.service.ImageService;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.ProductService;
+import com.likelion.ecommhub.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,6 +40,7 @@ public class ProductController {
     private final ProductService productService;
     private final ImageService imageService;
     private final CartService cartService;
+    private final ReviewService reviewService;
 
     @GetMapping("/home")
     public String showProducts(Model model, ProductSearchCondition condition,
@@ -84,6 +88,8 @@ public class ProductController {
         if(memberDetails.getMember().getMemberRole().equals(ROLE_SELLER)) {
             Member member = memberDetails.getMember();
 
+            List<Review> reviews = reviewService.getReviewList(id);
+            model.addAttribute("reviews", reviews);
             model.addAttribute("item", productService.findProductById(id));
             model.addAttribute("user", member);
 
@@ -101,6 +107,8 @@ public class ProductController {
                 cartCount += cartItem.getCount();
             }
 
+            List<Review> reviews = reviewService.getReviewList(id);
+            model.addAttribute("reviews", reviews);
             model.addAttribute("cartCount", cartCount);
             model.addAttribute("item", productService.findProductById(id));
             model.addAttribute("user", member);
