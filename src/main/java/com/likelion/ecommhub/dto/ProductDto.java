@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
-import java.util.List;
 
 @Getter
 @Setter
@@ -27,5 +26,5 @@ public class ProductDto {
     @NotNull(message = "상품 수량은 공백이 불가합니다.")
     private int inventory;
 
-    private List<MultipartFile> images;
+    private MultipartFile image;
 }

@@ -33,12 +33,11 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private int inventory;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private Image image;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<CartItem> cartItems = new ArrayList<>();
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -47,9 +46,8 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Inquiry> inquiries = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
-
 
     @Builder
     public Product(String name, int price, String detail, int inventory,
@@ -70,6 +68,10 @@ public class Product extends BaseEntity {
         this.inventory = inventory;
         this.productState = productState;
         this.cartItems = cartItems;
+    }
+
+    public void insertImage(Image image) {
+        this.image = image;
     }
 
     public void updateProductSoldOut() {
@@ -98,5 +100,4 @@ public class Product extends BaseEntity {
         this.inventory -= amount;
         updateProductSoldOut();
     }
-
 }

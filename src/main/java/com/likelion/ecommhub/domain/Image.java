@@ -18,7 +18,7 @@ public class Image {
 
     private String bucketObjectUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -27,11 +27,8 @@ public class Image {
         this.bucketObjectUrl = bucketObjectUrl;
     }
 
-    public void setProduct(Product product) {
-        if (this.product != null) {
-            this.product.getImages().remove(this);
-        }
+    public void insertIntoProduct(Product product) {
         this.product = product;
-        product.getImages().add(this);
+        product.insertImage(this);
     }
 }
