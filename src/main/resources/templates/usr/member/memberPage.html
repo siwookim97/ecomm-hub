@@ -33,7 +33,7 @@
   </style>
 </head>
 
-<body th:if="${user.isPresent()}">
+<body>
 <header>
 </header>
 <div class="menu-bar bg-dark">
@@ -46,15 +46,15 @@
   <div class="container py-5">
     <!-- 이름 -->
     <header class="nickname text-center">
-      <h4 class="mb-4" th:text="${user.get().nickname}">이름</h4>
+      <h4 class="mb-4" th:text="${user.nickname}">이름</h4>
       <!-- 연락처 -->
       <div class="contacts">
-        <p class="mb-2"><span>연락처:</span> <span th:text="${user.get().phone}">000-0000-0000</span></p>
-        <p class="mb-2"><span>이메일:</span> <span th:text="${user.get().email}">example@example.com</span></p>
-        <p class="mb-2"><span>주소:</span> <span th:text="${user.get().address}">주소</span></p>
-        <p class="mb-2"><span>계좌번호:</span> <span th:text="${user.get().account}">000-0000-0000</span></p>
+        <p class="mb-2"><span>연락처:</span> <span th:text="${user.phone}">000-0000-0000</span></p>
+        <p class="mb-2"><span>이메일:</span> <span th:text="${user.email}">example@example.com</span></p>
+        <p class="mb-2"><span>주소:</span> <span th:text="${user.address}">주소</span></p>
+        <p class="mb-2"><span>계좌번호:</span> <span th:text="${user.account}">000-0000-0000</span></p>
         <!--판매자이면 판매 상품 확인 -->
-        <div th:if="${user.get().memberRole.toString() eq 'ROLE_SELLER'}">
+        <div th:if="${user.memberRole.toString() eq 'ROLE_SELLER'}">
           <table class="table table-striped">
             <thead>
             <tr>
@@ -64,7 +64,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product : ${user.get().products}">
+            <tr th:each="product : ${user.products}">
               <td th:text="${product.name}"></td>
               <td th:text="${product.price}"></td>
               <td th:text="${product.inventory}"></td>
@@ -73,7 +73,7 @@
           </table>
         </div>
         <!--구매자이면 구매 상품,리뷰 작성,문의 내용 확인 -->
-        <div th:if="${user.get().memberRole.toString() eq 'ROLE_BUYER'}">
+        <div th:if="${user.memberRole.toString() eq 'ROLE_BUYER'}">
           <table>
             <thead>
             <tr>
@@ -84,7 +84,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${user.get().orders}">
+            <tr th:each="order : ${user.orders}">
               <td th:text="${order.orderItems}"></td>
               <td>
                 <table>
@@ -104,7 +104,7 @@
       </div>
     </header>
     <div class="text-center mt-4">
-      <a class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${user.get().id})}">수정</a>
+      <a class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${user.id})}">수정</a>
       <a class="btn btn-secondary" th:href="@{/usr/member/loginSuccess}">나가기</a>
     </div>
   </div>

@@ -64,18 +64,16 @@ public class MemberController {
         return "usr/member/loginSuccess";
     }
 
-    @GetMapping("/{id}")
-    public String userPage(@PathVariable("id") Long id, Model model,
+    @GetMapping("/myPage")
+    public String userPage(Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
-        if (memberDetails.getMember().getId().equals(id)) {
 
-            model.addAttribute("user", memberService.getMemberId(id));
+
+            model.addAttribute("user", memberDetails.getMember());
 
             return "usr/member/memberPage";
-        } else {
-            return "redirect:/main";
         }
-    }
+
 
     @GetMapping("/modify/{id}")
     public String memberModify(@PathVariable("id") Long id, Model model,
