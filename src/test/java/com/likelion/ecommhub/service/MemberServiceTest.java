@@ -1,7 +1,8 @@
-package com.likelion.ecommhub.service;
+package com.likelion.ecommhub.Service;
 
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
+import com.likelion.ecommhub.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

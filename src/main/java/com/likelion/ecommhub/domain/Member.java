@@ -76,7 +76,7 @@ public class Member extends BaseEntity {
 
     public Member(String username, String password, String nickname,
         String email, String phone, String address,
-        MemberRole memberRole,String account, Cart cart) {
+        MemberRole memberRole, String account) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
@@ -85,17 +85,33 @@ public class Member extends BaseEntity {
         this.address = address;
         this.memberRole = memberRole;
         this.account = account;
-        this.cart = cart;
 
     }
 
     public void setPassword(String encPassword) {
-        this.password =password;
-    }
-
-    public void setMemberRole(String roleGuest) {
-        this.memberRole =memberRole;
         this.password = password;
     }
 
+    public void setMemberRole(String roleGuest) {
+        this.memberRole = memberRole;
+        this.password = password;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
+
+

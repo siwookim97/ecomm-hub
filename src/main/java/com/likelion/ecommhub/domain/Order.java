@@ -40,9 +40,8 @@ public class Order extends BaseEntity {
 
 
     @Builder
-    public Order(Member member, List<OrderItem> orderItems) {
+    public Order(Member member) {
         this.member = member;
-        this.orderItems = orderItems;
     }
 
     public void addOrderItem(OrderItem orderItem) {

@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.controller;
 
+import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
@@ -8,6 +9,8 @@ import com.likelion.ecommhub.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -61,11 +64,38 @@ public class MemberController {
         return "usr/member/loginSuccess";
     }
 
+    @GetMapping("/myPage")
+    public String userPage(Model model,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
 
-    @GetMapping("/seller/{nickname}")
-    public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
-        Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);
-        model.addAttribute("member", member);
-        return "usr/member/seller-info";
+
+            model.addAttribute("user", memberDetails.getMember());
+
+            return "usr/member/memberPage";
+        }
+
+
+    @GetMapping("/modify/{id}")
+    public String memberModify(@PathVariable("id") Long id, Model model,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
+        if (memberDetails.getMember().getId().equals(id)) {
+
+            model.addAttribute("user", memberService.getMemberId(id));
+
+            return "usr/member/memberModify";
+        } else {
+            return "redirect:/main";
+        }
+
     }
+
+    @PutMapping("/update/{id}")
+    public String userUpdate(@PathVariable("id") Long id, Member member,
+        @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
+        if (memberDetails.getMember().getId().equals(id)) {
+            memberService.memberModify(id, member);
+        }
+        return "redirect:/usr/member/{id}";
+    }
+
 }

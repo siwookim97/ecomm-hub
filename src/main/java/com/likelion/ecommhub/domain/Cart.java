@@ -36,12 +36,13 @@ public class Cart extends BaseEntity {
 	@OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<CartItem> cartItems = new ArrayList<>();
 
-	public static Cart createCart(Member member){
-		Cart cart = new Cart();
-		cart.member = member;
-		cart.cartItemCount = 0;
+	public Cart(int cartItemCount, Member member) {
+		this.cartItemCount = cartItemCount;
+		this.member = member;
+	}
 
-		return cart;
+	public static Cart createCart(Member member){
+		return new Cart(0, member);
 	}
 
   
