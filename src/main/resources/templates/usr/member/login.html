@@ -21,13 +21,16 @@
                     <label class="label">
                         <span class="label-text">아이디</span>
                     </label>
-                    <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered" autofocus />
+                    <input type="text" id="username" name="username" placeholder="아이디" class="input input-bordered"
+                           autofocus />
+                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                 </div>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">비밀번호</span>
                     </label>
                     <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered" />
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>
                 <button type="submit" class="btn btn-block btn-primary gap-1" >
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
