@@ -20,8 +20,8 @@
       <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{${item.image}}" alt="..." /></div>
       <div class="col-md-6">
         <a  th:href="@{/usr/member/seller/{id}(id=${item.getMember().id})}" class="link-primary" th:text="|판매자 : ${item.getMember().getNickname()}|">판매자 이름</a>
-        <div class="small mb-1" th:if="${item.getProductState().ON_SALE} == 0" th:text="|재고 : ${item.getInventory()}개|">재고</div>
-        <div class="small mb-1" th:unless="${item.getProductState().SOLD_OUT} == 0" th:text="|품절|">재고</div>
+        <div class="small mb-1" th:if="${item.getProductState().ordinal()} == 0" th:text="|재고 : ${item.getInventory()}개|">재고</div>
+        <div class="small mb-1" th:unless="${item.getProductState().ordinal()} == 0" th:text="|품절|">재고</div>
         <h1 class="display-5 fw-bolder" th:text="${item.getName()}">상품 이름</h1>
         <div class="fs-5 mb-5">
           <span th:text="|${item.getPrice()} 원|">아이템 가격</span>
@@ -58,7 +58,6 @@
         <script th:inline="javascript">
           /* <![CDATA[ */
           var leftitemcount = [[${item.Inventory}]];
-          const button = document.getElementById("basket")
 
           function additem() {
             var count = document.getElementById("amount").value
