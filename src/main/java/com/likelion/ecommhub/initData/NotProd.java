@@ -1,26 +1,19 @@
 package com.likelion.ecommhub.initData;
 
-import com.likelion.ecommhub.domain.CartItem;
-import com.likelion.ecommhub.repository.CartItemRepository;
+import com.likelion.ecommhub.domain.*;
+import com.likelion.ecommhub.repository.*;
+
 import java.util.List;
 import javax.annotation.PostConstruct;
 
-import com.likelion.ecommhub.domain.Cart;
-import com.likelion.ecommhub.domain.Member;
-import com.likelion.ecommhub.domain.MemberRole;
-
-import com.likelion.ecommhub.domain.Product;
-import com.likelion.ecommhub.domain.ProductState;
-import com.likelion.ecommhub.repository.CartRepository;
-import com.likelion.ecommhub.repository.MemberRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.likelion.ecommhub.repository.ProductRepository;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
-
+@AllArgsConstructor
 public class NotProd {
 
     private final MemberRepository memberRepository;
@@ -28,15 +21,6 @@ public class NotProd {
     private final ProductRepository productRepository;
     private final BCryptPasswordEncoder encoder;
     private final CartItemRepository cartItemRepository;
-
-    public NotProd(MemberRepository memberRepository, CartRepository cartRepository,
-                   ProductRepository productRepository, CartItemRepository cartItemRepository, BCryptPasswordEncoder encoder) {
-        this.memberRepository = memberRepository;
-        this.cartRepository = cartRepository;
-        this.productRepository = productRepository;
-        this.cartItemRepository = cartItemRepository;
-        this.encoder = encoder;
-    }
 
     @PostConstruct
     @Transactional
@@ -61,7 +45,7 @@ public class NotProd {
         memberRepository.save(member2);
         memberRepository.save(member3);
 
-        for (int i = 1; i <= 300; i++) {
+        for (int i = 1; i <= 100; i++) {
             String name = String.format("상품%d",i);
             Product product = new Product(name, 100, "상품상세설명",
                     (i % 2) == 0 ? 10 : 0,

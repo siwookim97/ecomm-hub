@@ -76,22 +76,28 @@ public class MemberController {
 
     @GetMapping("/myPage")
     public String userPage(Model model,
-        @AuthenticationPrincipal MemberDetails memberDetails) {
+                           @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        model.addAttribute("user", memberDetails.getMember());
+
+        return "usr/member/memberPage";
+    }
 
 
-            model.addAttribute("user", memberDetails.getMember());
-
-    @GetMapping("/seller/{nickname}")
-    public String showSellerInfo(@PathVariable("nickname") String nickname, Model model) {
-        Member member = memberService.findByNameFromSeller(MemberRole.ROLE_SELLER, nickname);
-        model.addAttribute("member", member);
-
-        return "usr/member/seller-info";
+    @GetMapping("/modify/{id}")
+    public String memberModify(@PathVariable("id") Long id, Model model,
+                               @AuthenticationPrincipal MemberDetails memberDetails) {
+        if (memberDetails.getMember().getId().equals(id)) {
+            model.addAttribute("user", memberService.getMemberId(id));
+            return "usr/member/memberModify";
+        } else {
+            return "redirect:/main";
+        }
     }
 
     @PutMapping("/update/{id}")
     public String userUpdate(@PathVariable("id") Long id, Member member,
-        @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
+                             @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
         if (memberDetails.getMember().getId().equals(id)) {
             memberService.memberModify(id, member);
         }
