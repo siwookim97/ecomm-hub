@@ -1,12 +1,17 @@
 package com.likelion.ecommhub.service;
 
+import static com.likelion.ecommhub.domain.Cart.createCart;
+import static com.likelion.ecommhub.domain.Order.createOrder;
+
 import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
+import com.likelion.ecommhub.domain.Order;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
 import com.likelion.ecommhub.util.RsData;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -59,6 +64,8 @@ public class MemberService {
 
         Member createdMember = createMember(request, MemberRole.ROLE_BUYER);
         memberRepository.save(createdMember);
+        createCart(createdMember);
+        createOrder(createdMember);
 
         return "JOINBUYER 성공";
     }
@@ -72,9 +79,9 @@ public class MemberService {
             requestDto.getPhone(),
             requestDto.getAddress(),
             memberRole,
-            requestDto.getAccount(),
-            new Cart()
+            requestDto.getAccount()
         );
+
     }
 
     public Member findMemberByUsername(String username) {
@@ -84,10 +91,80 @@ public class MemberService {
     public Optional<Member> getMemberId(Long memberId) {
         return memberRepository.findById(memberId);
     }
-
-    public Member findByNameFromSeller(MemberRole memberRole, String nickname) {
-        return memberRepository.findByMemberRoleAndNickname(memberRole, nickname);
+    public boolean emailDuplicationCheck(Long id, String email){
+        Optional<Member> existingMember = memberRepository.findByEmail(email);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean nicknameDuplicationCheck(Long id, String nickname){
+        Optional<Member> existingMember = memberRepository.findByNickname(nickname);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean addressDuplicationCheck(Long id, String address){
+        Optional<Member> existingMember = memberRepository.findByAddress(address);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean phoneDuplicationCheck(Long id, String phone){
+        Optional<Member> existingMember = memberRepository.findByPhone(phone);
+        if (existingMember.isPresent()) {
+            if (!existingMember.get().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    @Transactional
+    public void memberModify(Long id, Member member) throws Exception {
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if (optionalMember.isPresent()) {
+            Member update = optionalMember.get();
+            if (member.getNickname() != null && !member.getNickname().isEmpty()) {
+                if (nicknameDuplicationCheck(id, member.getNickname())) {
+                    throw new Exception("이미 사용중인 닉네임입니다.");
+                } else {
+                    update.setNickname(member.getNickname());
+                }
+            }
+            if (member.getEmail() != null && !member.getEmail().isEmpty()) {
+                if (emailDuplicationCheck(id, member.getEmail())) {
+                    throw new Exception("이미 사용중인 이메일입니다.");
+                } else {
+                    update.setEmail(member.getEmail());
+                }
+            }
+            if (member.getAddress() != null && !member.getAddress().isEmpty()) {
+                if (addressDuplicationCheck(id, member.getAddress())) {
+                    throw new Exception("이미 사용중인 주소입니다.");
+                } else {
+                    update.setAddress(member.getAddress());
+                }
+            }
+            if (member.getPhone() != null && !member.getPhone().isEmpty()) {
+                if (phoneDuplicationCheck(id, member.getPhone())) {
+                    throw new Exception("이미 사용중인 전화번호입니다.");
+                } else {
+                    update.setPhone(member.getPhone());
+                }
+            }
+            memberRepository.save(update);
+        } else {
+            throw new NoSuchElementException("이 아이디를 가진 유저가 없습니다 " + id);
+        }
+    }
 
 }

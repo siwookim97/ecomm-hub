@@ -56,8 +56,10 @@
         <td th:text="${productSearchResult.inventory}"></td>
         <td th:text="${productSearchResult.sellerName}"></td>
         <td>
-            <img th:if="${not #lists.isEmpty(productSearchResult.images)}"
-                 th:src="${productSearchResult.images.get(0).bucketObjectUrl}" alt="이미지" width="200" height="150">
+            <img th:src="${productSearchResult.image.bucketObjectUrl}"
+                 th:onerror="this.src='https://ecommhub-img.s3.ap-northeast-2.amazonaws.com/no_image.gif'"
+                 alt="이미지" width="200" height="150">
+        </td>
         <td th:text="${#temporals.format(productSearchResult.modifiedDate, 'yyyy-MM-dd HH시 mm분')}"></td>
         <td>
             <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}"

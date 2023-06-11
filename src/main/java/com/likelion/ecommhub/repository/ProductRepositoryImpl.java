@@ -30,7 +30,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public Page<ProductSearchResult> search(ProductSearchCondition condition, Pageable pageable) {
         List<Product> content = queryFactory
                 .selectFrom(product)
-                .leftJoin(product.images, image)
+                .leftJoin(product.image, image)
                 .where(
                         productNameContains(condition.getProductName()),
                         sellerNameContains(condition.getSellerName()),
@@ -43,13 +43,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
         List<ProductSearchResult> cont = content.stream()
                 .map(p -> new ProductSearchResult(p.getId(), p.getName(), p.getDetail(), p.getPrice(),
-                        p.getInventory(), p.getImages(), p.getMember().getId(), p.getMember().getNickname(), p.getModifiedDate()))
+                        p.getInventory(), p.getImage(), p.getMember().getId(), p.getMember().getNickname(), p.getModifiedDate()))
                 .collect(Collectors.toList());
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(product.count())
                 .from(product)
-                .leftJoin(product.images, image)
+                .leftJoin(product.image, image)
                 .where(
                         productNameContains(condition.getProductName()),
                         sellerNameContains(condition.getProductName()),

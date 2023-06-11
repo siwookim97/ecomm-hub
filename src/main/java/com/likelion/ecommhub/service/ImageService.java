@@ -27,33 +27,25 @@ public class ImageService {
     private String bucket;
 
     @Transactional
-    public String saveFile(List<MultipartFile> multipartFiles, Product product) throws IOException {
-        List<Image> images = new ArrayList<>();
+    public String saveFile(MultipartFile multipartFile, Product product) throws IOException {
+        String originalFilename = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
 
-        for (MultipartFile multipartFile : multipartFiles) {
-            String originalFilename = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(multipartFile.getSize());
+        metadata.setContentType(multipartFile.getContentType());
 
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(multipartFile.getSize());
-            metadata.setContentType(multipartFile.getContentType());
+        amazonS3.putObject(bucket, originalFilename, multipartFile.getInputStream(), metadata);
 
-            amazonS3.putObject(bucket, originalFilename, multipartFile.getInputStream(), metadata);
-
-            Image uploadImage = Image.builder()
-                    .bucketObjectUrl(amazonS3.getUrl(bucket, originalFilename).toString())
-                    .build();
-            uploadImage.setProduct(product);
-            images.add(uploadImage);
-        }
-
-        if (!images.isEmpty()) {
-            imageRepository.saveAll(images);
-        }
+        Image uploadImage = Image.builder()
+                .bucketObjectUrl(amazonS3.getUrl(bucket, originalFilename).toString())
+                .build();
+        uploadImage.insertIntoProduct(product);
+        imageRepository.save(uploadImage);
 
         return "saveFile 실행 완료";
     }
 
-    public void deleteImage(String originalFilename)  {
+    public void deleteImage(String originalFilename) {
         amazonS3.deleteObject(bucket, originalFilename);
     }
 }
