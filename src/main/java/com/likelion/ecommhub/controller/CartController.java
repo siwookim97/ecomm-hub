@@ -42,6 +42,9 @@ public class CartController {
     @GetMapping("/cart")
     public String myCartPage(Model model,
                              @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
+
         // 있는지 없는지 확인
         if (memberDetails != null) {
             // User의 장바구니를 가져온다.
@@ -57,7 +60,7 @@ public class CartController {
 
             model.addAttribute("cartItemList", cartItems);
             model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("user", memberService.getMemberId(memberDetails.getMember().getId()));
+            model.addAttribute("user", findMember);
 
             return "usr/member/cart";
         } else {
@@ -92,7 +95,7 @@ public class CartController {
             cartService.cartItemDelete(cartItemid);
         }
 
-        return "redirect:/usr/member/{memberid}/cart";
+        return "redirect:/usr/member/cart";
     }
 
 }
