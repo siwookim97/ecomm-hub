@@ -41,9 +41,13 @@ public class NotProd {
             "user2@email.com", "010-2222-1111", "address",
             MemberRole.ROLE_BUYER);
 
+        Member member4 = new Member("qwer", encoder.encode("qwer"), "qwer",
+                "qwer@email.com", "01012341234", "qwerAddress", MemberRole.ROLE_BUYER);
+
         memberRepository.save(member1);
         memberRepository.save(member2);
         memberRepository.save(member3);
+        memberRepository.save(member4);
 
         for (int i = 1; i <= 100; i++) {
             String name = String.format("상품%d",i);

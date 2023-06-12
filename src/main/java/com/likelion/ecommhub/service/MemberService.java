@@ -36,7 +36,7 @@ public class MemberService {
     @Transactional
     public RsData<Member> join(MemberJoinDto request) {
         if ( findByUsername(request.getUsername()).isPresent()) {
-            return RsData.of("F-1","해당 아이디(%s)는 이미 사용중입니다.".formatted(request.getUsername()));
+            return RsData.of("F-1", String.format("해당 아이디(%s)는 이미 사용중입니다.", request.getUsername()));
         }
 
         Member createdMember = createMember(request, MemberRole.ROLE_SELLER);
