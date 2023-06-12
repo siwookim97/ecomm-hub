@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -59,12 +58,12 @@ public class MemberController {
 
     @PostMapping("/join/buyer")
     public String joinBuyer(@ModelAttribute @Valid MemberJoinDto memberJoinDto) {
-        memberService.joinSeller(memberJoinDto);
+        memberService.joinBuyer(memberJoinDto);
 
         return "redirect:/usr/member/login";
     }
 
-    //@PreAuthorize("isAnonymous()")
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("memberLoginDto", new MemberLoginDto());
@@ -74,38 +73,36 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myPage")
-    public String userPage(Model model,
-        @AuthenticationPrincipal MemberDetails memberDetails) {
-        model.addAttribute("user", memberDetails.getMember());
+    public String myPage(Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
+        Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
+        model.addAttribute("member", findMember);
 
         return "usr/member/memberPage";
     }
 
-    @GetMapping("/modify/{id}")
-    public String memberModify(@PathVariable Long id, Model model,
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify")
+    public String memberModify(Model model,
                                @AuthenticationPrincipal MemberDetails memberDetails) {
-        if (memberDetails.getMember().getId().equals(id)) {
-            model.addAttribute("user", memberService.getMemberId(id));
-            return "usr/member/memberModify";
-        } else {
-            return "redirect:/main";
-        }
+
+        Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
+        model.addAttribute("member", findMember);
+        return "usr/member/memberModify";
     }
 
-    @PutMapping("/update/{id}")
-    public String userUpdate(@PathVariable("id") Long id, Member member,
-                             @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
-        if (memberDetails.getMember().getId().equals(id)) {
-            memberService.memberModify(id, member);
-        }
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/update")
+    public String userUpdate(@AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
+        Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
+        memberService.memberModify(memberDetails.getMember().getId(), findMember);
 
-        return "redirect:/usr/member/{id}";
+        return "redirect:/usr/member/myPage";
     }
-  
+
     @GetMapping("/seller/{id}")
-    public String memberInfo(@PathVariable("id") Long id, Model model) {
-        Member member = memberService.getMemberId(id).orElseThrow();
-        model.addAttribute("user", member);
+    public String memberInfo(@PathVariable Long id, Model model) {
+        Member findMember = memberService.getMemberById(id);
+        model.addAttribute("member", findMember);
 
         return "usr/member/memberPage";
     }

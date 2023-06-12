@@ -3,10 +3,8 @@ package com.likelion.ecommhub.service;
 import static com.likelion.ecommhub.domain.Cart.createCart;
 import static com.likelion.ecommhub.domain.Order.createOrder;
 
-import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
-import com.likelion.ecommhub.domain.Order;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.repository.MemberRepository;
 import com.likelion.ecommhub.util.RsData;
@@ -19,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +41,7 @@ public class MemberService {
 
         return RsData.of("S-1","회원가입이 완료되었습니다.",createdMember);
     }
+
     @Transactional
     public String joinSeller(MemberJoinDto request) {
         if (memberRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -84,13 +82,18 @@ public class MemberService {
 
     }
 
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id).get();
+    }
+
+    public Optional<Member> getMemberId(Long id) {
+        return memberRepository.findById(id);
+    }
+
     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username).get();
     }
 
-    public Optional<Member> getMemberId(Long memberId) {
-        return memberRepository.findById(memberId);
-    }
     public boolean emailDuplicationCheck(Long id, String email){
         Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {

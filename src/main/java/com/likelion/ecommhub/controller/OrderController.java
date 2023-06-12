@@ -43,7 +43,7 @@ public class OrderController {
 
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("orderItems", orderItemList);
-            model.addAttribute("user", memberService.getMemberId(id));
+            model.addAttribute("user", memberService.getMemberById(id));
 
             return "orderList";
         } else {
@@ -56,7 +56,7 @@ public class OrderController {
     public String cartCheckout(@PathVariable("id") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         if (memberDetails.getMember().getId().equals(id)) {
-            Member member = memberService.getMemberId(id).orElseThrow();
+            Member member = memberService.getMemberById(id);
 
             Cart userCart = cartService.findMemberCart(member.getId());
 
@@ -88,7 +88,7 @@ public class OrderController {
 
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("cartItems", userCartItems);
-            model.addAttribute("user", memberService.getMemberId(id));
+            model.addAttribute("user", memberService.getMemberById(id));
 
             return "redirect:/usr/member/{id}/cart";
         } else {

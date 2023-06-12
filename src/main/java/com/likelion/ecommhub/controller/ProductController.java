@@ -19,7 +19,6 @@ import com.likelion.ecommhub.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -79,12 +78,6 @@ public class ProductController {
         return "product/home";
     }
 
-//    @GetMapping("/view/nonlogin/{id}")
-//    public String nonLoginProductView(Model model, @PathVariable("id") Long id) {
-//        model.addAttribute("item", productService.findProductById(id));
-//        return "/product/productView";
-//    }
-
     @GetMapping("/view/{productId}")
     public String ProductView(Model model,
                               @PathVariable("productId") Long id,
@@ -102,7 +95,7 @@ public class ProductController {
         } else {
             Member member = memberDetails.getMember();
 
-            Member loginMember = memberService.getMemberId(member.getId()).orElseThrow();
+            Member loginMember = memberService.getMemberById(member.getId());
 
             int cartCount = 0;
             Cart memberCart = cartService.findMemberCart(loginMember.getId());
