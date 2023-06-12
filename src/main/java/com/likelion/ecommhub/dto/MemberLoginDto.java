@@ -2,7 +2,6 @@ package com.likelion.ecommhub.dto;
 
 import lombok.*;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

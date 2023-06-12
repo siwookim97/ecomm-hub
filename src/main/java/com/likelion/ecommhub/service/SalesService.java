@@ -5,11 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.likelion.ecommhub.domain.Sales;
 import com.likelion.ecommhub.dto.SalesDto;
 import com.likelion.ecommhub.repository.SalesRepository;
-
 
 import java.util.ArrayList;
 
