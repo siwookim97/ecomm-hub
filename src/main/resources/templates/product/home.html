@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{usr/layout/layout.html}">
+
 <head>
     <meta charset="UTF-8">
     <title>Product List</title>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sortSelect = document.querySelector('select[name="sortCode"]');
@@ -21,7 +22,7 @@
 
 </head>
 <body>
-
+<main layout:fragment="main" class="flex-grow justify-center">
 <form method="get" action="/product/search">
     <input type="text" name="productName" placeholder="상품 검색"/>
     <input type="text" name="sellerName" placeholder="판매자 검색"/>
@@ -98,6 +99,7 @@
 <form method="get" action="/product/enroll">
     <input type="submit" value="Add Product">
 </form>
+</main>
 </body>
 </html>
 
