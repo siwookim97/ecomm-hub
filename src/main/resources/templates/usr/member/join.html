@@ -4,6 +4,7 @@
 <head>
     <title>회원가입</title>
 </head>
+
 <body>
 <main layout:fragment="main" class="flex-grow flex items-center justify-center">
     <div class="max-w-2xl w-full px-4">
@@ -16,11 +17,67 @@
         </form>
 
         <br>
+        <form th:action="@{/usr/member/join}" th:object="${memberJoinDto}" method="post" class="flex flex-col gap-6">
+            <div class="form-control">
+                <label class="label" for="username">
+                    <span class="label-text">아이디</span>
+                </label>
+                <input type="text" id="username" name="username" placeholder="아이디" class="input input-bordered"
+                       autofocus />
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">비밀번호</span>
+                </label>
+                <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered" />
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">이름</span>
+                </label>
+                <input type="text" th:field="*{nickname}" placeholder="이름" class="input input-bordered" />
+                <span th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">이메일</span>
+                </label>
+                <input type="text" th:field="*{email}" placeholder="이메일" class="input input-bordered" />
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">전화번호</span>
+                </label>
+                <input type="text" th:field="*{phone}" placeholder="전화번호" class="input input-bordered" />
+                <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">주소</span>
+                </label>
+                <input type="text" th:field="*{address}" placeholder="주소" class="input input-bordered" />
+                <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label" for="account">
+                    <span class="label-text">계좌번호</span>
+                </label>
+                <input type="text" id="account" name="account" placeholder="계좌번호" class="input input-bordered" />
+            </div>
 
         <form th:action="@{/usr/member/join/seller}" method="get" class="flex flex-col gap-6">
             <button id="btn-join-2" type="submit" class="btn btn-block btn-primary gap-1">
                 <i class="fa-solid fa-user-plus"></i>
-                <span>판매자 회원가입</span>
+                <span> 회원가입</span>
             </button>
         </form>
 
@@ -33,5 +90,4 @@
     </div>
 </main>
 </body>
-
 </html>
