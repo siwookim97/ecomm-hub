@@ -88,7 +88,6 @@ public class MemberController {
     public String userPage(Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
 
-
             model.addAttribute("user", memberDetails.getMember());
 
             return "usr/member/memberPage";
@@ -116,6 +115,12 @@ public class MemberController {
             memberService.memberModify(id, member);
         }
         return "redirect:/usr/member/{id}";
+    }
+    @GetMapping("/seller/{id}")
+    public String memberInfo(@PathVariable("id") Long id, Model model) {
+        Member member = memberService.getMemberId(id).orElseThrow();
+        model.addAttribute("user", member);
+        return "usr/member/memberPage";
     }
 
 }

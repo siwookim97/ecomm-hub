@@ -5,7 +5,16 @@ import com.likelion.ecommhub.domain.Product;
 import com.likelion.ecommhub.domain.Review;
 import com.likelion.ecommhub.dto.ReviewDto;
 import com.likelion.ecommhub.repository.ReviewRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +44,8 @@ public class ReviewService {
         // TODO: 주문 테이블 검증로직 필요
 
         reviewRepository.deleteById(reviewId);
+    }
+    public List<Review> getReviewList(Long productId) {
+        return reviewRepository.findByProductId(productId);
     }
 }
