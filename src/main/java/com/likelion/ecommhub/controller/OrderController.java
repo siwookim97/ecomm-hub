@@ -31,7 +31,6 @@ public class OrderController {
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @GetMapping("/usr/member/orderList")
     public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        System.out.println();
         Long id = memberDetails.getMember().getId();
 
         List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
