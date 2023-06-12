@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,11 +38,12 @@ public class CartController {
 
     // 내 장바구니 조회
     // {memberid} pathvariable 삭제 -> @PreAuth``` ->
-    @GetMapping("/{memberid}/cart")
-    public String myCartPage(@PathVariable("memberid") Long memberid, Model model,
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @GetMapping("/cart")
+    public String myCartPage(Model model,
                              @AuthenticationPrincipal MemberDetails memberDetails) {
-        // 로그인 User == 접속 User
-        if (memberDetails.getMember().getId().equals(memberid)) {
+        // 있는지 없는지 확인
+        if (memberDetails != null) {
             // User의 장바구니를 가져온다.
             Cart cart = memberDetails.getMember().getCart();
             // 장바구니의 아이템을 가져온다.
@@ -55,7 +57,7 @@ public class CartController {
 
             model.addAttribute("cartItemList", cartItems);
             model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("user", memberService.getMemberId(memberid));
+            model.addAttribute("user", memberService.getMemberId(memberDetails.getMember().getId()));
 
             return "usr/member/cart";
         } else {
@@ -64,9 +66,13 @@ public class CartController {
     }
 
     //특정 상품 장바구니에 추가
-    @PostMapping("/{memberid}/cart/{productId}")
-    public String myCartAdd(@PathVariable("memberid") Long memberId, @PathVariable("productId") Long productId, @RequestParam("amount") int count) {
-        Optional<Member> member = memberService.getMemberId(memberId);
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @PostMapping("/cart/{productId}")
+    public String myCartAdd(@PathVariable("productId") Long productId,
+                            @RequestParam("amount") int count,
+                            @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        Optional<Member> member = memberService.getMemberId(memberDetails.getMember().getId());
         Optional<Product> product = productService.getProductId(productId);
 
         if (member.isPresent() && product.isPresent()) {
@@ -77,10 +83,11 @@ public class CartController {
     }
 
     //특정 상품 장바구니에서 삭제
-    @GetMapping("/{memberid}/cart/{cartItemid}/delete")
-    public String myCartDelete(@PathVariable("memberid") Long memberid, @PathVariable("cartItemid") Long cartItemid
-    ) {
-        Optional<Member> member = memberService.getMemberId(memberid);
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @GetMapping("/cart/{cartItemid}/delete")
+    public String myCartDelete(@PathVariable("cartItemid") Long cartItemid,
+                               @AuthenticationPrincipal MemberDetails memberDetails) {
+        Optional<Member> member = memberService.getMemberId(memberDetails.getMember().getId());
         if (member.isPresent()) {
             cartService.cartItemDelete(cartItemid);
         }
