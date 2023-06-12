@@ -43,7 +43,7 @@ public class OrderService {
     @Transactional
     public OrderItem addCartOrder(Long productId, Long memberId, CartItem cartItem) {
 
-        Member member = memberService.getMemberId(memberId).orElseThrow();
+        Member member = memberService.getMemberById(memberId);
 
         OrderItem orderItem = OrderItem.createOrderItem(productId, member, cartItem);
 

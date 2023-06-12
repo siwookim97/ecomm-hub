@@ -78,8 +78,7 @@ public class ProductController {
         return "product/home";
     }
 
-
-    @GetMapping("/view/{productId}")
+  @GetMapping("/view/{productId}")
     public String ProductView(Model model, @PathVariable("productId") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails) {
 

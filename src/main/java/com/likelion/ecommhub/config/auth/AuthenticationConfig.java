@@ -24,12 +24,13 @@ public class AuthenticationConfig {
                 .formLogin()
                 .loginPage("/usr/member/login")
                 .loginProcessingUrl("/usr/member/login")
-                .defaultSuccessUrl("/product/home")
+                .defaultSuccessUrl("/usr/member/myPage")
                 .failureUrl("/usr/member/login")
-//                .and()
-//                .logout()
-//                .logoutRequestMatcher("/member/logout")
-//                .logoutSuccessUrl("/member/logoutSuccess")
+                .and()
+                .logout()
+                .logoutUrl("/usr/member/logout")
+                .logoutSuccessUrl("/usr/member/login")
+                .deleteCookies("JSESSIONID", "remember-me")
                 .and().build();
     }
 }
