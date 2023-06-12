@@ -92,10 +92,10 @@ public class ProductController {
                 model.addAttribute("item", productService.findProductById(id));
                 model.addAttribute("user", member);
             } else {
-                Member loginMember = memberService.getMemberId(member.getId()).orElseThrow();
+                Member findMember = memberService.getMemberById(member.getId());
 
                 int cartCount = 0;
-                Cart memberCart = cartService.findMemberCart(loginMember.getId());
+                Cart memberCart = cartService.findMemberCart(findMember.getId());
                 List<CartItem> cartItems = cartService.MemberCartView(memberCart);
 
                 for (CartItem cartItem : cartItems) {

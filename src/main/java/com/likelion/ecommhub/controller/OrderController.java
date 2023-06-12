@@ -58,9 +58,9 @@ public class OrderController {
 
         Long id = memberDetails.getMember().getId();
 
-        Member member = memberService.getMemberId(id).orElseThrow();
+        Member findMember = memberService.getMemberById(id);
 
-        Cart userCart = cartService.findMemberCart(member.getId());
+        Cart userCart = cartService.findMemberCart(findMember.getId());
 
         List<CartItem> userCartItems = cartService.MemberCartView(userCart);
 
@@ -68,7 +68,7 @@ public class OrderController {
         for (CartItem cartItem : userCartItems) {
             if (cartItem.getProduct().getInventory() == 0
                 || cartItem.getProduct().getInventory() < cartItem.getCount()) {
-                return "redirect:/main";
+                return "redirect:/product/home";
             }
             totalPrice += cartItem.getCount() * cartItem.getProduct().getPrice();
         }
@@ -79,20 +79,20 @@ public class OrderController {
             cartItem.getProduct().decreaseInventory(cartItem.getCount());
 
             OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
-                member.getId(), cartItem);
+                findMember.getId(), cartItem);
 
             orderItemList.add(orderItem);
         }
 
-        orderService.addOrder(member, orderItemList);
+        orderService.addOrder(findMember, orderItemList);
 
         cartService.cartDelete(id);
 
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("cartItems", userCartItems);
-        model.addAttribute("user", memberService.getMemberId(id));
+        model.addAttribute("user", findMember);
 
-        return "redirect:/usr/member/{id}/cart";
+        return "redirect:/usr/member/cart";
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
@@ -116,7 +116,7 @@ public class OrderController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("orderItems", orderItemList);
 
-        return "redirect:/member/orderList/{id}";
+        return "redirect:/member/orderList";
 
     }
 }
