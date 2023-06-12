@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="utf-8">
   <!-- 부트스트랩 CDN 링크 -->
@@ -72,39 +72,12 @@
             </tbody>
           </table>
         </div>
-        <!--구매자이면 구매 상품,리뷰 작성,문의 내용 확인 -->
-        <div th:if="${user.memberRole.toString() eq 'ROLE_BUYER'}">
-          <table>
-            <thead>
-            <tr>
-              <th>주문 번호</th>
-              <th>상품명</th>
-              <th>가격</th>
-              <th>수량</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="order : ${user.orders}">
-              <td th:text="${order.orderItems}"></td>
-              <td>
-                <table>
-                  <tbody>
-                  <tr th:each="item : ${order.orderItems}">
-                    <td th:text="${item.productName}"></td>
-                    <td th:text="${item.productPrice}"></td>
-                    <td th:text="${item.productCount}"></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
     </header>
     <div class="text-center mt-4">
-      <a class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${user.id})}">수정</a>
+      <div sec:authorize="isAuthenticated()" th:with="sellerId = ${#authentication.principal.member.id}">
+        <a th:if="${sellerId == user.id}" class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${user.id})}">수정</a>
+      </div>
       <a class="btn btn-secondary" th:href="@{/usr/member/loginSuccess}">나가기</a>
     </div>
   </div>

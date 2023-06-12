@@ -2,7 +2,6 @@ package com.likelion.ecommhub.controller;
 
 import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Member;
-import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberLoginDto;
 import com.likelion.ecommhub.service.MemberService;
@@ -12,11 +11,8 @@ import com.likelion.ecommhub.util.Ut;
 
 import lombok.RequiredArgsConstructor;
 
-
 import org.springframework.security.access.prepost.PreAuthorize;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,25 +52,31 @@ public class MemberController {
     }
 
     @PostMapping("/join/seller")
-    public String joinSeller(@ModelAttribute() @Valid MemberJoinDto memberJoinDto) {
+    public String joinSeller(@ModelAttribute @Valid MemberJoinDto memberJoinDto) {
         memberService.joinSeller(memberJoinDto);
 
         return "redirect:/usr/member/login";
+    }
+  
+    @PostMapping("/join/buyer")
+    public String joinSeller(@ModelAttribute @Valid MemberJoinDto memberJoinDto) {
+        memberService.joinSeller(memberJoinDto);
+
+        return "redirect:/usr/member/login";
+    }
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
     public String showJoinForm(Model model) {
         model.addAttribute("memberJoinDto", new MemberJoinDto());
+      
         return "usr/member/join";
     }
-
 
     @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
     public String join(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto) {
-
         RsData<Member> joinRs = memberService.join(memberJoinDto);
-
         if(joinRs.isFail()){
             return rq.historyBack(joinRs);
         }
@@ -90,9 +92,8 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-
+    public String loginForm(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto, Model model) {
         RsData<Member> joinRs = memberService.join(memberJoinDto);
-
         if(joinRs.isFail()){
             return rq.historyBack(joinRs);
         }
@@ -101,7 +102,7 @@ public class MemberController {
     }
   
     @PreAuthorize("isAnonymous()")
-    @GetMapping("/loginForm")
+    @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("memberLoginDto", new MemberLoginDto());
 
@@ -116,9 +117,8 @@ public class MemberController {
 
     @GetMapping("/myPage")
     public String userPage(Model model,
-                           @AuthenticationPrincipal MemberDetails memberDetails) {
-
-        model.addAttribute("user", memberDetails.getMember());
+        @AuthenticationPrincipal MemberDetails memberDetails) {
+            model.addAttribute("user", memberDetails.getMember());
 
         return "usr/member/memberPage";
     }
@@ -142,6 +142,13 @@ public class MemberController {
             memberService.memberModify(id, member);
         }
         return "redirect:/usr/member/{id}";
+    }
+  
+    @GetMapping("/seller/{id}")
+    public String memberInfo(@PathVariable("id") Long id, Model model) {
+        Member member = memberService.getMemberId(id).orElseThrow();
+        model.addAttribute("user", member);
+        return "usr/member/memberPage";
     }
 
 }

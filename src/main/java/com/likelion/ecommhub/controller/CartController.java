@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,8 +62,8 @@ public class CartController {
 		}
 	}
 	//특정 상품 장바구니에 추가
-	@GetMapping("/{memberid}/cart/{productId}")
-	public String myCartAdd(@PathVariable("memberid") Long memberId, @PathVariable("productId") Long productId, @RequestParam("count") int count) {
+	@PostMapping("/{memberid}/cart/{productId}")
+	public String myCartAdd(@PathVariable("memberid") Long memberId, @PathVariable("productId") Long productId, @RequestParam("amount") int count) {
 		Optional<Member> member = memberService.getMemberId(memberId);
 		Optional<Product> product = productService.getProductId(productId);
 

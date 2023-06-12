@@ -1,17 +1,28 @@
 package com.likelion.ecommhub.controller;
 
+import static com.likelion.ecommhub.domain.MemberRole.ROLE_SELLER;
+
+import com.likelion.ecommhub.config.auth.MemberDetails;
+import com.likelion.ecommhub.domain.Cart;
+import com.likelion.ecommhub.domain.CartItem;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Product;
+import com.likelion.ecommhub.domain.Review;
 import com.likelion.ecommhub.dto.ProductDto;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
 import com.likelion.ecommhub.dto.ProductSearchResult;
+import com.likelion.ecommhub.service.CartService;
 import com.likelion.ecommhub.service.ImageService;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.ProductService;
+import com.likelion.ecommhub.service.ReviewService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +39,8 @@ public class ProductController {
     private final MemberService memberService;
     private final ProductService productService;
     private final ImageService imageService;
+    private final CartService cartService;
+    private final ReviewService reviewService;
 
     @GetMapping("/home")
     public String showProducts(Model model, ProductSearchCondition condition,
@@ -63,5 +76,44 @@ public class ProductController {
         model.addAttribute("pagingProducts", pagingProducts);
 
         return "product/home";
+    }
+    @GetMapping("/view/nonlogin/{id}")
+    public String nonLoginProductView(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("item", productService.findProductById(id));
+        return "/product/productView";
+
+    }
+    @GetMapping("/view/{productId}")
+    public String ProductView(Model model, @PathVariable("productId") Long id, @AuthenticationPrincipal MemberDetails memberDetails) {
+        if(memberDetails.getMember().getMemberRole().equals(ROLE_SELLER)) {
+            Member member = memberDetails.getMember();
+
+            List<Review> reviews = reviewService.getReviewList(id);
+            model.addAttribute("reviews", reviews);
+            model.addAttribute("item", productService.findProductById(id));
+            model.addAttribute("user", member);
+
+            return "/product/productView";
+        } else {
+            Member member = memberDetails.getMember();
+
+            Member loginMember = memberService.getMemberId(member.getId()).orElseThrow();
+
+            int cartCount = 0;
+            Cart memberCart = cartService.findMemberCart(loginMember.getId());
+            List<CartItem> cartItems = cartService.MemberCartView(memberCart);
+
+            for(CartItem cartItem : cartItems) {
+                cartCount += cartItem.getCount();
+            }
+
+            List<Review> reviews = reviewService.getReviewList(id);
+            model.addAttribute("reviews", reviews);
+            model.addAttribute("cartCount", cartCount);
+            model.addAttribute("item", productService.findProductById(id));
+            model.addAttribute("user", member);
+
+            return "/product/productView";
+        }
     }
 }
