@@ -116,7 +116,7 @@
         alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
         $.ajax({
           type: "POST",
-          url: "/member/cart/checkout/" + /*[[${user.get().id}]]*/,
+          url: "/usr/member/cart/checkout/" + /*[[${user.get().id}]]*/,
           contentType: "application/json",
           data: JSON.stringify(cartItems),
           dataType: "json"
