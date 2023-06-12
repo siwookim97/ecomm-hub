@@ -75,12 +75,10 @@ public class CartController {
                             @RequestParam("amount") int count,
                             @AuthenticationPrincipal MemberDetails memberDetails) {
 
-        Optional<Member> member = memberService.getMemberId(memberDetails.getMember().getId());
-        Optional<Product> product = productService.getProductId(productId);
+        Member member = memberService.getMemberById(memberDetails.getMember().getId());
+        Product product = productService.getProductById(productId);
 
-        if (member.isPresent() && product.isPresent()) {
-            cartService.addCart(member.get(), product.get(), count);
-        }
+        cartService.addCart(member, product, count);
 
         return "usr/member/cartAdd";
     }
@@ -90,8 +88,10 @@ public class CartController {
     @GetMapping("/cart/{cartItemid}/delete")
     public String myCartDelete(@PathVariable("cartItemid") Long cartItemid,
                                @AuthenticationPrincipal MemberDetails memberDetails) {
-        Optional<Member> member = memberService.getMemberId(memberDetails.getMember().getId());
-        if (member.isPresent()) {
+
+        Member member = memberService.getMemberById(memberDetails.getMember().getId());
+
+        if(member != null) {
             cartService.cartItemDelete(cartItemid);
         }
 

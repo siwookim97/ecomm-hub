@@ -94,4 +94,8 @@ public class ProductService {
 
         return normalizeKeyword;
     }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).get();
+    }
 }
