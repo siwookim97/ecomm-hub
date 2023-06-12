@@ -45,14 +45,15 @@ public class ProductController {
     @GetMapping("/home")
     public String showProducts(Model model, ProductSearchCondition condition,
                                @PageableDefault(size = 12) Pageable pageable) {
+
         Page<ProductSearchResult> pagingProducts = productService.search(condition, pageable);
         model.addAttribute("pagingProducts", pagingProducts);
+
         return "product/home";
     }
 
     @GetMapping("/enroll")
     public String showEnrollProductForm(Model model) {
-
         return "product/enroll";
     }
 
@@ -77,14 +78,18 @@ public class ProductController {
 
         return "product/home";
     }
-    @GetMapping("/view/nonlogin/{id}")
-    public String nonLoginProductView(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("item", productService.findProductById(id));
-        return "/product/productView";
 
-    }
+//    @GetMapping("/view/nonlogin/{id}")
+//    public String nonLoginProductView(Model model, @PathVariable("id") Long id) {
+//        model.addAttribute("item", productService.findProductById(id));
+//        return "/product/productView";
+//    }
+
     @GetMapping("/view/{productId}")
-    public String ProductView(Model model, @PathVariable("productId") Long id, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public String ProductView(Model model,
+                              @PathVariable("productId") Long id,
+                              @AuthenticationPrincipal MemberDetails memberDetails) {
+
         if(memberDetails.getMember().getMemberRole().equals(ROLE_SELLER)) {
             Member member = memberDetails.getMember();
 

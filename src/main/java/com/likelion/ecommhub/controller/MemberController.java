@@ -6,8 +6,6 @@ import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberLoginDto;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.util.Rq;
-import com.likelion.ecommhub.util.RsData;
-import com.likelion.ecommhub.util.Ut;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +30,9 @@ public class MemberController {
     private final Rq rq;
 
     @GetMapping("/join")
-    public String join() {
+    public String join(Model model) {
+        model.addAttribute("memberJoinDto", new MemberJoinDto());
+
         return "usr/member/join";
     }
 
@@ -57,51 +56,15 @@ public class MemberController {
 
         return "redirect:/usr/member/login";
     }
-  
+
     @PostMapping("/join/buyer")
-    public String joinSeller(@ModelAttribute @Valid MemberJoinDto memberJoinDto) {
+    public String joinBuyer(@ModelAttribute @Valid MemberJoinDto memberJoinDto) {
         memberService.joinSeller(memberJoinDto);
 
         return "redirect:/usr/member/login";
     }
 
-    @PreAuthorize("isAnonymous()")
-    @GetMapping("/join")
-    public String showJoinForm(Model model) {
-        model.addAttribute("memberJoinDto", new MemberJoinDto());
-      
-        return "usr/member/join";
-    }
-
-    @PreAuthorize("isAnonymous()")
-    @PostMapping("/join")
-    public String join(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto) {
-        RsData<Member> joinRs = memberService.join(memberJoinDto);
-        if(joinRs.isFail()){
-            return rq.historyBack(joinRs);
-        }
-
-        return rq.redirectWithMsg("/usr/member/loginForm", joinRs);
-    }
-
-    @PostMapping("/join/buyer")
-    public String joinBuyer(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto) {
-        memberService.joinBuyer(memberJoinDto);
-
-        return "redirect:/usr/member/login";
-    }
-
-    @GetMapping("/login")
-    public String loginForm(@ModelAttribute("memberJoinDto") @Valid MemberJoinDto memberJoinDto, Model model) {
-        RsData<Member> joinRs = memberService.join(memberJoinDto);
-        if(joinRs.isFail()){
-            return rq.historyBack(joinRs);
-        }
-
-        return rq.redirectWithMsg("/usr/member/loginForm", joinRs);
-    }
-  
-    @PreAuthorize("isAnonymous()")
+    //@PreAuthorize("isAnonymous()")
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("memberLoginDto", new MemberLoginDto());
@@ -109,23 +72,17 @@ public class MemberController {
         return "usr/member/login";
     }
 
-    @GetMapping("/loginSuccess")
-    public String loginSuccessTest() {
-
-        return "usr/member/loginSuccess";
-    }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/myPage")
     public String userPage(Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
-            model.addAttribute("user", memberDetails.getMember());
+        model.addAttribute("user", memberDetails.getMember());
 
         return "usr/member/memberPage";
     }
 
-
     @GetMapping("/modify/{id}")
-    public String memberModify(@PathVariable("id") Long id, Model model,
+    public String memberModify(@PathVariable Long id, Model model,
                                @AuthenticationPrincipal MemberDetails memberDetails) {
         if (memberDetails.getMember().getId().equals(id)) {
             model.addAttribute("user", memberService.getMemberId(id));
@@ -141,6 +98,7 @@ public class MemberController {
         if (memberDetails.getMember().getId().equals(id)) {
             memberService.memberModify(id, member);
         }
+
         return "redirect:/usr/member/{id}";
     }
   
@@ -148,7 +106,7 @@ public class MemberController {
     public String memberInfo(@PathVariable("id") Long id, Model model) {
         Member member = memberService.getMemberId(id).orElseThrow();
         model.addAttribute("user", member);
+
         return "usr/member/memberPage";
     }
-
 }

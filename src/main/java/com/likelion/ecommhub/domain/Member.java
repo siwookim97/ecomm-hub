@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Table(uniqueConstraints = {
     @UniqueConstraint(name = "USERNAME_UK", columnNames = {"USERNAME"})
 })
+@ToString
 public class Member extends BaseEntity {
 
     @Id

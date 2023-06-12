@@ -46,7 +46,7 @@ public class NoticeController {
     }
 
     @GetMapping("/modify/{noticeId}")
-    public String showModifyForm(@PathVariable Long noticeId,Model model) {
+    public String showModifyForm(@PathVariable Long noticeId, Model model) {
         Notice notice = noticeService.findById(noticeId);
         model.addAttribute("notice", notice);
         model.addAttribute("noticeDto", new NoticeDto());
