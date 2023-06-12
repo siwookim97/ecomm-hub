@@ -11,6 +11,7 @@ import com.likelion.ecommhub.service.OrderService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,98 +28,95 @@ public class OrderController {
     private final CartService cartService;
     private final OrderService orderService;
 
-    @GetMapping("/member/orderList/{id}")
-    public String orderList(@PathVariable("id") Long id,
-        @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        if (memberDetails.getMember().getId().equals(id)) {
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @GetMapping("/member/orderList")
+    public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
 
-            List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
+        Long id = memberDetails.getMember().getId();
 
-            int totalCount = 0;
-            for (OrderItem orderItem : orderItemList) {
-                if (orderItem.getIsCancel() != 1) {
-                    totalCount += orderItem.getProductCount();
-                }
-            }
+        List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
 
-            model.addAttribute("totalCount", totalCount);
-            model.addAttribute("orderItems", orderItemList);
-            model.addAttribute("user", memberService.getMemberById(id));
-
-            return "orderList";
-        } else {
-            return "redirect:/main";
-        }
-    }
-
-    @Transactional
-    @PostMapping("/member/cart/checkout/{id}")
-    public String cartCheckout(@PathVariable("id") Long id,
-        @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        if (memberDetails.getMember().getId().equals(id)) {
-            Member member = memberService.getMemberById(id);
-
-            Cart userCart = cartService.findMemberCart(member.getId());
-
-            List<CartItem> userCartItems = cartService.MemberCartView(userCart);
-
-            int totalPrice = 0;
-            for (CartItem cartItem : userCartItems) {
-                if (cartItem.getProduct().getInventory() == 0
-                    || cartItem.getProduct().getInventory() < cartItem.getCount()) {
-                    return "redirect:/main";
-                }
-                totalPrice += cartItem.getCount() * cartItem.getProduct().getPrice();
-            }
-
-            List<OrderItem> orderItemList = new ArrayList<>();
-
-            for (CartItem cartItem : userCartItems) {
-                cartItem.getProduct().decreaseInventory(cartItem.getCount());
-
-                OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
-                    member.getId(), cartItem);
-
-                orderItemList.add(orderItem);
-            }
-
-            orderService.addOrder(member, orderItemList);
-
-            cartService.cartDelete(id);
-
-            model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("cartItems", userCartItems);
-            model.addAttribute("user", memberService.getMemberById(id));
-
-            return "redirect:/usr/member/{id}/cart";
-        } else {
-            return "redirect:/main";
-        }
-    }
-
-    @PostMapping("/member/{id}/checkout/cancel/{orderItemId}")
-    public String cancelOrder(@PathVariable("id") Long id,
-        @PathVariable("orderItemId") Long orderItemId, Model model,
-        @AuthenticationPrincipal MemberDetails memberDetails) {
-        if (memberDetails.getMember().getId().equals(id)) {
-            OrderItem cancelItem = orderService.findOrderitem(orderItemId);
-
-            List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
-            int totalCount = 0;
-            for (OrderItem orderItem : orderItemList) {
+        int totalCount = 0;
+        for (OrderItem orderItem : orderItemList) {
+            if (orderItem.getIsCancel() != 1) {
                 totalCount += orderItem.getProductCount();
             }
-            totalCount = totalCount - cancelItem.getProductCount();
-
-            orderService.orderCancel(cancelItem);
-
-            model.addAttribute("totalCount", totalCount);
-            model.addAttribute("orderItems", orderItemList);
-
-            return "redirect:/member/orderList/{id}";
-
-        } else {
-            return "redirect:/main";
         }
+
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("orderItems", orderItemList);
+        model.addAttribute("user", memberService.getMemberId(id));
+
+        return "orderList";
+    }
+
+
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @PostMapping("/member/cart/checkout")
+    public String cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+
+        Long id = memberDetails.getMember().getId();
+
+        Member findMember = memberService.getMemberById(id);
+
+        Cart userCart = cartService.findMemberCart(findMember.getId());
+
+        List<CartItem> userCartItems = cartService.MemberCartView(userCart);
+
+        int totalPrice = 0;
+        for (CartItem cartItem : userCartItems) {
+            if (cartItem.getProduct().getInventory() == 0
+                || cartItem.getProduct().getInventory() < cartItem.getCount()) {
+                return "redirect:/product/home";
+            }
+            totalPrice += cartItem.getCount() * cartItem.getProduct().getPrice();
+        }
+
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (CartItem cartItem : userCartItems) {
+            cartItem.getProduct().decreaseInventory(cartItem.getCount());
+
+            OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
+                findMember.getId(), cartItem);
+
+            orderItemList.add(orderItem);
+        }
+
+        orderService.addOrder(findMember, orderItemList);
+
+        cartService.cartDelete(id);
+
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("cartItems", userCartItems);
+        model.addAttribute("user", findMember);
+
+        return "redirect:/usr/member/cart";
+    }
+
+    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @PostMapping("/member/checkout/cancel/{orderItemId}")
+    public String cancelOrder(@PathVariable("orderItemId") Long orderItemId, Model model,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        Long id = memberDetails.getMember().getId();
+
+        OrderItem cancelItem = orderService.findOrderitem(orderItemId);
+
+        List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
+        int totalCount = 0;
+        for (OrderItem orderItem : orderItemList) {
+            totalCount += orderItem.getProductCount();
+        }
+        totalCount = totalCount - cancelItem.getProductCount();
+
+        orderService.orderCancel(cancelItem);
+
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("orderItems", orderItemList);
+
+        return "redirect:/member/orderList";
+
     }
 }

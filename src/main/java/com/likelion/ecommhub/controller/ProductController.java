@@ -43,7 +43,7 @@ public class ProductController {
 
     @GetMapping("/home")
     public String showProducts(Model model, ProductSearchCondition condition,
-                               @PageableDefault(size = 12) Pageable pageable) {
+        @PageableDefault(size = 12) Pageable pageable) {
 
         Page<ProductSearchResult> pagingProducts = productService.search(condition, pageable);
         model.addAttribute("pagingProducts", pagingProducts);
@@ -58,7 +58,7 @@ public class ProductController {
 
     @PostMapping("/enroll")
     public String enroll(@ModelAttribute("productDto") @Valid ProductDto productDto,
-                         Principal principal) throws IOException {
+        Principal principal) throws IOException {
 
         Member findMember = memberService.findMemberByUsername(principal.getName());
         Product enrolledProduct = productService.enroll(productDto, findMember);
@@ -69,7 +69,7 @@ public class ProductController {
 
     @GetMapping("/search")
     public String searchProduct(ProductSearchCondition condition, Model model,
-                                @PageableDefault(size = 12) Pageable pageable) {
+        @PageableDefault(size = 12) Pageable pageable) {
 
         Page<ProductSearchResult> pagingProducts = productService.search(condition, pageable);
         model.addAttribute("condition", condition);
@@ -78,40 +78,39 @@ public class ProductController {
         return "product/home";
     }
 
-    @GetMapping("/view/{productId}")
-    public String ProductView(Model model,
-                              @PathVariable("productId") Long id,
-                              @AuthenticationPrincipal MemberDetails memberDetails) {
+  @GetMapping("/view/{productId}")
+    public String ProductView(Model model, @PathVariable("productId") Long id,
+        @AuthenticationPrincipal MemberDetails memberDetails) {
 
-        if(memberDetails.getMember().getMemberRole().equals(ROLE_SELLER)) {
+        if (memberDetails != null) {
             Member member = memberDetails.getMember();
 
-            List<Review> reviews = reviewService.getReviewList(id);
-            model.addAttribute("reviews", reviews);
-            model.addAttribute("item", productService.findProductById(id));
-            model.addAttribute("user", member);
+            if (member.getMemberRole().equals(ROLE_SELLER)) {
+                List<Review> reviews = reviewService.getReviewList(id);
+                model.addAttribute("reviews", reviews);
+                model.addAttribute("item", productService.findProductById(id));
+                model.addAttribute("user", member);
+            } else {
+                Member findMember = memberService.getMemberById(member.getId());
 
-            return "/product/productView";
-        } else {
-            Member member = memberDetails.getMember();
+                int cartCount = 0;
+                Cart memberCart = cartService.findMemberCart(findMember.getId());
+                List<CartItem> cartItems = cartService.MemberCartView(memberCart);
 
-            Member loginMember = memberService.getMemberById(member.getId());
+                for (CartItem cartItem : cartItems) {
+                    cartCount += cartItem.getCount();
+                }
 
-            int cartCount = 0;
-            Cart memberCart = cartService.findMemberCart(loginMember.getId());
-            List<CartItem> cartItems = cartService.MemberCartView(memberCart);
-
-            for(CartItem cartItem : cartItems) {
-                cartCount += cartItem.getCount();
+                List<Review> reviews = reviewService.getReviewList(id);
+                model.addAttribute("reviews", reviews);
+                model.addAttribute("cartCount", cartCount);
+                model.addAttribute("item", productService.findProductById(id));
+                model.addAttribute("user", member);
             }
-
-            List<Review> reviews = reviewService.getReviewList(id);
-            model.addAttribute("reviews", reviews);
-            model.addAttribute("cartCount", cartCount);
+        } else {
             model.addAttribute("item", productService.findProductById(id));
-            model.addAttribute("user", member);
-
-            return "/product/productView";
         }
+
+        return "/product/productView";
     }
 }

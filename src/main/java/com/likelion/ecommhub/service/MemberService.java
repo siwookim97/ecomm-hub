@@ -90,7 +90,7 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
-    public Member findMemberByUsername(String username) {
+     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username).get();
     }
 
@@ -103,6 +103,7 @@ public class MemberService {
         }
         return false;
     }
+  
     public boolean nicknameDuplicationCheck(Long id, String nickname){
         Optional<Member> existingMember = memberRepository.findByNickname(nickname);
         if (existingMember.isPresent()) {
@@ -112,6 +113,7 @@ public class MemberService {
         }
         return false;
     }
+  
     public boolean addressDuplicationCheck(Long id, String address){
         Optional<Member> existingMember = memberRepository.findByAddress(address);
         if (existingMember.isPresent()) {
@@ -121,6 +123,7 @@ public class MemberService {
         }
         return false;
     }
+  
     public boolean phoneDuplicationCheck(Long id, String phone){
         Optional<Member> existingMember = memberRepository.findByPhone(phone);
         if (existingMember.isPresent()) {
@@ -169,5 +172,4 @@ public class MemberService {
             throw new NoSuchElementException("이 아이디를 가진 유저가 없습니다 " + id);
         }
     }
-
 }
