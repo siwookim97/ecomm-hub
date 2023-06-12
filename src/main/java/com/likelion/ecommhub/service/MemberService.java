@@ -91,6 +91,9 @@ public class MemberService {
     public Optional<Member> getMemberId(Long memberId) {
         return memberRepository.findById(memberId);
     }
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id).get();
+    }
     public boolean emailDuplicationCheck(Long id, String email){
         Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
