@@ -63,13 +63,10 @@
         </td>
         <td th:text="${#temporals.format(productSearchResult.modifiedDate, 'yyyy-MM-dd HH시 mm분')}"></td>
         <td>
-            <a th:href="@{/inquiry/enroll/{productId}(productId=${productSearchResult.productId})}"
-               class="btn btn-primary">문의 등록</a>
+            <a th:href="@{/product/view/{productId}(productId=${productSearchResult.productId})}"
+               class="btn btn-primary">상세보기</a>
         </td>
-        <td>
-            <a th:href="@{/review/enroll/{productId}(productId=${productSearchResult.productId})}"
-               class="btn btn-primary">리뷰 등록</a>
-        </td>
+
     </tr>
 </table>
 
