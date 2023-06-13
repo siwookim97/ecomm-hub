@@ -72,7 +72,7 @@ public class CartController {
 
         cartService.addCart(member, product, count);
 
-        return "usr/member/cartAdd";
+        return "redirect:/usr/member/cart";
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
