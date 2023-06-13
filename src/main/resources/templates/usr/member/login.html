@@ -32,11 +32,15 @@
                     <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered" />
                     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>
-                <button type="submit" class="btn btn-block btn-primary gap-1" >
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <button type="submit" class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500" >
+                    <i class="fa-solid fa-arrow-right-to-bracket "></i>
                     <span>로그인</span>
                 </button>
             </form>
+        </div>
+
+        <div class="flex flex-wrap justify-center">
+            <a href="/usr/member/join" class="btn btn-link text-black">회원가입</a>
         </div>
     </div>
 </main>
