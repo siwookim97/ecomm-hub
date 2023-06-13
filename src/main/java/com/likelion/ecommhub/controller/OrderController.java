@@ -29,9 +29,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    @GetMapping("/member/orderList")
+    @GetMapping("/usr/member/orderList")
     public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-
         Long id = memberDetails.getMember().getId();
 
         List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
@@ -50,18 +49,14 @@ public class OrderController {
         return "orderList";
     }
 
-
     @Transactional
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @PostMapping("/member/cart/checkout")
     public String cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
 
         Long id = memberDetails.getMember().getId();
-
         Member findMember = memberService.getMemberById(id);
-
         Cart userCart = cartService.findMemberCart(findMember.getId());
-
         List<CartItem> userCartItems = cartService.MemberCartView(userCart);
 
         int totalPrice = 0;
@@ -74,13 +69,10 @@ public class OrderController {
         }
 
         List<OrderItem> orderItemList = new ArrayList<>();
-
         for (CartItem cartItem : userCartItems) {
             cartItem.getProduct().decreaseInventory(cartItem.getCount());
-
             OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
                 findMember.getId(), cartItem);
-
             orderItemList.add(orderItem);
         }
 
@@ -101,7 +93,6 @@ public class OrderController {
         @AuthenticationPrincipal MemberDetails memberDetails) {
 
         Long id = memberDetails.getMember().getId();
-
         OrderItem cancelItem = orderService.findOrderitem(orderItemId);
 
         List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
@@ -117,6 +108,5 @@ public class OrderController {
         model.addAttribute("orderItems", orderItemList);
 
         return "redirect:/member/orderList";
-
     }
 }

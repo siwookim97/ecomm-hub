@@ -2,6 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
 <head>
   <title th:text="${item.getName()}">타이틀 - 상품 이름</title>
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-box {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      max-width: 400px;
+    }
+  </style>
 </head>
 <body>
 <main layout:fragment="main" class="flex-grow justify-center">
@@ -32,9 +53,9 @@
         <p class="lead" th:text="${item.getDetail()}">아이템 설명</p>
 
         <div sec:authorize="hasRole('ROLE_BUYER') and isAuthenticated()">
-        <form class="d-flex" onsubmit="return additem();" th:action="@{/usr/member/{memberid}/cart/{productId}(memberid=${user.id}, productId=${item.id})}" method="post">
-          <input class="form-control text-center me-3" id="amount" name="amount" type="num" value="1" style="max-width: 3rem"/>
-          <button class="btn btn-outline-dark flex-shrink-0" id="basket" type="submit"><i class="bi-cart4 me-1"></i>장바구니</button>
+        <form class="d-flex" onsubmit="event.preventDefault(); additem();" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}" method="post">
+          <input id="amount" name="amount" type="num" value="1">
+          <button class="btn btn-outline-dark">장바구니</button>
         </form>
         </div>
         <form class="d-flex" sec:authorize="isAnonymous()">
@@ -63,23 +84,48 @@
           var leftitemcount = [[${item.Inventory}]];
 
           function additem() {
-            var count = document.getElementById("amount").value
+            var count = document.getElementById("amount").value;
             if (isNaN(count)) {
-              alert("숫자를 입력해주세요.")
-              return false
+              alert("숫자를 입력해주세요.");
+              return false;
             } else if (count > leftitemcount) {
-              alert("재고가 부족합니다.")
-              return false
+              alert("재고가 부족합니다.");
+              return false;
             } else {
-              return true
+              openModal(); // 모달 열기
+              setTimeout(closeModal, 10000); // 10초 후 모달 자동 닫기
+              return true;
             }
           }
+
+          function openModal() {
+            const modalOverlay = document.getElementById('modalOverlay');
+            modalOverlay.style.display = 'flex';
+          }
+
+          function closeModal() {
+            const modalOverlay = document.getElementById('modalOverlay');
+            modalOverlay.style.display = 'none';
+          }
+
+          document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+              closeModal();
+            }
+          });
           /* ]]> */
         </script>
       </div>
     </div>
   </div>
 </section>
+  <div class="modal-overlay" id="modalOverlay" style="display: none;">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">장바구니에 상품이 추가되었습니다!</h3>
+      <p class="py-4">Press ESC key or click outside to close</p>
+      <button class="btn" onclick="closeModal()">close</button>
+    </div>
+  </div>
 <!-- 리뷰 테이블 -->
 <table class="table">
   <thead class="table-dark">

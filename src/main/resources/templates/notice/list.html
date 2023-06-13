@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -87,7 +87,7 @@
       <td th:text="${notice.noticeType}"></td>
       <td th:text="${notice.title}"></td>
       <td th:text="${notice.content}"></td>
-      <td>
+      <td sec:authorize="hasRole('ROLE_ADMIN')">
         <form th:action="@{|/notice/modify/${notice.id}|}" method="get">
           <input type="hidden" name="noticeId" th:value="${notice.id}" />
           <button type="submit" class="btn btn-primary">수정</button>
@@ -102,7 +102,7 @@
   </table>
 </div>
 
-<div class="create-button-container">
+<div class="create-button-container" sec:authorize="hasRole('ROLE_ADMIN')">
   <form th:action="@{/notice/create}" method="get">
     <button type="submit" class="btn btn-success">등록</button>
   </form>

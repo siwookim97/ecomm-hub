@@ -1,6 +1,5 @@
 package com.likelion.ecommhub.domain;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,7 +17,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
