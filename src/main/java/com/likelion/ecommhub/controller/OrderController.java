@@ -46,12 +46,12 @@ public class OrderController {
         model.addAttribute("orderItems", orderItemList);
         model.addAttribute("user", memberService.getMemberId(id));
 
-        return "orderList";
+        return "usr/member/orderList";
     }
 
     @Transactional
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    @PostMapping("/member/cart/checkout")
+    @PostMapping("/usr/member/cart/checkout")
     public String cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
 
         Long id = memberDetails.getMember().getId();
@@ -88,7 +88,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
-    @PostMapping("/member/checkout/cancel/{orderItemId}")
+    @PostMapping("/usr/member/checkout/cancel/{orderItemId}")
     public String cancelOrder(@PathVariable("orderItemId") Long orderItemId, Model model,
         @AuthenticationPrincipal MemberDetails memberDetails) {
 
@@ -107,6 +107,6 @@ public class OrderController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("orderItems", orderItemList);
 
-        return "redirect:/member/orderList";
+        return "redirect:/usr/member/orderList";
     }
 }

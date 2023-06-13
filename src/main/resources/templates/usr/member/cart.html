@@ -13,7 +13,6 @@
   </style>
 </head>
 <body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <main layout:fragment="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="table-responsive">
@@ -69,20 +68,16 @@
     </div>
   </div>
 </main>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="/js/scripts.js"></script>
-<script type="text/javascript" th:inline="javascript" th:if="${user.isPresent()}">
+<script layout:fragment="script" type="text/javascript" th:inline="javascript" th:if="${user != null}">
   /*<![CDATA[*/
   $(document).ready(function() {
     $("#iamportPayment").click(function() {
       payment();
     });
   })
-  var buyerEmail = /*[[${user.get().email}]]*/ 'email@email.com';
-  var buyerName = /*[[${user.get().nickname}]]*/ 'user';
-  var buyerTel = /*[[${user.get().phone}]]*/ '010-0000-0000';
+  var buyerEmail = /*[[${user.email}]]*/ 'email@email.com';
+  var buyerName = /*[[${user.nickname}]]*/ 'user';
+  var buyerTel = /*[[${user.phone}]]*/ '010-0000-0000';
   var totalPrice = /*[[${totalPrice}]]*/ 'default';
 
   var cartItems = [] ;
@@ -115,7 +110,7 @@
         alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
         $.ajax({
           type: "POST",
-          url: "/usr/member/cart/checkout/" + /*[[${user.get().id}]]*/,
+          url: "/member/cart/checkout/" + /*[[${user.id}]]*/,
           contentType: "application/json",
           data: JSON.stringify(cartItems),
           dataType: "json"
@@ -128,6 +123,5 @@
   }
   /*]]>*/
 </script>
-
 </body>
 </html>
