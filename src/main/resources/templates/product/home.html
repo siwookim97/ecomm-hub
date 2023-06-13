@@ -4,48 +4,77 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
+    <title>제품 리스트</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sortSelect = document.querySelector('select[name="sortCode"]');
+        /*        document.addEventListener('DOMContentLoaded', function () {
+                    const sortSelect = document.querySelector('select[name="sortCode"]');
 
-            sortSelect.addEventListener('change', function () {
-                const selectedValue = sortSelect.value;
-                const urlParams = new URLSearchParams(window.location.search);
-                urlParams.set('sortCode', selectedValue);
-                const newUrl = window.location.pathname + '?' + urlParams.toString();
-                window.location.href = newUrl;
-            });
-        });
+                    sortSelect.addEventListener('change', function () {
+                        const selectedValue = sortSelect.value;
+                        const urlParams = new URLSearchParams(window.location.search);
+                        urlParams.set('sortCode', selectedValue);
+                        const newUrl = window.location.pathname + '?' + urlParams.toString();
+                        window.location.href = newUrl;
+                    });
+                });*/
+
+        function sendSortRequest(sortCode) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('sortCode', sortCode);
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+            window.location.href = newUrl;
+        }
     </script>
 
     <style>
-        .outter {
-            padding: 10px;
+        #title {
+            font-size: 30px;
+        }
+
+        #title-form {
+            justify-content: space-between;
         }
     </style>
 </head>
+
 <body>
 <main layout:fragment="main" class="flex-grow justify-center">
     <div class="max-w-[100vw] px-6 pb-16 xl:pr-2">
-        <form method="get" action="/product/search">
-            <input type="text" name="productName" placeholder="상품 검색"/>
-            <input type="text" name="sellerName" placeholder="판매자 검색"/>
-            <select name="productState">
-                <option value="">제품 상태</option>
-                <option value="ON_SALE">판매중</option>
-                <option value="SOLD_OUT">품절</option>
-            </select> <input type="submit" value="Search"/>
-        </form>
-        <h1 class="text-center">Product List</h1>
-        <select name="sortCode">
-            <option value="0">정렬</option>
-            <option value="1">날짜순</option>
-            <option value="2">재고량순</option>
-            <option value="3">가격</option>
-        </select>
-
+        <div class="flex flex-col gap-6">
+            <div class="prose max-w-4xl ">
+                <h1 id="title" class="text-left px-6 py-6 text-cyan-500 font-bold font-sans">Product List</h1>
+                <div class="dropdown dropdown-right dropdown-end">
+                    <label tabindex="0" class="btn m-1">정렬</label>
+                    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a onclick="sendSortRequest(0)">정렬</a></li>
+                        <li><a onclick="sendSortRequest(1)">날짜순</a></li>
+                        <li><a onclick="sendSortRequest(2)">재고량순</a></li>
+                        <li><a onclick="sendSortRequest(3)">가격</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <input type="radio" name="radio-1" class="radio" checked/>
+                    <input type="radio" name="radio-1" class="radio"/>
+                    <input type="radio" name="radio-1" class="radio"/>
+                </div>
+                <!--                <select name="sortCode" class="justify-end">
+                                    <option value="0">정렬</option>
+                                    <option value="1">날짜순</option>
+                                    <option value="2">재고량순</option>
+                                    <option value="3">가격</option>
+                                </select>-->
+                <!--        <form method="get" action="/product/search">-->
+                <!--            <input type="text" name="productName" placeholder="상품 검색"/>-->
+                <!--            <input type="text" name="sellerName" placeholder="판매자 검색"/>-->
+                <!--            <select name="productState">-->
+                <!--                <option value="">제품 상태</option>-->
+                <!--                <option value="ON_SALE">판매중</option>-->
+                <!--                <option value="SOLD_OUT">품절</option>-->
+                <!--            </select> <input type="submit" value="Search"/>-->
+                <!--        </form>-->
+            </div>
+        </div>
         <div class="not-prose grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             <tr th:each="productSearchResult , loop : ${pagingProducts}">
                 <div class="card w-200 h-80 bg-base-100 shadow-xl shadow-xl image-full">
