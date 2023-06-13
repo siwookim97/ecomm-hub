@@ -6,19 +6,13 @@
 <body>
 <main layout:fragment="main" class="flex-grow flex items-center justify-center">
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-        }
-
         .contact-form {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            width: 700px;
+            height: 700px;
         }
 
         .contact-form h1 {
@@ -56,6 +50,9 @@
         .btn-primary:hover {
             background-color: #0069d9;
         }
+        textarea.autosize {
+            min-height: 300px;
+        }
     </style>
 <div class="contact-form">
     <form th:action="@{/review/enroll/{productId}(productId=${productId})}" th:object="${reviewDto}" method="post" >
@@ -67,8 +64,9 @@
         </div>
         <div class="form-group">
             <label for="content">리뷰 내용</label>
-            <textarea class="form-control" id="content" rows="5" name="content"></textarea>
+            <textarea class="form-control autosize" onkeydown="resize(this)" onkeyup="resize(this)" id="content" rows="5" name="content"></textarea>
         <button type="submit" class="btn btn-primary btn-block"> 리뷰 등록</button>
+        </div>
     </form>
 </div>
 </main>
