@@ -10,7 +10,7 @@
     <div class="max-w-2xl w-full px-4">
 
         <form th:action="@{/usr/member/join/buyer}" method="get" class="flex flex-col gap-6">
-            <button id="btn-join-1" type="submit" class="btn btn-block btn-primary gap-1">
+            <button id="btn-join-1" type="submit" class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500">
                 <i class="fa-solid fa-user-plus"></i>
                 <span>구매자 회원가입</span>
             </button>
@@ -18,7 +18,7 @@
 
         <br>
         <form th:action="@{/usr/member/join/seller}" method="get" class="flex flex-col gap-6">
-            <button id="btn-join-2" type="submit" class="btn btn-block btn-primary gap-1">
+            <button id="btn-join-2" type="submit" class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500">
                 <i class="fa-solid fa-user-plus"></i>
                 <span>판매자 회원가입</span>
             </button>
@@ -26,9 +26,7 @@
 
 
         <div class="flex flex-wrap justify-center">
-            <a href="/usr/member/login" class="btn btn-link">로그인</a>
-            <a href="#" class="btn btn-link">아이디찾기</a>
-            <a href="#" class="btn btn-link">비밀번호찾기</a>
+            <a href="/usr/member/login" class="btn btn-link text-black">로그인</a>
         </div>
     </div>
 </main>
