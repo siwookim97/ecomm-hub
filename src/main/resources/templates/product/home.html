@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{usr/layout/layout.html}">
 
@@ -22,65 +21,64 @@
     </script>
 
     <style>
-        .product {
-            width: 500px;
-            height: 250px;
-            background: white;
-            margin: 0 auto;
+        .outter {
+            padding: 10px;
         }
     </style>
 </head>
 <body>
 <main layout:fragment="main" class="flex-grow justify-center">
-    <form method="get" action="/product/search">
-        <input type="text" name="productName" placeholder="상품 검색"/>
-        <input type="text" name="sellerName" placeholder="판매자 검색"/>
-        <select name="productState">
-            <option value="">제품 상태</option>
-            <option value="ON_SALE">판매중</option>
-            <option value="SOLD_OUT">품절</option>
-        </select> <input type="submit" value="Search"/>
-    </form>
-    <h1 class="text-center">Product List</h1>
-    <select name="sortCode">
-        <option value="0">정렬</option>
-        <option value="1">날짜순</option>
-        <option value="2">재고량순</option>
-        <option value="3">가격</option>
-    </select>
+    <div class="max-w-[100vw] px-6 pb-16 xl:pr-2">
+        <form method="get" action="/product/search">
+            <input type="text" name="productName" placeholder="상품 검색"/>
+            <input type="text" name="sellerName" placeholder="판매자 검색"/>
+            <select name="productState">
+                <option value="">제품 상태</option>
+                <option value="ON_SALE">판매중</option>
+                <option value="SOLD_OUT">품절</option>
+            </select> <input type="submit" value="Search"/>
+        </form>
+        <h1 class="text-center">Product List</h1>
+        <select name="sortCode">
+            <option value="0">정렬</option>
+            <option value="1">날짜순</option>
+            <option value="2">재고량순</option>
+            <option value="3">가격</option>
+        </select>
 
-    <div class="not-prose grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-        <tr th:each="productSearchResult , loop : ${pagingProducts}">
-            <div class="card w-200 h-80 bg-base-100 shadow-xl shadow-xl image-full">
-                <figure>
-                    <img th:if="${productSearchResult.image != null}"
-                         th:src="${productSearchResult.image.bucketObjectUrl}"
-                         alt="이미지"/>
-                    <img th:unless="${productSearchResult.image != null}"
-                         th:src="@{//resource/static/img/no_image.gif}"
-                         alt="이미지"/>
-                </figure>
-                <div class="card-body">
-                    <h2 th:text="${productSearchResult.productName}" class="card-title">제품 이름</h2>
-                    <p>
-                        <span th:text="${productSearchResult.detail}"></span>
-                        <span th:if="${#strings.length(productSearchResult.detail) > 50}">...</span>
-                    </p>
-                    <div class="card-actions justify-end">
-                        <div th:text="${productSearchResult.inventory > 0 ? 'ON SALE!' : 'SOLD OUT!'}"
-                             class="badge"
-                             th:classappend="${productSearchResult.inventory > 0 ? 'badge-success' : 'badge-error'}">
-                            제품 상태
-                        </div>
+        <div class="not-prose grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            <tr th:each="productSearchResult , loop : ${pagingProducts}">
+                <div class="card w-200 h-80 bg-base-100 shadow-xl shadow-xl image-full">
+                    <figure>
+                        <img th:if="${productSearchResult.image != null}"
+                             th:src="${productSearchResult.image.bucketObjectUrl}"
+                             alt="이미지"/>
+                        <img th:unless="${productSearchResult.image != null}"
+                             th:src="@{//resource/static/img/no_image.gif}"
+                             alt="이미지"/>
+                    </figure>
+                    <div class="card-body">
+                        <h2 th:text="${productSearchResult.productName}" class="card-title">제품 이름</h2>
+                        <p>
+                            <span th:text="${productSearchResult.detail}"></span>
+                            <span th:if="${#strings.length(productSearchResult.detail) > 50}">...</span>
+                        </p>
                         <div class="card-actions justify-end">
-                            <button class="btn bg-gradient-to-r from-sky-500 to-indigo-500">구경하기</button>
+                            <div th:text="${productSearchResult.inventory > 0 ? 'ON SALE!' : 'SOLD OUT!'}"
+                                 class="badge"
+                                 th:classappend="${productSearchResult.inventory > 0 ? 'badge-success' : 'badge-error'}">
+                                제품 상태
+                            </div>
+                            <div class="card-actions justify-end">
+                                <button class="btn bg-gradient-to-r from-sky-500 to-indigo-500">구경하기</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </tr>
-    </div>
+            </tr>
+        </div>
 
+    </div>
     <div th:if="${!pagingProducts.isEmpty()}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!pagingProducts.hasPrevious} ? 'disabled'">
@@ -109,6 +107,7 @@
             <input type="submit" value="Add Product">
         </form>
     </div>
+    <br><br><br><br>
 </main>
 </body>
 </html>
