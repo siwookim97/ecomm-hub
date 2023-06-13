@@ -14,10 +14,14 @@
                     </svg>
                 </label>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-gradient-to-r from-sky-500 to-indigo-500 rounded-box w-52">
-                    <li><a>로그인</a></li>
-                    <li><a>회원가입</a></li>
-                    <li><a>로그아웃</a></li>
-                    <li><a>판매상품 보러가기</a></li>
+
+                    <li sec:authorize="isAnonymous()"><a href="/usr/member/login">로그인</a></li>
+
+                    <li sec:authorize="isAnonymous()"><a href="/usr/member/join">회원가입</a></li>
+
+                    <li sec:authorize="isAuthenticated()"><a href="/usr/member/logout">로그아웃</a></li>
+
+                    <li><a href="/product/home">판매상품 보러가기</a></li>
                 </ul>
             </div>
         </div>
