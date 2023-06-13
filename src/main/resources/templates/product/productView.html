@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
   <title th:text="${item.getName()}">타이틀 - 상품 이름</title>
-  <!-- Favicon-->
-  <link rel="icon" type="image/x-icon" href="../../../../../../../Downloads/startbootstrap-shop-item-gh-pages/assets/favicon.ico" />
-  <!-- Bootstrap icons-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="/resource/style.css" rel="stylesheet" />
 </head>
 <body>
-<section class="py-5">
+<main layout:fragment="main" class="flex-grow justify-center">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+  </style>
+  <section class="py-5">
   <div class="container px-4 px-lg-5 my-5">
     <div class="row gx-4 gx-lg-5 align-items-center">
-      <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{${item.image}}" alt="..." /></div>
+      <div class="col-md-6">
+        <img class="card-img-top mb-5 mb-md-0" th:if="${item.image != null}" th:src="${item.image.getBucketObjectUrl()}"  alt="이미지" width="200" height="150">
+        <img class="card-img-top mb-5 mb-md-0" th:unless="${item.image != null}" th:src="@{//resource/static/img/no_image.gif}"
+             alt="이미지" width="200" height="150">
+      </div>
       <div class="col-md-6">
         <a  th:href="@{/usr/member/seller/{id}(id=${item.getMember().id})}" class="link-primary" th:text="|판매자 : ${item.getMember().getNickname()}|">판매자 이름</a>
         <div class="small mb-1" th:if="${item.getProductState().ordinal()} == 0" th:text="|재고 : ${item.getInventory()}개|">재고</div>
@@ -77,13 +80,6 @@
     </div>
   </div>
 </section>
-<!-- Footer-->
-<footer class="my-5 pt-5 text-muted text-center text-small">
-</footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="/js/scripts.js"></script>
 <!-- 리뷰 테이블 -->
 <table class="table">
   <thead class="table-dark">
@@ -105,5 +101,6 @@
   </tr>
   </tbody>
 </table>
+</main>
 </body>
 </html>
