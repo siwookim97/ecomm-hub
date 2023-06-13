@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<div class="footer" th:fragment="footer">
-  <footer class="page-footer font-small cyan darken-3">
-    <div class="footer-copyright text-center py-3">
-      &copy; EcommHub - LikeLion 쇼핑몰 프로젝트
+<html layout:decorate="~{common/layout.html}">
+<body>
+<header>
+  <footer class="footer footer-center p-4 bg-base-300 text-base-content" layout:fragment="footer">
+    <div>
+      <p>Copyright © EcommHub - LikeLion 쇼핑몰 프로젝트</p>
     </div>
   </footer>
-</div>
+</header>
+</body>
 </html>

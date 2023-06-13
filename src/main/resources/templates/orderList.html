@@ -1,40 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
   <title>주문내역</title>
-  <!-- Favicon-->
-  <link rel="icon" type="image/x-icon" href="../../../../../../../Downloads/startbootstrap-shop-item-gh-pages/assets/favicon.ico" />
-  <!-- Bootstrap icons-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="/resource/style.css" rel="stylesheet" />
   <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
+    .title{
+      display: flex;
+      justify-content: center;
     }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
+    .table-responsive table {
+      width: 100%;
     }
   </style>
 </head>
 <body>
-<div th:replace="fragments/header::header"></div>
-<div class="container-fluid mt-3">
-  <div class="row">
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+    <main layout:fragment="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">주문내역</h1>
+        <h1 class="text-center fs-2">주문내역</h1>
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -86,17 +70,12 @@
               <h4 class="my-0 fw-normal">총 주문량</h4>
             </div>
             <form class="card-body" method="post">
-              <h1 class="card-title pricing-card-title" th:text="|${totalCount} 개|">$0</h1>
+              <h1 class="card-text pricing-card-text text-center" th:text="|${totalCount} 개|">$0</h1>
 
             </form>
           </div>
         </div>
       </div>
     </main>
-  </div>
-</div>
-<footer class="my-5 pt-5 text-muted text-center text-small">
-  <div th:replace="fragments/footer::footer"></div>
-</footer>
 </body>
 </html>
