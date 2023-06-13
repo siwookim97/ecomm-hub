@@ -72,7 +72,7 @@ public class CartController {
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @PostMapping("/cart/{productId}")
     public String myCartAdd(@PathVariable("productId") Long productId,
-                            @RequestParam("amount") int count,
+                            @RequestParam("count") int count,
                             @AuthenticationPrincipal MemberDetails memberDetails) {
 
         Member member = memberService.getMemberById(memberDetails.getMember().getId());
@@ -80,7 +80,7 @@ public class CartController {
 
         cartService.addCart(member, product, count);
 
-        return "usr/member/cartAdd";
+        return "redirect:/usr/member/cart";
     }
 
     //특정 상품 장바구니에서 삭제
