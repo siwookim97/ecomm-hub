@@ -7,9 +7,7 @@ toastr.options = {
     preventDuplicates: false,
     onclick: null,
     showDuration: "300",
-    hideDuration: "1000",
-    timeOut: "5000",
-    extendedTimeOut: "1000",
+    hideDuration: "5000",
     showEasing: "swing",
     hideEasing: "linear",
     showMethod: "fadeIn",
@@ -42,9 +40,4 @@ function toastWarning(msg) {
     if (needToShow) {
         toastr["warning"](pureMsg, "경고");
     }
-}
-
-// 어떠한 기능을 살짝 늦게(0.1 초 미만)
-function setTimeoutZero(callback) {
-    setTimeout(callback);
 }

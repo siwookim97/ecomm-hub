@@ -72,7 +72,7 @@ public class CartController {
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @PostMapping("/cart/{productId}")
     public String myCartAdd(@PathVariable("productId") Long productId,
-                            @RequestParam("count") int count,
+                            @RequestParam("amount") int count,
                             @AuthenticationPrincipal MemberDetails memberDetails) {
 
         Member member = memberService.getMemberById(memberDetails.getMember().getId());

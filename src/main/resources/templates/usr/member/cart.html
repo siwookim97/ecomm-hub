@@ -41,7 +41,7 @@
         <td th:text="${cartItem.count}">수량</td>
         <td>
           <form th:action="@{/usr/member/cart/{productId}(productId=${cartItem.product.id})}" method="post" id="cartForm-${cartItem.product.id}">
-            <input type="hidden" name="count" value="1">
+            <input type="hidden" name="amount" value="1">
             <button class="btn modal-button" >수량추가</button>
           </form>
         </td>
