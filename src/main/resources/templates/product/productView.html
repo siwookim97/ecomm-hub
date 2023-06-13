@@ -53,9 +53,9 @@
         <p class="lead" th:text="${item.getDetail()}">아이템 설명</p>
 
         <div sec:authorize="hasRole('ROLE_BUYER') and isAuthenticated()">
-        <form class="d-flex" onsubmit="return additem();" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}" method="post">
+        <form class="d-flex" onsubmit="event.preventDefault(); additem();" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}" method="post">
           <input id="amount" name="amount" type="num" value="1">
-          <button class="btn btn-outline-dark" onclick="openModal()">장바구니</button>
+          <button class="btn btn-outline-dark">장바구니</button>
         </form>
         </div>
         <form class="d-flex" sec:authorize="isAnonymous()">
