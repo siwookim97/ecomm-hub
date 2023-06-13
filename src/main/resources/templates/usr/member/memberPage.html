@@ -1,41 +1,28 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <meta charset="utf-8">
-  <!-- 부트스트랩 CDN 링크 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <!-- 폰트 연결-->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&amp;family=Oswald:wght@500&amp;family=Roboto+Mono:wght@200&amp;family=Roboto:wght@300&amp;display=swap"
-      rel="stylesheet">
-  <!-- js 파일 연결 -->
   <title>About</title>
-  <style>
-    .nickname h4 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-    }
-    .contacts p {
-      font-size: 16px;
-      color: #555;
-    }
-    .contacts p span {
-      font-weight: bold;
-      color: #000;
-    }
-    .contacts table {
-      margin-top: 20px;
-    }
-  </style>
 </head>
 
 <body>
-<header>
-</header>
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+<style>
+  .nickname h4 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  .contacts p {
+    font-size: 16px;
+    color: #555;
+  }
+  .contacts p span {
+    font-weight: bold;
+    color: #000;
+  }
+  .contacts table {
+    margin-top: 20px;
+  }
+</style>
 <div class="menu-bar bg-dark">
   <div class="container">
     <!-- 목차 내용 -->
@@ -87,5 +74,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.14.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</main>
 </body>
 </html>

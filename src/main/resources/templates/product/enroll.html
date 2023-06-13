@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Product Enroll</title>
-    <link rel="stylesheet" href="/resource/mailForm.css">
-    <script src="/resource/mailForm.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
 
+<body>
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -26,17 +19,63 @@
             }
         }
     </script>
-
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .contact-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .contact-form h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+        }
         #preview {
             width: 420px;
             height: auto;
             border: 3px solid #ccc;
         }
     </style>
-</head>
-
-<body>
 <div class="contact-form">
     <form th:action="@{/product/enroll}" th:object="${productDto}" method="post" enctype="multipart/form-data">
         <h1>Add Product</h1>
@@ -65,5 +104,6 @@
         <button type="submit" class="btn btn-primary btn-block"> 제품 등록</button>
     </form>
 </div>
+</main>
 </body>
 </html>
