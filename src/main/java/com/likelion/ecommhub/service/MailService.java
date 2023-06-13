@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.likelion.ecommhub.dto.MailDto;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional

@@ -9,8 +9,7 @@
         <label tabindex="0" class="btn btn-ghost btn-circle">
           <i class="fa-solid fa-bars"></i>
         </label>
-        <ul tabindex="0"
-            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-64">
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-64">
           <li th:if="${@rq.logout}">
             <a href="/usr/member/login">
               <th:block th:utext="#{c.iconStart}"></th:block>
