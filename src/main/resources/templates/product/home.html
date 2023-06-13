@@ -93,10 +93,11 @@
         </li>
     </ul>
 </div>
-
+<div sec:authorize="hasRole('ROLE_SELLER')">
 <form method="get" action="/product/enroll">
     <input type="submit" value="Add Product">
 </form>
+</div>
 </main>
 </body>
 </html>
