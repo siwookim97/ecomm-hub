@@ -1,7 +1,6 @@
 package com.likelion.ecommhub.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -36,8 +35,6 @@ public class CartController {
     private final MemberService memberService;
     private final ProductService productService;
 
-    // 내 장바구니 조회
-    // {memberid} pathvariable 삭제 -> @PreAuth``` ->
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @GetMapping("/cart")
     public String myCartPage(Model model,
@@ -45,12 +42,8 @@ public class CartController {
 
         Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
 
-        // 있는지 없는지 확인
         if (memberDetails != null) {
-            // User의 장바구니를 가져온다.
             Cart cart = memberDetails.getMember().getCart();
-            // 장바구니의 아이템을 가져온다.
-
             List<CartItem> cartItems = cartService.MemberCartView(cart);
 
             int totalPrice = 0;
@@ -68,7 +61,6 @@ public class CartController {
         }
     }
 
-    //특정 상품 장바구니에 추가
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @PostMapping("/cart/{productId}")
     public String myCartAdd(@PathVariable("productId") Long productId,
@@ -83,7 +75,6 @@ public class CartController {
         return "redirect:/usr/member/cart";
     }
 
-    //특정 상품 장바구니에서 삭제
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @GetMapping("/cart/{cartItemid}/delete")
     public String myCartDelete(@PathVariable("cartItemid") Long cartItemid,
@@ -97,5 +88,4 @@ public class CartController {
 
         return "redirect:/usr/member/cart";
     }
-
 }
