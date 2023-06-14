@@ -3,6 +3,15 @@
 <body>
 
 <header layout:fragment="header" class="sticky top-0 z-50">
+    <script>
+        function sendSearchRequest(keyword) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('keyword', keyword);
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+            window.location.href = newUrl;
+        }
+    </script>
+
     <div class="navbar bg-gradient-to-r from-sky-500 to-indigo-500 text-neutral-content rounded-box flex flex-nowrap">
         <div class="navbar-start">
             <div class="dropdown">
@@ -13,7 +22,8 @@
                               d="M4 6h16M4 12h16M4 18h7"/>
                     </svg>
                 </label>
-                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-gradient-to-r from-sky-500 to-indigo-500 rounded-box w-52">
+                <ul tabindex="0"
+                    class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-gradient-to-r from-sky-500 to-indigo-500 rounded-box w-52">
 
                     <li sec:authorize="isAnonymous()"><a href="/usr/member/login">로그인</a></li>
 
@@ -30,16 +40,26 @@
         </div>
         <div class="navbar-end">
             <form method="get" action="/product/search" class="flex flex-row m-0">
-            <input type="text" name="productName" placeholder="Search Product" class="input input-bordered w-full max-w-xs text-neutral-950"/>
-            <button class="btn btn-ghost btn-circle">
+            <input type="text" name="keyword" placeholder="Search Product & Seller" class="input input-bordered w-full max-w-xs text-neutral-950"/>
+            <button class="btn btn-ghost btn-circle" type="button" onclick="sendSearchRequest()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
             </button>
-            </form>
-            <button sec:authorize="isAuthenticated()" class="btn btn-ghost btn-circle" onclick="location.href='/usr/member/myPage'">
+
+          </form>
+            <button sec:authorize="hasRole('ROLE_BUYER') and isAuthenticated()" class="btn btn-ghost btn-circle"
+                    onclick="location.href='/usr/member/cart'">
+                <div class="indicator">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                         class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+            </button>
+            <button sec:authorize="isAuthenticated()" class="btn btn-ghost btn-circle"
+                    onclick="location.href='/usr/member/myPage'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                      class="bi bi-person" viewBox="0 0 16 16">
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
@@ -48,10 +68,11 @@
         </div>
     </div>
 </header>
-<footer class="footer footer-center p-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-base-content text-white" layout:fragment="footer">
-  <div>
-    <p>Copyright © EcommHub - LikeLion 쇼핑몰 프로젝트</p>
-  </div>
+<footer class="footer footer-center p-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-base-content text-white"
+        layout:fragment="footer">
+    <div>
+        <p>Copyright © EcommHub - LikeLion 쇼핑몰 프로젝트</p>
+    </div>
 </footer>
 </body>
 </html>
