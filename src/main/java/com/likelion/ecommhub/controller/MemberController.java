@@ -4,6 +4,7 @@ import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberLoginDto;
+import com.likelion.ecommhub.dto.MemberModifyDto;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.util.Rq;
 
@@ -87,14 +88,16 @@ public class MemberController {
 
         Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
         model.addAttribute("member", findMember);
+        model.addAttribute("memberModifyDto",new MemberModifyDto());
         return "usr/member/memberModify";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/update")
-    public String userUpdate(@AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
-        Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
-        memberService.memberModify(memberDetails.getMember().getId(), findMember);
+    public String userUpdate(@AuthenticationPrincipal MemberDetails memberDetails,
+                             @ModelAttribute @Valid MemberModifyDto memberModifyDto) throws Exception {
+
+        memberService.memberModify(memberDetails.getMember().getId(), memberModifyDto);
 
         return "redirect:/usr/member/myPage";
     }
