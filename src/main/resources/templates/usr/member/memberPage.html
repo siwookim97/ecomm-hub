@@ -84,8 +84,6 @@
       <canvas id="myChart2"></canvas>
     </div>
   </div>
-  </div>
-
   <table id="salesTable">
     <thead>
     <tr>
@@ -96,46 +94,48 @@
     <tbody>
     </tbody>
   </table>
+  </div>
 </section>
 
   <script layout:fragment="script" type="text/javascript">
-    var labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    var salesData = /*[[${salesData}]]*/ [1000, 2000, 1500, 2500, 1800, 2200, 1900, 3000, 2800, 3500, 3200, 4000];
+      var labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+      var salesData = /*[[${salesData}]]*/[];
 
-    var context = document.getElementById('myChart1').getContext('2d');
-    var myChart1 = new Chart(context, {
+
+      var context = document.getElementById('myChart1').getContext('2d');
+      var myChart1 = new Chart(context, {
       type: 'line',
       data: {
-        labels: labels,
-        datasets: [
-          {
-            label: '월 매출액',
-            fill: false,
-            data: salesData,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-          },
-        ],
-      },
+      labels: labels,
+      datasets: [
+    {
+      label: '월 매출액',
+      fill: false,
+      data: salesData,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
+    },
+      ],
+    },
       options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      },
+      scales: {
+      yAxes: [
+    {
+      ticks: {
+      beginAtZero: true,
+    },
+    },
+      ],
+    },
+    },
     });
 
-    // 테이블 데이터 동적 생성
-    var salesTable = document.getElementById('salesTable');
-    var tbody = salesTable.getElementsByTagName('tbody')[0];
+      // 테이블 데이터 동적 생성
+      var salesTable = document.getElementById('salesTable');
+      var tbody = salesTable.getElementsByTagName('tbody')[0];
 
-    for (var i = 0; i < labels.length; i++) {
+      for (var i = 0; i < labels.length; i++) {
       var label = labels[i];
       var data = salesData[i];
 
@@ -151,9 +151,9 @@
       tbody.appendChild(row);
     }
   </script>
-  <script layout:fragment="script" type="text/javascript" th:inline="javascript">
+  <script type="text/javascript">
     var labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    var salesData = /*[[${salesData}]]*/ [];
+    var salesData = /*[[${salesData}]]*/[];
 
     var context = document.getElementById('myChart2').getContext('2d');
     var myChart2 = new Chart(context, {

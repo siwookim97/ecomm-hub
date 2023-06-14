@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.likelion.ecommhub.dto.SalesDto;
 import com.likelion.ecommhub.service.SalesService;
 
 @Controller
@@ -16,18 +18,18 @@ public class SalesController {
 
 	private final SalesService salesService;
 
-	//@GetMapping("/monthly-sales/{year}")
-	//public String getMonthlySalesByYear(@PathVariable int year, Model model) {
-	//	List<SalesDto> salesList = salesService.getMonthlySalesByYear(year);
-	//	model.addAttribute("salesData", salesList);
-	//	model.addAttribute("year", year);
-	//	return "monthly-sales";
-
+	@GetMapping("/monthly-sales/{year}")
+	public String getMonthlySalesByYear(@PathVariable int year, Model model) {
+		List<SalesDto> salesData = salesService.getMonthlySalesByYear(year);
+		model.addAttribute("salesData", salesData);
+		model.addAttribute("year", year);
+		return "monthly-sales";
+	}
 	@GetMapping("/myPage")
 	public String getMonthlySales(Model model) {
-		//예시로 고정된 데이터를 사용
-		List<Integer> salesData = Arrays.asList(1000, 2000, 1500, 2500, 1800, 2200, 1900, 3000, 2800, 3500, 3200, 4000);
+		List<SalesDto> salesData = salesService.getMonthlySalesByYear(2023);
 		model.addAttribute("salesData", salesData);
 		return "usr/member/memberPage";
 	}
+
 }
