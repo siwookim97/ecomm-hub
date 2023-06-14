@@ -41,6 +41,8 @@ public class Member extends BaseEntity {
 
     private String account; // 계좌번호는 String을 권장 (ex, 019-1234136-1234)
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sales> sales = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Cart cart;

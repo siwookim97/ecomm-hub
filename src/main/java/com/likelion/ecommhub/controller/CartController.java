@@ -55,6 +55,7 @@ public class CartController {
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("user", findMember);
 
+
             return "usr/member/cart";
         } else {
             return "redirect:/main";

@@ -5,8 +5,12 @@ import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.Order;
 import com.likelion.ecommhub.domain.OrderItem;
 import com.likelion.ecommhub.domain.Product;
+import com.likelion.ecommhub.domain.Sales;
 import com.likelion.ecommhub.repository.OrderItemRepository;
 import com.likelion.ecommhub.repository.OrderRepository;
+import com.likelion.ecommhub.repository.SalesRepository;
+
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final MemberService memberService;
     private final ProductService productService;
+    private final SalesRepository salesRepository;
 
     // 회원가입 하면 회원 당 주문 하나 생성
     @Transactional
@@ -76,5 +81,16 @@ public class OrderService {
         orderItemRepository.save(cancelItem);
     }
 
+    //매출액 증가
+    @Transactional
+    public void increaseSales(Member seller, BigDecimal amount) {
+        Sales sales = salesRepository.findByMember(seller);
+        if (sales != null) {
+            sales.setSales(sales.getSales().add(amount));
+        } else {
+            sales = new Sales(seller, amount);
+        }
+        salesRepository.save(sales);
+    }
 
 }
