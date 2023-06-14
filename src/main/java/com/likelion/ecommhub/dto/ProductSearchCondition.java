@@ -9,5 +9,5 @@ import lombok.*;
 public class ProductSearchCondition {
 
     private String keyword;
-    private int sortCode;
+    private String sortCode;
 }
