@@ -170,36 +170,35 @@
       isCancel: cartItem.getIsCancel(),
     });
   });
-     */
-    function payment() {
-        IMP.init('imp86104056');
-        IMP.request_pay({
-            pg: "kakaopay.TC0ONETIME",
-            pay_method: "card",
-            merchant_uid: "merchant_" + new Date().getTime(),
-            name: "도서",
-            amount: totalPrice,
-            buyer_email: buyerEmail,
-            buyer_name: buyerName,
-            buyer_tel: buyerTel,
-        }, function (rsp) {
-            if (rsp.success) {
-                alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
-                $.ajax({
-                    type: "POST",
-                    url: "/usr/member/cart/checkout/",
-                    contentType: "application/json",
-                    data: JSON.stringify(cartItems),
-                    dataType: "json"
-                });
-            } else {
-                alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
-            }
-            document.location.href = /*[[ @{/usr/member/orderList} ]]*/;
+   */
+  function payment() {
+    IMP.init('imp86104056');
+    IMP.request_pay({
+      pg: "kakaopay.TC0ONETIME",
+      pay_method: "card",
+      merchant_uid: "merchant_" + new Date().getTime(),
+      name: "상품",
+      amount: totalPrice,
+      buyer_email: buyerEmail,
+      buyer_name: buyerName,
+      buyer_tel: buyerTel,
+    }, function (rsp) {
+      if (rsp.success) {
+        alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
+        $.ajax({
+          type: "POST",
+          url: "/usr/member/cart/checkout/",
+          contentType: "application/json",
+          data: JSON.stringify(cartItems),
+          dataType: "json",
         });
-    }
-
-    /*]]>*/
+      } else {
+        alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
+      }
+      document.location.href = /*[[ @{/usr/member/myPage} ]]*/;
+    });
+  }
+  /*]]>*/
 </script>
 </body>
 </html>
