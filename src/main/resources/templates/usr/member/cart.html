@@ -113,7 +113,7 @@
       pg: "kakaopay.TC0ONETIME",
       pay_method: "card",
       merchant_uid: "merchant_" + new Date().getTime(),
-      name: "도서",
+      name: "상품",
       amount: totalPrice,
       buyer_email: buyerEmail,
       buyer_name: buyerName,
@@ -126,12 +126,12 @@
           url: "/usr/member/cart/checkout/",
           contentType: "application/json",
           data: JSON.stringify(cartItems),
-          dataType: "json"
+          dataType: "json",
         });
       } else {
         alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
       }
-      document.location.href = /*[[ @{/usr/member/orderList} ]]*/;
+      document.location.href = /*[[ @{/usr/member/myPage} ]]*/;
     });
   }
   /*]]>*/
