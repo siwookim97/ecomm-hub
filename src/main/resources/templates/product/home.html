@@ -45,12 +45,12 @@
             <div class="prose max-w-4xl ">
                 <h1 id="title" class="text-left px-6 py-6 text-cyan-500 font-bold font-sans">Product List</h1>
                 <div class="dropdown dropdown-right dropdown-end">
-                    <label tabindex="0" class="btn m-1">정렬</label>
-                    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a onclick="sendSortRequest(0)">최신순</a></li>
-                        <li><a onclick="sendSortRequest(1)">오래된순</a></li>
-                        <li><a onclick="sendSortRequest(2)">낮은 가격순</a></li>
-                        <li><a onclick="sendSortRequest(3)">높은 가격순</a></li>
+                    <label tabindex="0" class="btn m-1 bg-gradient-to-r from-sky-500 to-indigo-500">정렬</label>
+                    <ul tabindex="0" class="dropdown-content menu p-2 shadow rounded-box w-52 bg-gradient-to-r from-sky-500 to-indigo-500">
+                        <li><a onclick="sendSortRequest(0)" style="color: white;">최신순</a></li>
+                        <li><a onclick="sendSortRequest(1)" style="color: white;">오래된순</a></li>
+                        <li><a onclick="sendSortRequest(2)" style="color: white;">낮은 가격순</a></li>
+                        <li><a onclick="sendSortRequest(3)" style="color: white;">높은 가격순</a></li>
                     </ul>
                 </div>
             </div>
@@ -67,13 +67,16 @@
                              alt="이미지"/>
                     </figure>
                     <div class="card-body">
-                        <h2 th:text="${productSearchResult.productName}" class="card-title">제품 이름</h2>
+                        <h2 th:text="${#strings.length(productSearchResult.productName) > 10 ? #strings.substring(productSearchResult.productName, 0, 10) + '...' : productSearchResult.productName}"
+                            class="card-title" style="font-size: 25px;"></h2>
+                        <div th:text="${productSearchResult.sellerName}" class="badge">
+                            판매자
+                        </div>
                         <p>
-                            <span th:text="${productSearchResult.detail}"></span>
-                            <span th:if="${#strings.length(productSearchResult.detail) > 50}">...</span>
+                            <span th:text="${#strings.length(productSearchResult.detail) > 20 ? #strings.substring(productSearchResult.detail, 0, 20) + '...' : productSearchResult.detail}">제품 설명</span>
                         </p>
                         <div class="card-actions justify-end">
-                            <div th:text="${productSearchResult.inventory > 0 ? 'ON SALE!' : 'SOLD OUT!'}"
+                            <div th:text="${productSearchResult.inventory > 0 ? '판매중!' : '품절!'}"
                                  class="badge"
                                  th:classappend="${productSearchResult.inventory > 0 ? 'badge-success' : 'badge-error'}">
                                 제품 상태
@@ -85,6 +88,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </tr>
         </div>
@@ -95,7 +99,7 @@
             <li class="page-item" th:classappend="${!pagingProducts.hasPrevious} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{/product/search(page=${pagingProducts.number-1}, keyword=${param.keyword}, sortCode= ${param.sortCode})}">
-                    <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true">이전</span>
                 </a>
             </li>
             <li th:each="page: ${#numbers.sequence(0, pagingProducts.totalPages-1)}"
@@ -108,7 +112,7 @@
             <li class="page-item" th:classappend="${!pagingProducts.hasNext} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{/product/search(page=${pagingProducts.number+1}, keyword=${param.keyword}, sortCode= ${param.sortCode})}">
-                    <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true">다음</span>
                 </a>
             </li>
         </ul>
