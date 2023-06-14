@@ -43,7 +43,7 @@
 <!-- 테일윈드 불러오기 -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="min-h-screen flex flex-col pb-10">
+<div class="min-h-screen flex flex-col">
   <header layout:fragment="header"></header>
 
   <main layout:fragment="main"></main>
@@ -58,10 +58,18 @@
     if (params.msg) {
       toastNotice(params.msg[0]);
     }
+    function resize(obj) {
+    obj.style.height = "1px";
+    obj.style.height = (12+obj.scrollHeight)+"px";
+  }
+  if (params.msg) {
+    toastNotice(params.msg[0]);
+  }
 
     if (params.errorMsg) {
       toastWarning(params.errorMsg[0]);
     }
+
 
     // history.back 에 의해서 돌아온 경우에 실행됨
     // 평소에도 실행됨
