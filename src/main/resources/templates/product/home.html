@@ -99,7 +99,9 @@
                                 제품 상태
                             </div>
                             <div class="card-actions justify-end">
-                                <button class="btn bg-gradient-to-r from-sky-500 to-indigo-500">구경하기</button>
+                                <a th:href="@{/product/view/{productId}(productId=${productSearchResult.productId})}">
+                                    <button class="btn bg-gradient-to-r from-sky-500 to-indigo-500">구경하기</button>
+                                </a>
                             </div>
                         </div>
                     </div>
