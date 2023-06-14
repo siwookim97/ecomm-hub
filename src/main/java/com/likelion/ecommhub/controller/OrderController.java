@@ -44,7 +44,7 @@ public class OrderController {
 
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("orderItems", orderItemList);
-        model.addAttribute("user", memberService.getMemberId(id));
+        model.addAttribute("user", memberService.getMemberById(id));
 
         return "usr/member/orderList";
     }

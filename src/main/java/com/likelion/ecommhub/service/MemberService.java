@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+
 import static com.likelion.ecommhub.domain.Cart.createCart;
 import static com.likelion.ecommhub.domain.Order.createOrder;
 
@@ -24,6 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
+    private final CartService cartService;
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
@@ -61,9 +63,8 @@ public class MemberService {
 
         Member createdMember = createMember(request, MemberRole.ROLE_BUYER);
         memberRepository.save(createdMember);
-        createCart(createdMember);
+        cartService.createCart(createdMember);
         createOrder(createdMember);
-
         return "JOINBUYER 성공";
     }
 
