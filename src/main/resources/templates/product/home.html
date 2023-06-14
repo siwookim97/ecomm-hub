@@ -109,7 +109,7 @@
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!pagingProducts.hasPrevious} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{/product/search(page=${pagingProducts.number-1}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState})}">
+                   th:href="@{/product/search(page=${pagingProducts.number-1}, productName=${param.productName}, sellerName=${param.sellerName}, productState=${param.productState},sortCode= ${param.sortCode})}">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
