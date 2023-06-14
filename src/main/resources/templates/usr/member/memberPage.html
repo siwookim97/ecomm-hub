@@ -1,7 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
 <head>
   <title>About</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -58,7 +57,7 @@
     </header>
     <div class="text-center mt-4">
       <div sec:authorize="isAuthenticated()" th:with="sellerId = ${#authentication.principal.member.id}">
-        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${member.id})}">수정</a>
+        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{modify}">수정</a>
       </div>
       <a class="btn btn-secondary" th:href="@{/usr/member/loginSuccess}">나가기</a>
     </div>
