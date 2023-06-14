@@ -63,7 +63,7 @@
     </header>
     <div class="text-center mt-4">
       <div sec:authorize="isAuthenticated()" th:with="sellerId = ${#authentication.principal.member.id}">
-        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${member.id})}">수정</a>
+        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{/usr/member/modify}">수정</a>
       </div>
       <a class="btn btn-secondary" th:href="@{/usr/member/loginSuccess}">나가기</a>
     </div>
