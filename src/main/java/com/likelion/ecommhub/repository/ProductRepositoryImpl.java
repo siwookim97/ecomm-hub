@@ -74,8 +74,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     private OrderSpecifier<?> getOrderByExpression(int sortCode) {
         QProduct product = QProduct.product;
+        if (sortCode == 1) {
+            return product.createdDate.asc();
+        }
+
         if (sortCode == 2) {
-            return product.inventory.desc();
+            return product.price.asc();
         }
 
         if (sortCode == 3) {
