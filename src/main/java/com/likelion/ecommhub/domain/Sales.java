@@ -42,7 +42,8 @@ public class Sales {
 
 	@Column(nullable = false)
 	private LocalDateTime saleDate;
-
+	@Column(nullable = false)
+	private int saleMonth; // Month of the sale
 	@Column(nullable = false)
 	private int saleYear; // 1년 동안의 매출액
 
@@ -54,5 +55,15 @@ public class Sales {
 		this.saleDate = saleDate;
 		this.saleYear = saleYear;
 		this.member = member;
+		this.saleMonth = saleDate.getMonthValue();
+	}
+
+	public Sales(Member seller, BigDecimal amount) {
+		this.member =seller;
+		this.sales =amount;
+	}
+
+	public void setSales(BigDecimal add) {
+		this.sales =add;
 	}
 }

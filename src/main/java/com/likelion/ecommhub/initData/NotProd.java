@@ -95,18 +95,21 @@ public class NotProd {
 
         List<Integer> salesData = Arrays.asList(1000, 2000, 1500, 2500, 1800, 2200, 1900, 3000, 2800, 3500, 3200, 4000);
 
+        int year = 2023;
+        LocalDateTime saleDate = LocalDateTime.now();
+
         for (int i = 0; i < salesData.size(); i++) {
+            int month = i + 1;
             BigDecimal sales = BigDecimal.valueOf(salesData.get(i));
 
             Sales salesEntry = Sales.builder()
                 .sales(sales)
-                .saleDate(LocalDateTime.now())
-                .saleYear(2023) // Set the appropriate year
-                .member(member1) // Set the member for association
+                .saleDate(saleDate.withMonth(month))
+                .saleYear(year)
+                .member(member1)
                 .build();
 
             salesRepository.save(salesEntry);
-
         }
     }
 }
