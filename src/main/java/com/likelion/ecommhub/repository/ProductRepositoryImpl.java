@@ -32,9 +32,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .leftJoin(product.image, image)
                 .where(
-                        productNameContains(condition.getProductName()),
-                        sellerNameContains(condition.getSellerName()),
-                        productStateEq(condition.getProductState())
+                        productNameContains(condition.getKeyword()),
+                        sellerNameContains(condition.getKeyword())
+//                        productStateEq(condition.getProductState())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -51,9 +51,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .from(product)
                 .leftJoin(product.image, image)
                 .where(
-                        productNameContains(condition.getProductName()),
-                        sellerNameContains(condition.getProductName()),
-                        productStateEq(condition.getProductState())
+                        productNameContains(condition.getKeyword()),
+                        sellerNameContains(condition.getKeyword())
+//                        productStateEq(condition.getProductState())
                 );
 
         return PageableExecutionUtils.getPage(cont, pageable, countQuery::fetchOne);

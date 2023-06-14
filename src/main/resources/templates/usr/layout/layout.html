@@ -3,6 +3,15 @@
 <body>
 
 <header layout:fragment="header" class="sticky top-0 z-50">
+    <script>
+        function sendSearchRequest(keyword) {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('keyword', keyword);
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+            window.location.href = newUrl;
+        }
+    </script>
+
     <div class="navbar bg-gradient-to-r from-sky-500 to-indigo-500 text-neutral-content rounded-box flex flex-nowrap">
         <div class="navbar-start">
             <div class="dropdown">
@@ -31,9 +40,9 @@
         </div>
         <div class="navbar-end">
             <form method="get" action="/product/search" class="flex flex-row">
-                <input type="text" name="productName" placeholder="Search Product"
+                <input type="text" name="keyword" placeholder="Search Product & Seller"
                        class="input input-bordered w-full max-w-xs text-neutral-950"/>
-                <button class="btn btn-ghost btn-circle">
+                <button class="btn btn-ghost btn-circle" type="button" onclick="sendSearchRequest()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -41,7 +50,6 @@
                     </svg>
                 </button>
             </form>
-
             <button sec:authorize="hasRole('ROLE_BUYER') and isAuthenticated()" class="btn btn-ghost btn-circle"
                     onclick="location.href='/usr/member/cart'">
                 <div class="indicator">
