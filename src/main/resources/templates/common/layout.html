@@ -9,6 +9,12 @@
   <!-- 제이쿼리 불러오기 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+  <!-- jdenticon 불러오기 -->
+  <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+          integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
+          crossorigin="anonymous">
+  </script>
+
   <!-- toastr 불러오기 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
   <link rel="stylesheet" href="https://jhs512.github.io/toastr/toastr.css">
@@ -43,6 +49,8 @@
   <main layout:fragment="main"></main>
 
   <footer layout:fragment="footer"></footer>
+
+  <script layout:fragment="script"></script>
 </div>
 
 <script th:inline="javascript">
@@ -58,29 +66,28 @@
     toastWarning(params.errorMsg[0]);
   }
 
-  // history.back 에 의해서 돌아온 경우에 실행됨
-  // 평소에도 실행됨
-  $(window).bind("pageshow", function (event) {
-    const localStorageKeyAboutHistoryBackErrorMsg = "historyBackErrorMsg___" + location.href;
+    if (params.errorMsg) {
+      toastWarning(params.errorMsg[0]);
+    }
 
-    if (localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg)) {
-      toastWarning(localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg));
-      localStorage.removeItem(localStorageKeyAboutHistoryBackErrorMsg);
-    } else {
-      const localStorageKeyAboutHistoryBackErrorMsg = "historyBackErrorMsg___null";
+    // history.back 에 의해서 돌아온 경우에 실행됨
+    // 평소에도 실행됨
+    $(window).bind("pageshow", function (event) {
+      const localStorageKeyAboutHistoryBackErrorMsg = "historyBackErrorMsg___" + location.href;
 
       if (localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg)) {
         toastWarning(localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg));
         localStorage.removeItem(localStorageKeyAboutHistoryBackErrorMsg);
+      } else {
+        const localStorageKeyAboutHistoryBackErrorMsg = "historyBackErrorMsg___null";
+
+        if (localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg)) {
+          toastWarning(localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg));
+          localStorage.removeItem(localStorageKeyAboutHistoryBackErrorMsg);
+        }
       }
-    }
-  });
+    });
+  })();
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
-        integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
-        crossorigin="anonymous">
-</script>
-
 </body>
 </html>
