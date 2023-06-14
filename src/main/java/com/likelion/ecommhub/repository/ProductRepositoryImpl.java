@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.likelion.ecommhub.domain.QImage.image;
+import static com.likelion.ecommhub.domain.QProduct.*;
 import static com.likelion.ecommhub.domain.QProduct.product;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -32,9 +33,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .selectFrom(product)
                 .leftJoin(product.image, image)
                 .where(
-                        productNameContains(condition.getProductName()),
-                        sellerNameContains(condition.getSellerName()),
-                        productStateEq(condition.getProductState())
+                        productAndNameContains(condition.getKeyword())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -51,34 +50,26 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .from(product)
                 .leftJoin(product.image, image)
                 .where(
-                        productNameContains(condition.getProductName()),
-                        sellerNameContains(condition.getProductName()),
-                        productStateEq(condition.getProductState())
+                        productAndNameContains(condition.getKeyword())
                 );
 
         return PageableExecutionUtils.getPage(cont, pageable, countQuery::fetchOne);
     }
 
-    private BooleanExpression productNameContains(String name) {
-        return hasText(name) ? product.name.contains(name) : null;
+    private BooleanExpression productAndNameContains(String keyword) {
+        return hasText(keyword) ? product.name.contains(keyword).or(product.member.nickname.contains(keyword)) : null;
     }
 
-    private BooleanExpression sellerNameContains(String nickname) {
-        return hasText(nickname) ? product.member.nickname.contains(nickname) : null;
-    }
-
-    private BooleanExpression productStateEq(String productState) {
-        return hasText(productState) ?
-                product.productState.eq(ProductState.valueOf(productState)) : null;
-    }
-
-    private OrderSpecifier<?> getOrderByExpression(int sortCode) {
-        QProduct product = QProduct.product;
-        if (sortCode == 2) {
-            return product.inventory.desc();
+    private OrderSpecifier<?> getOrderByExpression(String sortCode) {
+        if ("1".equals(sortCode)) {
+            return product.createdDate.asc();
         }
 
-        if (sortCode == 3) {
+        if ("2".equals(sortCode)) {
+            return product.price.asc();
+        }
+
+        if ("3".equals(sortCode)) {
             return product.price.desc();
         }
 

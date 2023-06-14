@@ -56,7 +56,7 @@
     </header>
     <div class="text-center mt-4">
       <div sec:authorize="isAuthenticated()" th:with="sellerId = ${#authentication.principal.member.id}">
-        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${member.id})}">수정</a>
+        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{/usr/member/modify}">수정</a>
       </div>
       <a sec:authorize="hasRole('ROLE_BUYER')" class="btn btn-secondary" th:href="@{/usr/member/cart}">장바구니</a>
       <a sec:authorize="hasRole('ROLE_SELLER')" class="btn btn-secondary" th:href="@{/monthly-sales/2023}">매출통계</a>
