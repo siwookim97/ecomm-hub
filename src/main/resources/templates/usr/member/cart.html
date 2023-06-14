@@ -1,111 +1,175 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-  <title class="title">장바구니</title>
-  <style>
-    html, body{
-      height:100%;
-    }
-    .wrap {
-      position: relative;
-      min-height: 100%;
-      padding-bottom: 44px;
-    }
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <title class="title">장바구니</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
 
-    .footer {
-      position: absolute;
-      bottom: 0;
-    }
-    .title{
-      display: flex;
-      justify-content: center;
-    }
-    .table-responsive table {
-      width: 100%;
-    }
-  </style>
+        .wrap {
+            position: relative;
+            min-height: 100%;
+            padding-bottom: 44px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .title {
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-responsive table {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<main layout:fragment="main" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-  <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
-      <tr>
-        <th scope="col">번호</th>
-        <th scope="col">상품ID</th>
-        <th scope="col">상품명</th>
-        <th scope="col">수량</th>
-        <th scope="col">수량 추가</th>
-        <th scope="col">가격</th>
-        <th scope="col">담은날짜</th>
-        <th scope="col">삭제</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="cartItem, i : ${cartItemList}">
-        <td th:text="${i.count}">1</td>
-        <td th:text="${cartItem.product.id}">3번상품</td>
-        <td>
-          <a th:href="@{/Product/view/{id}(id=${cartItem.product.id})}"
-             th:text="${cartItem.product.name}"></a>
-        </td>
-        <td th:text="${cartItem.count}">수량</td>
-        <td>
-          <form th:action="@{/usr/member/cart/{productId}(productId=${cartItem.product.id})}" method="post" id="cartForm-${cartItem.product.id}">
-            <input type="hidden" name="amount" value="1">
-            <button class="btn modal-button" >수량추가</button>
-          </form>
-        </td>
-        <td th:text="${cartItem.product.price * cartItem.count}">가격</td>
-        <td th:text="${cartItem.createDate}">날짜</td>
-        <td class="btn btn-outline-dark"><a th:href="@{/usr/member/cart/{cartItemid}/delete(cartItemid=${cartItem.getId()})}" style="text-decoration: none">삭제</a></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center mt-3">
-    <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
-        <div class="card-header py-3">
-          <h4 class="my-0 fw-normal">총 결제금액</h4>
-        </div>
-        <form class="card-body">
-          <h1 class="card-title pricing-card-title" th:text="${totalPrice} + '₩'">$0</h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>잘못 담은 물건이 있는지 확인해보세요!</li>
-          </ul>
-          <button id="iamportPayment" type="button" class="w-100 btn btn-lg btn-outline-primary">구매하기</button>
-        </form>
-      </div>
+<main layout:fragment="main" class="col-md-900 ms-sm-auto px-md-5">
+    <div class="overflow-x-auto">
+        <table class="table">
+            <!-- head -->
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제품 이름</th>
+                <th>수량</th>
+                <th>개당 가격</th>
+                <th>총 가격</th>
+                <th>추가한 시간</th>
+                <th>1개 더 담기</th>
+                <th>1개 빼기</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            </thead>
+            <tbody>
+            <tr th:each="cartItem, i : ${cartItemList}">
+                <td th:text="${i.index} + 1">3번상품</td>
+                <td>
+                    <a th:href="@{/Product/view/{id}(id=${cartItem.product.id})}"
+                       th:text="${cartItem.product.name}"></a>
+                </td>
+                <td th:text="${cartItem.count}">수량</td>
+                <td th:text="${#numbers.formatInteger(cartItem.product.price, 3, 'COMMA')} + ' ₩'">개당 가격</td>
+                <td th:text="${#numbers.formatInteger(cartItem.product.price * cartItem.count, 3, 'COMMA')} + ' ₩'">총 가격</td>
+                <td th:text="${cartItem.createDate}">날짜</td>
+                <td>
+                    <form th:action="@{/usr/member/cart/{productId}(productId=${cartItem.product.id})}" method="post"
+                          id="cartForm-${cartItem.product.id}">
+                        <input type="hidden" name="amount" value="1">
+                        <button class="btn modal-button">1개 추가</button>
+                    </form>
+                </td>
+                <td>
+                    <form
+<!--                            th:action="@{/usr/member/cart/{productId}(productId=${cartItem.product.id})}" method="post"-->
+<!--                          id="cartForm-${cartItem.product.id}">-->
+<!--                        <input type="hidden" name="amount" value="1">-->
+                        <button class="btn modal-button">1개 빼기</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/usr/member/cart/{cartItemid}/delete(cartItemid=${cartItem.getId()})}">
+                        <input type="hidden" name="amount" value="1">
+                        <button class="btn modal-button">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
+
+    <!-- <div class="table-responsive">
+         <table class="table table-striped table-sm">
+             <thead>
+             <tr>
+                 <th scope="col">번호</th>
+                 <th scope="col">상품ID</th>
+                 <th scope="col">상품명</th>
+                 <th scope="col">수량</th>
+                 <th scope="col">수량 추가</th>
+                 <th scope="col">가격</th>
+                 <th scope="col">담은날짜</th>
+                 <th scope="col">삭제</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr th:each="cartItem, i : ${cartItemList}">
+                 <td th:text="${i.count}">1</td>
+                 <td th:text="${cartItem.product.id}">3번상품</td>
+                 <td>
+                     <a th:href="@{/Product/view/{id}(id=${cartItem.product.id})}"
+                        th:text="${cartItem.product.name}"></a>
+                 </td>
+                 <td th:text="${cartItem.count}">수량</td>
+                 <td>
+                     <form th:action="@{/usr/member/cart/{productId}(productId=${cartItem.product.id})}" method="post"
+                           id="cartForm-${cartItem.product.id}">
+                         <input type="hidden" name="amount" value="1">
+                         <button class="btn modal-button">수량추가</button>
+                     </form>
+                 </td>
+                 <td th:text="${cartItem.product.price * cartItem.count}">가격</td>
+                 <td th:text="${cartItem.createDate}">날짜</td>
+                 <td class="btn btn-outline-dark"><a
+                         th:href="@{/usr/member/cart/{cartItemid}/delete(cartItemid=${cartItem.getId()})}"
+                         style="text-decoration: none">삭제</a></td>
+             </tr>
+             </tbody>
+         </table>
+     </div>-->
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center mt-3">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">총 결제금액</h4>
+                </div>
+                <form class="card-body">
+                    <h1 class="card-title pricing-card-title" th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + ' ₩'">$0</h1>
+                    <!--                  <h1 class="card-title pricing-card-title" th:text="${#numbers.formatDecimal(totalPrice, 0, 'GROUPING') + '₩'}">$0</h1>-->
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>잘못 담은 물건이 있는지 확인해보세요!</li>
+                    </ul>
+                    <button id="iamportPayment" type="button"
+                            class="w-100 btn btn-lg btn-outline-primary bg-gradient-to-r from-sky-500 to-indigo-500">
+                        구매하기
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
 <script layout:fragment="script" type="text/javascript" th:inline="javascript">
-  /*<![CDATA[*/
-  $(document).ready(function() {
-    $("#iamportPayment").click(function() {
-      payment();
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        $("#iamportPayment").click(function () {
+            payment();
+        });
+    })
+    var buyerEmail = /*[[${user.email}]]*/ 'email@email.com';
+    var buyerName = /*[[${user.nickname}]]*/ 'user';
+    var buyerTel = /*[[${user.phone}]]*/ '010-0000-0000';
+    var totalPrice = /*[[${totalPrice}]]*/ 'default';
+
+    var cartItems = [];
+
+    /*[[${cartItems}]].forEach(function(cartItem) {
+    cartItems.push({
+      productId: cartItem.getProductId(),
+      productName: cartItem.getProductName(),
+      productCount: cartItem.getProductCount(),
+      productPrice: cartItem.getProductPrice(),
+      productTotalPrice: cartItem.getProductTotalPrice(),
+      orderCreatedDate: cartItem.getCart().getCreatedDate(),
+      isCancel: cartItem.getIsCancel(),
     });
-  })
-  var buyerEmail = /*[[${user.email}]]*/ 'email@email.com';
-  var buyerName = /*[[${user.nickname}]]*/ 'user';
-  var buyerTel = /*[[${user.phone}]]*/ '010-0000-0000';
-  var totalPrice = /*[[${totalPrice}]]*/ 'default';
-
-  var cartItems = [] ;
-
-  /*[[${cartItems}]].forEach(function(cartItem) {
-  cartItems.push({
-    productId: cartItem.getProductId(),
-    productName: cartItem.getProductName(),
-    productCount: cartItem.getProductCount(),
-    productPrice: cartItem.getProductPrice(),
-    productTotalPrice: cartItem.getProductTotalPrice(),
-    orderCreatedDate: cartItem.getCart().getCreatedDate(),
-    isCancel: cartItem.getIsCancel(),
   });
-});
    */
   function payment() {
     IMP.init('imp86104056');
