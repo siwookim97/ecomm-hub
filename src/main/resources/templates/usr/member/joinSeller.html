@@ -15,55 +15,34 @@
 
         <form th:action="@{/usr/member/join/seller}" th:object="${memberJoinDto}" method="post"
               class="flex flex-col gap-6">
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">아이디</span>
-                </label>
-                <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered" autofocus/>
+            <div>
+                <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered w-full" autofocus/>
             </div>
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">비밀번호</span>
-                </label>
-                <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered"/>
+            <div>
+                <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered w-full"/>
             </div>
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">이름</span>
-                </label>
-                <input type="text" th:field="*{nickname}" placeholder="이름" class="input input-bordered"/>
+            <div>
+                <input type="text" th:field="*{nickname}" placeholder="이름" class="input input-bordered w-full"/>
             </div>
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">이메일</span>
-                </label>
-                <input type="text" th:field="*{email}" placeholder="이메일" class="input input-bordered"/>
+            <div>
+                <input type="text" th:field="*{email}" placeholder="이메일" class="input input-bordered w-full"/>
             </div>
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">전화번호</span>
-                </label>
+            <div>
                 <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11);"
-                       th:field="*{phone}" placeholder="전화번호" class="input input-bordered" pattern="[0-9]{11}"
+                       th:field="*{phone}" placeholder="전화번호" class="input input-bordered w-full" pattern="[0-9]{11}"
                        maxlength="11" required/>
             </div>
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">주소</span>
-                </label>
-                <input type="text" th:field="*{address}" placeholder="주소" class="input input-bordered"/>
+            <div>
+                <input type="text" th:field="*{address}" placeholder="주소" class="input input-bordered w-full"/>
             </div>
 
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">계좌번호</span>
-                </label>
-                <input type="text" th:field="*{account}" placeholder="계좌번호" class="input input-bordered"/>
+            <div>
+                <input type="text" th:field="*{account}" placeholder="계좌번호" class="input input-bordered w-full"/>
             </div>
 
             <button id="btn-join-1" type="submit"

@@ -23,12 +23,6 @@
     margin-top: 20px;
   }
 </style>
-<div class="menu-bar bg-dark">
-  <div class="container">
-    <!-- 목차 내용 -->
-    <h3 class="text-white text-center mt-3 mb-0">ABOUT</h3>
-  </div>
-</div>
 <section class="about">
   <div class="container py-5">
     <!-- 이름 -->
@@ -63,7 +57,7 @@
     </header>
     <div class="text-center mt-4">
       <div sec:authorize="isAuthenticated()" th:with="sellerId = ${#authentication.principal.member.id}">
-        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{modify/{id}(id = ${member.id})}">수정</a>
+        <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2" th:href="@{modify}">수정</a>
       </div>
       <a class="btn btn-secondary" th:href="@{/usr/member/loginSuccess}">나가기</a>
     </div>
