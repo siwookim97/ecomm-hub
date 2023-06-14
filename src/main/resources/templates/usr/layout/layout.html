@@ -29,7 +29,7 @@
             <a href="/product/home" class="btn btn-ghost normal-case text-xl">ECOMMHUB</a>
         </div>
         <div class="navbar-end">
-            <form method="get" action="/product/search">
+            <form method="get" action="/product/search" class="flex flex-row">
             <input type="text" name="productName" placeholder="Search Product" class="input input-bordered w-full max-w-xs text-neutral-950"/>
             <button class="btn btn-ghost btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -48,7 +48,7 @@
         </div>
     </div>
 </header>
-<footer class="footer footer-center p-4 bg-base-300 text-base-content" layout:fragment="footer">
+<footer class="footer footer-center p-4 bg-gradient-to-r from-sky-500 to-indigo-500 text-base-content text-white" layout:fragment="footer">
   <div>
     <p>Copyright © EcommHub - LikeLion 쇼핑몰 프로젝트</p>
   </div>
