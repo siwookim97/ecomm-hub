@@ -8,8 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class ProductSearchCondition {
 
-    private String productName;
-    private String sellerName;
-    private String productState;
-    private int sortCode;
+    private String keyword;
+    private String sortCode;
 }
