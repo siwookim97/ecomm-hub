@@ -24,7 +24,7 @@ public class ReviewService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public Review postReview(ReviewDto reviewDto, Long memberId, Long productId) {
+    public void postReview(ReviewDto reviewDto, Long memberId, Long productId) {
         Member findMember = findMember(memberId);
         Product findProduct = findProduct(productId);
         Order findMemberOrder = findMember.getOrders().stream()
@@ -42,8 +42,6 @@ public class ReviewService {
         if (findMemberOrder != null) {
             reviewRepository.save(createdReview);
         }
-
-        return createdReview;
     }
 
     @Transactional
@@ -54,6 +52,10 @@ public class ReviewService {
         if (findReview.getMember().getId().equals(findMember.getId())) {
             reviewRepository.delete(findReview);
         }
+    }
+
+    public List<Review> findReviewsByProductId(Long productId) {
+        return reviewRepository.findByProductId(productId);
     }
 
     public List<Review> getReviewList(Long productId) {
