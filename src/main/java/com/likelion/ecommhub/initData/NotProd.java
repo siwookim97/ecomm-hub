@@ -3,6 +3,9 @@ package com.likelion.ecommhub.initData;
 import com.likelion.ecommhub.domain.*;
 import com.likelion.ecommhub.repository.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 
@@ -21,6 +24,7 @@ public class NotProd {
     private final ProductRepository productRepository;
     private final BCryptPasswordEncoder encoder;
     private final CartItemRepository cartItemRepository;
+    private final SalesRepository salesRepository;
 
     @PostConstruct
     @Transactional
@@ -87,6 +91,26 @@ public class NotProd {
                 cart.setCartItemCount(cart.getCartItems().size());
                 cartRepository.save(cart);
             }
+        }
+
+
+        List<Integer> salesData = Arrays.asList(
+            1000, 2000, 1500, 2500, 1800, 2200, 1900, 3000, 2800, 3500, 3200, 4000);
+        int currentYear = LocalDateTime.now().getYear();
+
+        for (int i = 0; i < salesData.size(); i++) {
+            int salesAmount = salesData.get(i);
+            LocalDateTime saleDate = LocalDateTime.now().withMonth(i + 1).withDayOfMonth(1).withYear(currentYear);
+
+            Sales sales = Sales.builder()
+                .product(products.get(i))
+                .order(null) // Set the order if applicable
+                .sales(BigDecimal.valueOf(salesAmount))
+                .saleDate(saleDate)
+                .saleYear(currentYear)
+                .build();
+
+            salesRepository.save(sales);
         }
     }
 }

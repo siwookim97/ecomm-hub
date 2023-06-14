@@ -33,6 +33,10 @@ public class Sales {
 	@JoinColumn(name = "order_id")
 	private Order order;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member member;
+
 	@Column(nullable = false)
 	private BigDecimal sales; //매출액
 
@@ -43,11 +47,12 @@ public class Sales {
 	private int saleYear; // 1년 동안의 매출액
 
 	@Builder
-	public Sales(Product product, Order order, BigDecimal sales, LocalDateTime saleDate, int saleYear) {
+	public Sales(Product product, Order order, BigDecimal sales, LocalDateTime saleDate, int saleYear, Member member) {
 		this.product = product;
 		this.order = order;
 		this.sales = sales;
 		this.saleDate = saleDate;
 		this.saleYear = saleYear;
+		this.member = member;
 	}
 }

@@ -23,11 +23,11 @@ public class SalesController {
 	//	model.addAttribute("year", year);
 	//	return "monthly-sales";
 
-	@GetMapping("/monthly-sales")
+	@GetMapping("/myPage")
 	public String getMonthlySales(Model model) {
 		//예시로 고정된 데이터를 사용
 		List<Integer> salesData = Arrays.asList(1000, 2000, 1500, 2500, 1800, 2200, 1900, 3000, 2800, 3500, 3200, 4000);
 		model.addAttribute("salesData", salesData);
-		return "monthly-sales";
+		return "usr/member/memberPage";
 	}
 }

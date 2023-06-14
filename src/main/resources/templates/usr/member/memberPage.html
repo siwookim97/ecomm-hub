@@ -1,6 +1,20 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
 <head>
   <title>About</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
 </head>
 
 <body>
@@ -40,16 +54,6 @@
         <p class="mb-2"><span>이메일:</span> <span th:text="${member.email}">example@example.com</span></p>
         <p class="mb-2"><span>주소:</span> <span th:text="${member.address}">주소</span></p>
         <p sec:authorize="hasRole('ROLE_SELLER')" class="mb-2"><span>계좌번호:</span> <span th:text="${member.account}">000-0000-0000</span></p>
-        <!--판매자이면 판매 상품 확인 -->
-        <div sec:authorize="hasRole('ROLE_SELLER')" class="not-prose grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          <div th:each="product : ${member.products}">
-            <div class="p-4 border">
-              <h3 th:text="${product.name}"></h3>
-              <p>가격: <span th:text="${product.price}"></span></p>
-              <p>재고: <span th:text="${product.inventory}"></span></p>
-            </div>
-          </div>
-        </div>
       </div>
     </header>
     <div class="text-center mt-4">
@@ -60,12 +64,126 @@
       <a class="btn btn-secondary" th:href="@{/product/home}">메인페이지</a>
     </div>
   </div>
+  <!--판매자이면 판매 상품 확인 -->
+  <div style="display: flex; justify-content: center;">
+  <div sec:authorize="hasRole('ROLE_SELLER')" class="not-prose grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+    <div th:each="product : ${member.products}">
+      <div class="p-4 border">
+        <h3 th:text="${product.name}"></h3>
+        <p>가격: <span th:text="${product.price}"></span></p>
+        <p>재고: <span th:text="${product.inventory}"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div style="width: 300px; height: 300px;">
+      <canvas id="myChart1"></canvas>
+    </div>
+    <div style="width: 300px; height: 300px;">
+      <canvas id="myChart2"></canvas>
+    </div>
+  </div>
+  </div>
+
+  <table id="salesTable">
+    <thead>
+    <tr>
+      <th>월</th>
+      <th>매출액</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </section>
 
-<!-- 부트스트랩 스크립트 CDN 링크 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.14.7/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script layout:fragment="script" type="text/javascript">
+    var labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    var salesData = /*[[${salesData}]]*/ [1000, 2000, 1500, 2500, 1800, 2200, 1900, 3000, 2800, 3500, 3200, 4000];
+
+    var context = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(context, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: '월 매출액',
+            fill: false,
+            data: salesData,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    // 테이블 데이터 동적 생성
+    var salesTable = document.getElementById('salesTable');
+    var tbody = salesTable.getElementsByTagName('tbody')[0];
+
+    for (var i = 0; i < labels.length; i++) {
+      var label = labels[i];
+      var data = salesData[i];
+
+      var row = document.createElement('tr');
+      var monthCell = document.createElement('td');
+      var salesCell = document.createElement('td');
+
+      monthCell.textContent = label + '월';
+      salesCell.textContent = '$' + data;
+
+      row.appendChild(monthCell);
+      row.appendChild(salesCell);
+      tbody.appendChild(row);
+    }
+  </script>
+  <script layout:fragment="script" type="text/javascript" th:inline="javascript">
+    var labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    var salesData = /*[[${salesData}]]*/ [];
+
+    var context = document.getElementById('myChart2').getContext('2d');
+    var myChart2 = new Chart(context, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: '월 매출액',
+            fill: false,
+            data: salesData,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+  </script>
 </main>
 </body>
 </html>
