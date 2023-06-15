@@ -1,11 +1,15 @@
 package com.likelion.ecommhub.controller;
 
+import java.util.List;
+
 import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Member;
+import com.likelion.ecommhub.domain.OrderItem;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberLoginDto;
 import com.likelion.ecommhub.dto.MemberModifyDto;
 import com.likelion.ecommhub.service.MemberService;
+import com.likelion.ecommhub.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +30,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final OrderService orderService;
 
     @GetMapping("/join")
     public String join(Model model) {
@@ -76,6 +81,20 @@ public class MemberController {
         Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
         model.addAttribute("member", findMember);
         System.out.println("findMember.getId() = " + findMember.getId());
+        Long id = memberDetails.getMember().getId();
+
+        List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
+
+        int totalCount = 0;
+        for (OrderItem orderItem : orderItemList) {
+            if (orderItem.getIsCancel() != 1) {
+                totalCount += orderItem.getProductCount();
+            }
+        }
+
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("orderItems", orderItemList);
+        model.addAttribute("user", memberService.getMemberById(id));
 
         return "usr/member/memberPage";
     }
