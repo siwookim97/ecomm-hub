@@ -104,12 +104,13 @@
             </li>
         </ul>
     </div>
-    <div sec:authorize="hasRole('ROLE_SELLER')">
+    <br>
+    <div sec:authorize="hasRole('ROLE_SELLER')" style="width: 20vw; margin: 0 auto;">
         <form method="get" action="/product/enroll">
-            <input type="submit" value="Add Product">
+            <button type="submit" class="btn btn-primary btn-block bg-gradient-to-r from-sky-500 to-indigo-500"> 상품 등록 </button>
         </form>
     </div>
-    <br><br><br><br>
+    <br><br><br>
 </main>
 </body>
 </html>

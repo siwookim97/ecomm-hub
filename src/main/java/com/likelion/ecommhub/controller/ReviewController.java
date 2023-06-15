@@ -32,7 +32,7 @@ public class ReviewController {
 
         reviewService.postReview(reviewDto, memberDetails.getMember().getId(), productId);
 
-        return "redirect:/product/home";
+        return "redirect:/product/view/" + productId;
     }
 
     @PostMapping("/delete/{productId}")
