@@ -25,6 +25,7 @@
 </head>
 
 <body>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <main layout:fragment="main" class="flex-grow flex items-center justify-center flex-col" style="height: 100vh; overflow-y: scroll;">
     <section class="about">
         <div class="container py-5">
@@ -53,7 +54,9 @@
                                 <div sec:authorize="isAuthenticated()"
                                      th:with="sellerId=${#authentication.principal.member.id}"
                                      class="card-actions justify-end">
-                                    <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2"
+                                    <a sec:authorize="hasRole('ROLE_SELLER')" th:if="${sellerId == member.id}"
+                                       class="btn btn-primary mr-2" href="mailto:">메일 보내기</a>
+                                    <a  th:if="${sellerId == member.id}" class="btn btn-primary mr-2"
                                        th:href="@{/usr/member/modify}">수정</a>
                                 </div>
                             </div>
@@ -100,10 +103,14 @@
                     <td class="align-middle" th:text="${product.price}"></td>
                     <td class="align-middle" th:text="${product.inventory}"></td>
                     <th class="align-middle">
-                        <button class="btn btn-ghost btn-xs" th:text="${product.inquiries.size()}"></button>
+                        <a th:href="@{/inquiry/view/{productId}(productId=${product.id})}">
+                            <button class="btn btn-ghost btn-xs" th:text="${product.inquiries.size()}"></button>
+                        </a>
                     </th>
                     <th class="align-middle">
-                        <button class="btn btn-ghost btn-xs" th:text="${product.reviews.size()}"></button>
+                        <a th:href="@{/product/view/{productId}(productId=${product.id})}">
+                            <button class="btn btn-ghost btn-xs" th:text="${product.reviews.size()}"></button>
+                        </a>
                     </th>
                 </tr>
                 </tbody>
@@ -172,8 +179,6 @@
     </section>
 </main>
 
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 
