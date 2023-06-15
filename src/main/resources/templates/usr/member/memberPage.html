@@ -53,7 +53,9 @@
                                 <div sec:authorize="isAuthenticated()"
                                      th:with="sellerId=${#authentication.principal.member.id}"
                                      class="card-actions justify-end">
-                                    <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2"
+                                    <a sec:authorize="hasRole('ROLE_SELLER')" th:if="${sellerId == member.id}"
+                                       class="btn btn-primary mr-2" href="mailto:">메일 보내기</a>
+                                    <a  th:if="${sellerId == member.id}" class="btn btn-primary mr-2"
                                        th:href="@{/usr/member/modify}">수정</a>
                                 </div>
                             </div>
