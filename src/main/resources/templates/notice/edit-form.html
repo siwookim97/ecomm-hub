@@ -2,96 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
   <title>Edit Notice</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-    }
-
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .form-container {
-      width: 400px;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-container label {
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .form-container input[type="text"],
-    .form-container textarea,
-    .form-container select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ced4da;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-
-    .form-container button[type="submit"] {
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .form-container button[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-
-    html, body {
-      height: 100%;
-    }
-
-    .wrap {
-      position: relative;
-      min-height: 100%;
-      padding-bottom: 44px;
-    }
-
-    .footer {
-      position: absolute;
-      bottom: 0;
-    }
-  </style>
 </head>
 <body>
-<main layout:fragment="main">
-  <h1 class="text-6xl">Edit Notice</h1>
-  <div class="form-container">
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+  <div class="max-w-2xl w-full px-4" >
+
+    <h1 class="mb-4">
+      <i class="fa-solid fa-user-edit"></i>
+      공지 수정
+    </h1>
+
     <form th:action="@{/notice/modify/{id}(id=${notice.id})}" method="post"
-          th:object="${noticeDto}">
+          th:object="${noticeDto}" class="flex flex-col gap-6">
       <div>
         <label for="noticeType">Notice Type:</label>
-        <select id="noticeType" name="noticeType" th:field="*{noticeType}">
+        <select id="noticeType" name="noticeType" th:field="*{noticeType}" class="select select-bordered w-full max-w-xs">
           <option value="SYSTEM">SYSTEM</option>
           <option value="GENERAL">GENERAL</option>
         </select><br>
       </div>
       <div>
         <label for="title">Title:</label>
-        <input type="text" id="title" name="title" th:field="*{title}" required/><br>
+        <input type="text" id="title" name="title" class="form-control input input-bordered w-full" th:field="*{title}" placeholder="Enter title" required>
       </div>
       <div>
-        <label for="content">Content:</label>
-        <textarea id="content" name="content" th:field="*{content}" required></textarea><br>
+        <label for="content" class="block">Content:</label>
+        <textarea id="content" name="content" class="textarea textarea-bordered w-full h-48" th:field="*{content}" placeholder="Enter content" required></textarea>
       </div>
-      <button type="submit">Save</button>
+      <button id="btn-join-1" type="submit" class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500">Create</button>
     </form>
   </div>
 </main>
