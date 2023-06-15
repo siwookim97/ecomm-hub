@@ -114,6 +114,8 @@ public class Member extends BaseEntity {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public void setAccount(String account) { this.account = account; }
 }
 
 

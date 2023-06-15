@@ -6,7 +6,6 @@ import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberLoginDto;
 import com.likelion.ecommhub.dto.MemberModifyDto;
 import com.likelion.ecommhub.service.MemberService;
-import com.likelion.ecommhub.util.Rq;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +26,6 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
-    private final Rq rq;
 
     @GetMapping("/join")
     public String join(Model model) {
@@ -93,7 +91,7 @@ public class MemberController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public String userUpdate(@AuthenticationPrincipal MemberDetails memberDetails,
                              @ModelAttribute @Valid MemberModifyDto memberModifyDto) throws Exception {
 

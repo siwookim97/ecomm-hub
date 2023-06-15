@@ -10,8 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberModifyDto {
+
     private String nickname;
     private String email;
     private String phone;
     private String address;
+    private String account;
 }
