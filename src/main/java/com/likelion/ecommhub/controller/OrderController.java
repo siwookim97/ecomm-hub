@@ -13,7 +13,9 @@ import com.likelion.ecommhub.service.OrderService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,82 +30,82 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final MemberService memberService;
-    private final CartService cartService;
-    private final OrderService orderService;
+	private final MemberService memberService;
+	private final CartService cartService;
+	private final OrderService orderService;
 
-    @PreAuthorize("hasRole('ROLE_BUYER')")
-    @GetMapping("/usr/member/orderList")
-    public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        Long id = memberDetails.getMember().getId();
+	@PreAuthorize("hasRole('ROLE_BUYER')")
+	@GetMapping("/usr/member/orderList")
+	public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+		Long id = memberDetails.getMember().getId();
 
-        List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
+		List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
 
-        int totalCount = 0;
-        for (OrderItem orderItem : orderItemList) {
-            if (orderItem.getIsCancel() != 1) {
-                totalCount += orderItem.getProductCount();
-            }
-        }
+		int totalCount = 0;
+		for (OrderItem orderItem : orderItemList) {
+			if (orderItem.getIsCancel() != 1) {
+				totalCount += orderItem.getProductCount();
+			}
+		}
 
-        model.addAttribute("totalCount", totalCount);
-        model.addAttribute("orderItems", orderItemList);
-        model.addAttribute("user", memberService.getMemberById(id));
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("orderItems", orderItemList);
+		model.addAttribute("user", memberService.getMemberById(id));
 
-        return "usr/member/orderList";
-    }
+		return "usr/member/memberPage";
+	}
 
-    @Transactional
-    @PreAuthorize("hasRole('ROLE_BUYER')")
-    @PostMapping("/usr/member/cart/checkout")
-    public ResponseEntity<Void> cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails) {
+	@Transactional
+	@PreAuthorize("hasRole('ROLE_BUYER')")
+	@PostMapping("/usr/member/cart/checkout")
+	public ResponseEntity<Void> cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails) {
 
-        Long id = memberDetails.getMember().getId();
-        Member findMember = memberService.getMemberById(id);
-        Cart userCart = cartService.findMemberCart(findMember.getId());
-        List<CartItem> userCartItems = cartService.MemberCartView(userCart);
+		Long id = memberDetails.getMember().getId();
+		Member findMember = memberService.getMemberById(id);
+		Cart userCart = cartService.findMemberCart(findMember.getId());
+		List<CartItem> userCartItems = cartService.MemberCartView(userCart);
 
-        List<OrderItem> orderItemList = new ArrayList<>();
-        for (CartItem cartItem : userCartItems) {
-            cartItem.getProduct().decreaseInventory(cartItem.getCount());
-            OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
-                findMember.getId(), cartItem);
-            orderItemList.add(orderItem);
-        }
+		List<OrderItem> orderItemList = new ArrayList<>();
+		for (CartItem cartItem : userCartItems) {
+			cartItem.getProduct().decreaseInventory(cartItem.getCount());
+			OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
+				findMember.getId(), cartItem);
+			orderItemList.add(orderItem);
+		}
 
-        Order findorder =orderService.addOrder(findMember, orderItemList);
+		Order findorder = orderService.addOrder(findMember, orderItemList);
 
-        for (OrderItem orderItem : orderItemList) {
-            BigDecimal sellerSalesAmount = BigDecimal.valueOf(orderItem.getProductTotalPrice());
+		for (OrderItem orderItem : orderItemList) {
+			BigDecimal sellerSalesAmount = BigDecimal.valueOf(orderItem.getProductTotalPrice());
 
-            orderService.increaseSales(orderItem.getProductId(), sellerSalesAmount, findorder);
-        }
+			orderService.increaseSales(orderItem.getProductId(), sellerSalesAmount, findorder);
+		}
 
-        cartService.cartDelete(id);
+		cartService.cartDelete(id);
 
-        return ResponseEntity.ok().build();
-    }
+		return ResponseEntity.ok().build();
+	}
 
-    @PreAuthorize("hasRole('ROLE_BUYER')")
-    @PostMapping("/usr/member/checkout/cancel/{orderItemId}")
-    public String cancelOrder(@PathVariable("orderItemId") Long orderItemId, Model model,
-        @AuthenticationPrincipal MemberDetails memberDetails) {
+	@PreAuthorize("hasRole('ROLE_BUYER')")
+	@PostMapping("/usr/member/checkout/cancel/{orderItemId}")
+	public String cancelOrder(@PathVariable("orderItemId") Long orderItemId, Model model,
+		@AuthenticationPrincipal MemberDetails memberDetails) {
 
-        Long id = memberDetails.getMember().getId();
-        OrderItem cancelItem = orderService.findOrderitem(orderItemId);
+		Long id = memberDetails.getMember().getId();
+		OrderItem cancelItem = orderService.findOrderitem(orderItemId);
 
-        List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
-        int totalCount = 0;
-        for (OrderItem orderItem : orderItemList) {
-            totalCount += orderItem.getProductCount();
-        }
-        totalCount = totalCount - cancelItem.getProductCount();
+		List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
+		int totalCount = 0;
+		for (OrderItem orderItem : orderItemList) {
+			totalCount += orderItem.getProductCount();
+		}
+		totalCount = totalCount - cancelItem.getProductCount();
 
-        orderService.orderCancel(cancelItem);
+		orderService.orderCancel(cancelItem);
 
-        model.addAttribute("totalCount", totalCount);
-        model.addAttribute("orderItems", orderItemList);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("orderItems", orderItemList);
 
-        return "redirect:/usr/member/orderList";
-    }
+		return "redirect:/usr/member/orderList";
+	}
 }
