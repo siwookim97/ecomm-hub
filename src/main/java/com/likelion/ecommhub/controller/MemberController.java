@@ -75,6 +75,7 @@ public class MemberController {
     public String myPage(Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
         Member findMember = memberService.getMemberById(memberDetails.getMember().getId());
         model.addAttribute("member", findMember);
+        System.out.println("findMember.getId() = " + findMember.getId());
 
         return "usr/member/memberPage";
     }
@@ -105,6 +106,6 @@ public class MemberController {
         Member findMember = memberService.getMemberById(id);
         model.addAttribute("member", findMember);
 
-        return "usr/member/memberPage";
+        return "usr/member/sellerInfo";
     }
 }

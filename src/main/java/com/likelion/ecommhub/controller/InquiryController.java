@@ -39,7 +39,7 @@ public class InquiryController {
         Product findProduct = productService.findProductById(productId);
         inquiryService.postInquiry(inquiryDto, findMember, findProduct);
 
-        return "redirect:/product/home";
+        return "redirect:/product/view/" + productId;
     }
 
     @PostMapping("/delete/{productId}")
