@@ -84,30 +84,30 @@ public class OrderService {
 
     //매출액 증가
 
-//    @Transactional
-//    public void increaseSales(Long productId, BigDecimal amount) {
-//        List<Sales> sales = salesRepository.findByProductId(productId);
-//
-//        sales.stream().filter(s -> s.)
-//
-//        Sales salesEntry = Sales.builder()
-//            .product(productService.getProductById(productId))
-//            .sales()
-//            .member(productService.getProductById(productId).getMember())
-//            .build();
-//
-//        if (sales != null) {
-//            //sales.setSales(sales.getSales().add(amount));
-//            sales.forEach((s -> s.getSales().add(amount)));
-//        } else {
-//            sales.forEach((s -> s.setSales(null)));
-//
-//        }
-//        for (Sales sale : sales) {
-//            System.out.println("sale.getId() = " + sale.getId());
-//            System.out.println("sale.getProduct().getId() = " + sale.getProduct().getId());
-//            System.out.println("sale.getMember().getId() = " + sale.getMember().getId());
-//        }
-//        salesRepository.saveAll(sales);
-//    }
+    @Transactional
+    public void increaseSales(Long productId, BigDecimal amount) {
+        List<Sales> sales = salesRepository.findByProductId(productId);
+
+        sales.stream().filter(s -> s.)
+
+        Sales salesEntry = Sales.builder()
+            .product(productService.getProductById(productId))
+            .sales()
+            .member(productService.getProductById(productId).getMember())
+            .build();
+
+        if (sales != null) {
+            //sales.setSales(sales.getSales().add(amount));
+            sales.forEach((s -> s.getSales().add(amount)));
+        } else {
+            sales.forEach((s -> s.setSales(null)));
+
+        }
+        for (Sales sale : sales) {
+            System.out.println("sale.getId() = " + sale.getId());
+            System.out.println("sale.getProduct().getId() = " + sale.getProduct().getId());
+            System.out.println("sale.getMember().getId() = " + sale.getMember().getId());
+        }
+        salesRepository.saveAll(sales);
+    }
 }
