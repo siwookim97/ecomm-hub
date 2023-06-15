@@ -1,7 +1,5 @@
 package com.likelion.ecommhub.service;
 
-
-import static com.likelion.ecommhub.domain.Cart.createCart;
 import static com.likelion.ecommhub.domain.Order.createOrder;
 
 import com.likelion.ecommhub.domain.Member;
@@ -9,7 +7,6 @@ import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
 import com.likelion.ecommhub.dto.MemberModifyDto;
 import com.likelion.ecommhub.repository.MemberRepository;
-import com.likelion.ecommhub.util.RsData;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,57 +24,38 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
     private final CartService cartService;
 
-    public Optional<Member> findByUsername(String username) {
-        return memberRepository.findByUsername(username);
-    }
-
     @Transactional
-    public RsData<Member> join(MemberJoinDto request) {
-        if ( findByUsername(request.getUsername()).isPresent()) {
-            return RsData.of("F-1", String.format("해당 아이디(%s)는 이미 사용중입니다.", request.getUsername()));
+    public void joinSeller(MemberJoinDto request) {
+        if (memberRepository.findByUsername(request.getUsername()).isPresent()) {
+            return;
         }
 
         Member createdMember = createMember(request, MemberRole.ROLE_SELLER);
         memberRepository.save(createdMember);
-
-        return RsData.of("S-1","회원가입이 완료되었습니다.",createdMember);
     }
 
     @Transactional
-    public String joinSeller(MemberJoinDto request) {
+    public void joinBuyer(MemberJoinDto request) {
         if (memberRepository.findByUsername(request.getUsername()).isPresent()) {
-            return "JOINSELLER 실패";
-        }
-
-        Member createdMember = createMember(request, MemberRole.ROLE_SELLER);
-        memberRepository.save(createdMember);
-
-        return "JOINSELLER성공";
-    }
-
-    @Transactional
-    public String joinBuyer(MemberJoinDto request) {
-        if (memberRepository.findByUsername(request.getUsername()).isPresent()) {
-            return "JOINBUYER 실패";
+            return;
         }
 
         Member createdMember = createMember(request, MemberRole.ROLE_BUYER);
         memberRepository.save(createdMember);
         cartService.createCart(createdMember);
         createOrder(createdMember);
-        return "JOINBUYER 성공";
     }
 
     private Member createMember(MemberJoinDto requestDto, MemberRole memberRole) {
         return new Member(
-            requestDto.getUsername(),
-            encoder.encode(requestDto.getPassword()),
-            requestDto.getNickname(),
-            requestDto.getEmail(),
-            requestDto.getPhone(),
-            requestDto.getAddress(),
-            memberRole,
-            requestDto.getAccount()
+                requestDto.getUsername(),
+                encoder.encode(requestDto.getPassword()),
+                requestDto.getNickname(),
+                requestDto.getEmail(),
+                requestDto.getPhone(),
+                requestDto.getAddress(),
+                memberRole,
+                requestDto.getAccount()
         );
 
     }
@@ -90,11 +68,11 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
-     public Member findMemberByUsername(String username) {
+    public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username).get();
     }
 
-    public boolean emailDuplicationCheck(Long id, String email){
+    public boolean emailDuplicationCheck(Long id, String email) {
         Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -103,8 +81,8 @@ public class MemberService {
         }
         return false;
     }
-  
-    public boolean nicknameDuplicationCheck(Long id, String nickname){
+
+    public boolean nicknameDuplicationCheck(Long id, String nickname) {
         Optional<Member> existingMember = memberRepository.findByNickname(nickname);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -113,8 +91,8 @@ public class MemberService {
         }
         return false;
     }
-  
-    public boolean addressDuplicationCheck(Long id, String address){
+
+    public boolean addressDuplicationCheck(Long id, String address) {
         Optional<Member> existingMember = memberRepository.findByAddress(address);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -123,8 +101,8 @@ public class MemberService {
         }
         return false;
     }
-  
-    public boolean phoneDuplicationCheck(Long id, String phone){
+
+    public boolean phoneDuplicationCheck(Long id, String phone) {
         Optional<Member> existingMember = memberRepository.findByPhone(phone);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
