@@ -79,7 +79,6 @@
             <table class="table table-pin-rows">
                 <thead>
                 <tr>
-                    <th>사진</th>
                     <th>이름</th>
                     <th>가격</th>
                     <th>재고</th>
@@ -89,14 +88,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="product : ${member.products}">
-                    <td class="align-middle">
-                        <div class="avatar">
-                            <div class="mask mask-squircle w-12 h-12">
-                                <img src="/tailwind-css-component-profile-2@56w.png"
-                                     alt="Avatar Tailwind CSS Component"/>
-                            </div>
-                        </div>
-                    </td>
                     <td class="align-middle">
                         <div class="flex items-center space-x-3">
                             <div>
@@ -179,7 +170,6 @@
                     </div>
                     <form class="card-body" method="post">
                         <h1 class="card-text pricing-card-text text-center" th:text="|${totalCount} 개|">$0</h1>
-
                     </form>
                 </div>
             </div>
