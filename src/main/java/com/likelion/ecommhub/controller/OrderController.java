@@ -55,7 +55,7 @@ public class OrderController {
     @Transactional
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @PostMapping("/usr/member/cart/checkout")
-    public ResponseEntity<Void> cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+    public ResponseEntity<Void> cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails) {
 
         Long id = memberDetails.getMember().getId();
         Member findMember = memberService.getMemberById(id);
