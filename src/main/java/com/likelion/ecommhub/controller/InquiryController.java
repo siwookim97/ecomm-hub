@@ -50,14 +50,10 @@ public class InquiryController {
     public String printInquiry(Model model,
                                @PathVariable Long productId,
                                @AuthenticationPrincipal MemberDetails memberDetails) {
+
         List<Inquiry> findInquiries = inquiryService.printInquiry(productId);
         Product findProduct = productService.findProductById(productId);
 
-        System.out.println("count : " + findInquiries.size());
-        for (Inquiry findInquiry : findInquiries) {
-            System.out.println("findInquiry.getTitle() = " + findInquiry.getTitle());
-            System.out.println("findInquiry.getContent() = " + findInquiry.getContent());
-        }
         model.addAttribute("inquiries", findInquiries);
         model.addAttribute("prodcut", findProduct);
 
