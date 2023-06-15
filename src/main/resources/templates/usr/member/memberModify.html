@@ -17,72 +17,47 @@
 </head>
 
 <body>
-<main layout:fragment="main">
-  <section class="vh-100" >
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-12 col-xl-11">
-          <div class="text-black">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">회원정보수정</p>
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+    <div class="max-w-2xl w-full px-4">
+        <br>
+        <h1 class="mb-4">
+            <i class="fa-solid fa-user-edit"></i>
+            회원 정보 수정
+        </h1>
 
-
-
-                  <form th:action="@{/usr/member/update} " th:object="${memberModifyDto}" method="post" class="mx-1 mx-md-4">
-                    <input type="hidden" name="_method" value="put" />
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="text" id="username"  class="form-control input input-bordered w-full" th:placeholder="${member.getUsername()}" readonly/>
-                        <label class="form-label" for="username">Login ID (username)</label>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="text" th:field="*{nickname}" id="nickname" class="form-control input input-bordered w-full" th:placeholder="${member.getNickname()}"
-                               th:value="${memberModifyDto.nickname ?: member.getNickname()}"/>
-                        <label class="form-label" for="nickname">Your nickname</label>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="text" th:field="*{address}" id="address" class="form-control input input-bordered w-full" th:placeholder="${member.getAddress()}"
-                               th:value="${memberModifyDto.address ?: member.getAddress()}"/>
-                        <label class="form-label" for="address">Your address</label>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        <input type="text" th:field="*{phone}" oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11);" id="phone" class="form-control input input-bordered w-full" th:placeholder="${member.getPhone()}"
-                               th:value="${memberModifyDto.phone ?: member.getPhone()}"/>
-                        <label class="form-label" for="phone">Your phone</label>
-                      </div>
-                    </div>
-
-
-                    <button id="btn-join-1" type="submit"
-                            class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500">
-                      <i class="fa-solid fa-user-plus"></i>
-                      <span>수정</span>
-                    </button>
-                  </form>
-
-                </div>
-              </div>
+        <form th:action="@{/usr/member/update}" th:object="${memberModifyDto}" method="post"
+              class="flex flex-col gap-6">
+            <div>
+                <input type="text" id="username"  class="form-control input input-bordered w-full" th:placeholder="${member.getUsername()}" readonly/>
             </div>
-          </div>
-        </div>
-      </div>
+            <div>
+                <input type="text" th:field="*{nickname}" id="nickname" class="form-control input input-bordered w-full" th:placeholder="${member.getNickname()}"
+                       th:value="${memberModifyDto.nickname ?: member.getNickname()}"/>
+            </div>
+
+            <div>
+                <input type="text" th:field="*{address}" id="address" class="form-control input input-bordered w-full" th:placeholder="${member.getAddress()}"
+                       th:value="${memberModifyDto.address ?: member.getAddress()}"/>
+            </div>
+
+            <div>
+                <input type="text" th:field="*{phone}" oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11);" id="phone" class="form-control input input-bordered w-full" th:placeholder="${member.getPhone()}"
+                       th:value="${memberModifyDto.phone ?: member.getPhone()}"/>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_SELLER')">
+                <input type="text" th:field="*{account}" id="account" class="form-control input input-bordered w-full" th:placeholder="${member.getAccount()}"
+                       th:value="${memberModifyDto.account ?: member.getAccount()}"/>
+            </div>
+
+
+            <button id="btn-join-1" type="submit"
+                    class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500">
+                <i class="fa-solid fa-user-edit"></i>
+                <span>회원 정보 수정</span>
+            </button>
+        </form>
     </div>
-  </section>
 </main>
 </body>
 </html>

@@ -91,7 +91,7 @@ public class MemberController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public String userUpdate(@AuthenticationPrincipal MemberDetails memberDetails,
                              @ModelAttribute @Valid MemberModifyDto memberModifyDto) throws Exception {
 

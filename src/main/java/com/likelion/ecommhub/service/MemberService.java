@@ -72,7 +72,7 @@ public class MemberService {
         return memberRepository.findByUsername(username).get();
     }
 
-    public boolean emailDuplicationCheck(Long id, String email) {
+    private boolean emailDuplicationCheck(Long id, String email) {
         Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -82,7 +82,7 @@ public class MemberService {
         return false;
     }
 
-    public boolean nicknameDuplicationCheck(Long id, String nickname) {
+    private boolean nicknameDuplicationCheck(Long id, String nickname) {
         Optional<Member> existingMember = memberRepository.findByNickname(nickname);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -92,7 +92,7 @@ public class MemberService {
         return false;
     }
 
-    public boolean addressDuplicationCheck(Long id, String address) {
+    private boolean addressDuplicationCheck(Long id, String address) {
         Optional<Member> existingMember = memberRepository.findByAddress(address);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -102,7 +102,7 @@ public class MemberService {
         return false;
     }
 
-    public boolean phoneDuplicationCheck(Long id, String phone) {
+    private boolean phoneDuplicationCheck(Long id, String phone) {
         Optional<Member> existingMember = memberRepository.findByPhone(phone);
         if (existingMember.isPresent()) {
             if (!existingMember.get().getId().equals(id)) {
@@ -144,6 +144,9 @@ public class MemberService {
                 } else {
                     update.setPhone(memberModifyDto.getPhone());
                 }
+            }
+            if (memberModifyDto.getAccount() != null && !memberModifyDto.getAccount().isEmpty()) {
+                update.setAccount(memberModifyDto.getAccount());
             }
             memberRepository.save(update);
         } else {
