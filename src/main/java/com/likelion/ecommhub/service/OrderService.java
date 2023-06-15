@@ -11,7 +11,12 @@ import com.likelion.ecommhub.repository.OrderRepository;
 import com.likelion.ecommhub.repository.SalesRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,11 +65,12 @@ public class OrderService {
 
     // 주문하면 Order 만들기
     @Transactional
-    public void addOrder(Member member, List<OrderItem> orderItemList) {
+    public Order addOrder(Member member, List<OrderItem> orderItemList) {
 
         Order userOrder = Order.createOrder(member, orderItemList);
 
         orderRepository.save(userOrder);
+        return userOrder;
     }
 
     // 주문 취소 기능
@@ -83,31 +89,23 @@ public class OrderService {
     }
 
     //매출액 증가
-
     @Transactional
-    public void increaseSales(Long productId, BigDecimal amount) {
-        List<Sales> sales = salesRepository.findByProductId(productId);
+    public void increaseSales(Long productId, BigDecimal amount,Order order) {
 
-        sales.stream().filter(s -> s.)
+        int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().getYear();
 
         Sales salesEntry = Sales.builder()
-            .product(productService.getProductById(productId))
-            .sales()
-            .member(productService.getProductById(productId).getMember())
+            .sales(amount)
+            .saleDate(LocalDateTime.now().withMonth(month))
+            .saleYear(year)
+            .product(productService.findProductById(productId))
+            .member(productService.findProductById(productId).getMember())
             .build();
 
-        if (sales != null) {
-            //sales.setSales(sales.getSales().add(amount));
-            sales.forEach((s -> s.getSales().add(amount)));
-        } else {
-            sales.forEach((s -> s.setSales(null)));
+        salesEntry.setOrder(order);
 
-        }
-        for (Sales sale : sales) {
-            System.out.println("sale.getId() = " + sale.getId());
-            System.out.println("sale.getProduct().getId() = " + sale.getProduct().getId());
-            System.out.println("sale.getMember().getId() = " + sale.getMember().getId());
-        }
-        salesRepository.saveAll(sales);
+        salesRepository.save(salesEntry);
+
     }
 }
