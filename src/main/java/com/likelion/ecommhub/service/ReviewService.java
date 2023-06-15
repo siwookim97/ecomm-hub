@@ -9,6 +9,7 @@ import com.likelion.ecommhub.repository.MemberRepository;
 import com.likelion.ecommhub.repository.ProductRepository;
 import com.likelion.ecommhub.repository.ReviewRepository;
 
+import org.springframework.security.access.AccessDeniedException;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -27,21 +28,17 @@ public class ReviewService {
     public void postReview(ReviewDto reviewDto, Long memberId, Long productId) {
         Member findMember = findMember(memberId);
         Product findProduct = findProduct(productId);
-        Order findMemberOrder = findMember.getOrders().stream()
-                .filter(order -> order.getMember().equals(findMember))
-                .findFirst()
-                .orElse(null);
 
-        Review createdReview = Review.builder()
-                .title(reviewDto.getTitle())
-                .content(reviewDto.getContent())
-                .build();
-        createdReview.setMember(findMember);
-        createdReview.setProduct(findProduct);
-
-        if (findMemberOrder != null) {
-            reviewRepository.save(createdReview);
+        if (!isUserAuthenticated(findMember)) {
+            throw new AccessDeniedException("User authentication failed"); // 예외 발생
         }
+        Review createdReview = Review.builder()
+                    .title(reviewDto.getTitle())
+                    .content(reviewDto.getContent())
+                    .build();
+            createdReview.setMember(findMember);
+            createdReview.setProduct(findProduct);
+            reviewRepository.save(createdReview);
     }
 
     @Transactional
@@ -71,5 +68,14 @@ public class ReviewService {
     private Review findReview(Long reviewId) {
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("no such REVIEW"));
+    }
+
+    private boolean isUserAuthenticated(Member findMember) {
+        Order findMemberOrder = findMember.getOrders().stream()
+                .filter(order -> order.getMember().equals(findMember))
+                .findFirst()
+                .orElse(null);
+
+        return findMemberOrder != null;
     }
 }
