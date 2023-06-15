@@ -54,7 +54,9 @@
                                 <div sec:authorize="isAuthenticated()"
                                      th:with="sellerId=${#authentication.principal.member.id}"
                                      class="card-actions justify-end">
-                                    <a th:if="${sellerId == member.id}" class="btn btn-primary mr-2"
+                                    <a sec:authorize="hasRole('ROLE_SELLER')" th:if="${sellerId == member.id}"
+                                       class="btn btn-primary mr-2" href="mailto:">메일 보내기</a>
+                                    <a  th:if="${sellerId == member.id}" class="btn btn-primary mr-2"
                                        th:href="@{/usr/member/modify}">수정</a>
                                 </div>
                             </div>
@@ -101,10 +103,14 @@
                     <td class="align-middle" th:text="${product.price}"></td>
                     <td class="align-middle" th:text="${product.inventory}"></td>
                     <th class="align-middle">
-                        <button class="btn btn-ghost btn-xs" th:text="${product.inquiries.size()}"></button>
+                        <a th:href="@{/inquiry/view/{productId}(productId=${product.id})}">
+                            <button class="btn btn-ghost btn-xs" th:text="${product.inquiries.size()}"></button>
+                        </a>
                     </th>
                     <th class="align-middle">
-                        <button class="btn btn-ghost btn-xs" th:text="${product.reviews.size()}"></button>
+                        <a th:href="@{/product/view/{productId}(productId=${product.id})}">
+                            <button class="btn btn-ghost btn-xs" th:text="${product.reviews.size()}"></button>
+                        </a>
                     </th>
                 </tr>
                 </tbody>

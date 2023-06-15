@@ -89,7 +89,6 @@ public class OrderService {
     }
 
     //매출액 증가
-
     @Transactional
     public void increaseSales(Long productId, BigDecimal amount,Order order) {
 
@@ -107,5 +106,6 @@ public class OrderService {
         salesEntry.setOrder(order);
 
         salesRepository.save(salesEntry);
+
     }
 }
