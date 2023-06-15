@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -54,21 +55,12 @@ public class OrderController {
     @Transactional
     @PreAuthorize("hasRole('ROLE_BUYER')")
     @PostMapping("/usr/member/cart/checkout")
-    public String cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+    public ResponseEntity<Void> cartCheckout(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
 
         Long id = memberDetails.getMember().getId();
         Member findMember = memberService.getMemberById(id);
         Cart userCart = cartService.findMemberCart(findMember.getId());
         List<CartItem> userCartItems = cartService.MemberCartView(userCart);
-
-        int totalPrice = 0;
-        for (CartItem cartItem : userCartItems) {
-            if (cartItem.getProduct().getInventory() == 0
-                || cartItem.getProduct().getInventory() < cartItem.getCount()) {
-                return "redirect:/product/home";
-            }
-            totalPrice += cartItem.getCount() * cartItem.getProduct().getPrice();
-        }
 
         List<OrderItem> orderItemList = new ArrayList<>();
         for (CartItem cartItem : userCartItems) {
@@ -76,8 +68,8 @@ public class OrderController {
             OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
                 findMember.getId(), cartItem);
             orderItemList.add(orderItem);
-            BigDecimal sellerSalesAmount = BigDecimal.valueOf((long)cartItem.getCount() * cartItem.getProduct().getPrice());
-            orderService.increaseSales(cartItem.getProduct().getMember(), sellerSalesAmount);
+//            BigDecimal sellerSalesAmount = BigDecimal.valueOf((long)cartItem.getCount() * cartItem.getProduct().getPrice());
+//            orderService.increaseSales(cartItem.getProduct().getMember(), sellerSalesAmount);
 
         }
 
@@ -85,11 +77,7 @@ public class OrderController {
 
         cartService.cartDelete(id);
 
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("cartItems", userCartItems);
-        model.addAttribute("user", findMember);
-
-        return "redirect:/usr/member/cart";
+        return ResponseEntity.ok().build();
     }
 
     @PreAuthorize("hasRole('ROLE_BUYER')")
