@@ -55,6 +55,7 @@ public class Order extends BaseEntity {
         for (OrderItem orderItem : orderItemList) {
             order.addOrderItem(orderItem);
         }
+
         return order;
     }
 
@@ -63,6 +64,7 @@ public class Order extends BaseEntity {
             .member(member)
             .build();
     }
+
     public void setMember(Member member) {
         if (this.member != null) {
             this.member.getOrders().remove(this);
@@ -70,6 +72,4 @@ public class Order extends BaseEntity {
         this.member = member;
         member.getOrders().add(this);
     }
-
-
 }

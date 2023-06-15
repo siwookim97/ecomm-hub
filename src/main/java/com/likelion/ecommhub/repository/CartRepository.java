@@ -11,6 +11,5 @@ import com.likelion.ecommhub.domain.Cart;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
 	Optional<Cart> findById(Long cartId);
-
 	Cart findByMemberId(Long id);
 }

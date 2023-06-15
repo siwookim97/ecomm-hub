@@ -10,9 +10,4 @@ public class HomeController {
     public String home() {
         return "redirect:/product/home";
     }
-
-    @GetMapping("/t")
-    public String test() {
-        return "usr/member/test";
-    }
 }

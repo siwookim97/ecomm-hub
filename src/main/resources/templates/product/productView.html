@@ -31,7 +31,8 @@
                 <div class="col-md-6 flex-grow">
                     <h1 class="display-5 fw-bolder" style="font-size: 35px;" th:text="${item.getName()}">상품 이름</h1>
                     <div class="fs-5 mb-5">
-                        <span style="font-size: 20px" th:text="${#numbers.formatInteger(item.getPrice(), 3, 'COMMA')} + ' 원'">제품 가격</span>
+                        <span style="font-size: 20px"
+                              th:text="${#numbers.formatInteger(item.getPrice(), 3, 'COMMA')} + ' 원'">제품 가격</span>
                     </div>
                     <br>
                     <a th:href="@{/usr/member/seller/{id}(id=${item.getMember().id})}" class="link-primary"
@@ -86,6 +87,7 @@
                                 return true;
                             }
                         }
+
                         /* ]]> */
                     </script>
                 </div>

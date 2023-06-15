@@ -16,17 +16,20 @@
         </h1>
 
         <div class="login-form">
-            <form class="flex flex-col gap-6" th:action="@{/usr/member/login}" th:object="${memberLoginDto}" method="post">
-                <div >
-                    <input type="text" id="username" name="username" placeholder="아이디" class="input input-bordered w-full"
-                           autofocus />
+            <form class="flex flex-col gap-6" th:action="@{/usr/member/login}" th:object="${memberLoginDto}"
+                  method="post">
+                <div>
+                    <input type="text" id="username" name="username" placeholder="아이디"
+                           class="input input-bordered w-full"
+                           autofocus/>
                     <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                 </div>
-                <div >
-                    <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered w-full" />
+                <div>
+                    <input type="password" th:field="*{password}" placeholder="비밀번호"
+                           class="input input-bordered w-full"/>
                     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 </div>
-                <button type="submit" class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500" >
+                <button type="submit" class="btn btn-block gap-1 bg-gradient-to-r from-sky-500 to-indigo-500">
                     <i class="fa-solid fa-arrow-right-to-bracket "></i>
                     <span>로그인</span>
                 </button>
