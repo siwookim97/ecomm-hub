@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
   <meta charset="UTF-8">
   <title>Create Notice</title>
@@ -48,10 +48,24 @@
     .form-container button[type="submit"]:hover {
       background-color: #0056b3;
     }
+    html, body{
+      height:100%;
+    }
+    .wrap {
+      position: relative;
+      min-height: 100%;
+      padding-bottom: 44px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+    }
   </style>
 </head>
 <body>
-<h1>Create Notice</h1>
+<main layout:fragment="main">
+<h1 class="text-6xl">Create Notice</h1>
 <div class="form-container">
   <form th:action="@{/notice/create}" method="post" th:object="${noticeDto}">
     <div>
@@ -72,5 +86,6 @@
     <button type="submit">Create</button>
   </form>
 </div>
+</main>
 </body>
 </html>

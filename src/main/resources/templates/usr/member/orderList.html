@@ -3,6 +3,19 @@
 <head>
   <title>주문내역</title>
   <style>
+    html, body{
+      height:100%;
+    }
+    .wrap {
+      position: relative;
+      min-height: 100%;
+      padding-bottom: 44px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+    }
     .title{
       display: flex;
       justify-content: center;
@@ -43,9 +56,9 @@
             <td th:text="${orderItem.getProductPrice()}">가격</td>
             <td th:text="${orderItem.getProductTotalPrice()}">주문금액</td>
             <td th:text="${orderItem.getOrder().getCreatedDate()}">날짜</td>
-            <td th:if="${orderItem.getIsCancel()} == 1">취소완료</a></td>
+            <td th:if="${orderItem.getIsCancel()} == 1">취소완료</td>
             <td th:unless="${orderItem.getIsCancel()} == 1">
-              <form onsubmit="return cancel();" th:if="${user.isPresent()}" th:action="@{/member/checkout/cancel/{orderItemId}(orderItemId=${orderItem.id})}" th:method="POST">
+              <form onsubmit="return cancel();" th:action="@{/usr/member/checkout/cancel/{orderItemId}(orderItemId=${orderItem.id})}" th:method="POST">
                 <button type="submit">주문취소</button>
               </form>
               <script th:inline="javascript">

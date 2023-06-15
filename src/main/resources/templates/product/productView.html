@@ -32,11 +32,18 @@
         </div>
         <p class="lead" th:text="${item.getDetail()}">아이템 설명</p>
 
-        <div sec:authorize="hasRole('ROLE_BUYER') and isAuthenticated()">
-        <form class="d-flex" onsubmit="event.preventDefault(); additem();" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}" method="post">
-          <input id="amount" name="amount" type="num" value="1" class="input input-bordered input-accent w-28">
-          <button class="btn btn-outline-dark">장바구니</button>
-        </form>
+        <div sec:authorize="hasRole('ROLE_BUYER')">
+          <form class="d-flex" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}" method="post" onsubmit="return additem();" >
+            <input id="amount" name="amount" value="1" class="input input-bordered input-accent w-28">
+            <button class="btn btn-outline-dark">장바구니</button>
+          </form>
+          <div class="modal-overlay" id="modalOverlay" style="display: none;">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">장바구니에 상품이 추가되었습니다!</h3>
+              <p class="py-4">Press ESC key or click outside to close</p>
+              <button class="btn" onclick="closeModal()">close</button>
+            </div>
+          </div>
         </div>
         <form class="d-flex" sec:authorize="isAnonymous()">
           <div class="d-flex">
@@ -72,12 +79,11 @@
               alert("재고가 부족합니다.");
               return false;
             } else {
-              openModal(); // 모달 열기
-              setTimeout(closeModal, 10000); // 10초 후 모달 자동 닫기
+              openModal();
+              setTimeout(closeModal, 3000);
               return true;
             }
           }
-
           function openModal() {
             const modalOverlay = document.getElementById('modalOverlay');
             modalOverlay.style.display = 'flex';
@@ -99,18 +105,11 @@
     </div>
   </div>
 </section>
-  <div class="modal-overlay" id="modalOverlay" style="display: none;">
-    <div class="modal-box">
-      <h3 class="font-bold text-lg">장바구니에 상품이 추가되었습니다!</h3>
-      <p class="py-4">Press ESC key or click outside to close</p>
-      <button class="btn" onclick="closeModal()">close</button>
-    </div>
-  </div>
 <!-- 리뷰 테이블 -->
   <div class="table-responsive">
 <table class="table table-striped table-sm">
   <thead class="table-dark">
-  <tr class="text-center">
+  <tr class="text-center text-black">
     <th>번호</th>
     <th>제목</th>
     <th>리뷰 내용</th>

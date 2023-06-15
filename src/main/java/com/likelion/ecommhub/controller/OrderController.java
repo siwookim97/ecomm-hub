@@ -8,6 +8,8 @@ import com.likelion.ecommhub.domain.OrderItem;
 import com.likelion.ecommhub.service.CartService;
 import com.likelion.ecommhub.service.MemberService;
 import com.likelion.ecommhub.service.OrderService;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +46,7 @@ public class OrderController {
 
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("orderItems", orderItemList);
-        model.addAttribute("user", memberService.getMemberId(id));
+        model.addAttribute("user", memberService.getMemberById(id));
 
         return "usr/member/orderList";
     }
@@ -74,6 +76,9 @@ public class OrderController {
             OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
                 findMember.getId(), cartItem);
             orderItemList.add(orderItem);
+            BigDecimal sellerSalesAmount = BigDecimal.valueOf((long)cartItem.getCount() * cartItem.getProduct().getPrice());
+            orderService.increaseSales(cartItem.getProduct().getMember(), sellerSalesAmount);
+
         }
 
         orderService.addOrder(findMember, orderItemList);

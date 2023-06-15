@@ -1,11 +1,13 @@
 package com.likelion.ecommhub.service;
 
+
 import static com.likelion.ecommhub.domain.Cart.createCart;
 import static com.likelion.ecommhub.domain.Order.createOrder;
 
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
+import com.likelion.ecommhub.dto.MemberModifyDto;
 import com.likelion.ecommhub.repository.MemberRepository;
 import com.likelion.ecommhub.util.RsData;
 
@@ -23,6 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
+    private final CartService cartService;
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
@@ -60,9 +63,8 @@ public class MemberService {
 
         Member createdMember = createMember(request, MemberRole.ROLE_BUYER);
         memberRepository.save(createdMember);
-        createCart(createdMember);
+        cartService.createCart(createdMember);
         createOrder(createdMember);
-
         return "JOINBUYER 성공";
     }
 
@@ -133,36 +135,36 @@ public class MemberService {
     }
 
     @Transactional
-    public void memberModify(Long id, Member member) throws Exception {
+    public void memberModify(Long id, MemberModifyDto memberModifyDto) throws Exception {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if (optionalMember.isPresent()) {
             Member update = optionalMember.get();
-            if (member.getNickname() != null && !member.getNickname().isEmpty()) {
-                if (nicknameDuplicationCheck(id, member.getNickname())) {
+            if (memberModifyDto.getNickname() != null && !memberModifyDto.getNickname().isEmpty()) {
+                if (nicknameDuplicationCheck(id, memberModifyDto.getNickname())) {
                     throw new Exception("이미 사용중인 닉네임입니다.");
                 } else {
-                    update.setNickname(member.getNickname());
+                    update.setNickname(memberModifyDto.getNickname());
                 }
             }
-            if (member.getEmail() != null && !member.getEmail().isEmpty()) {
-                if (emailDuplicationCheck(id, member.getEmail())) {
+            if (memberModifyDto.getEmail() != null && !memberModifyDto.getEmail().isEmpty()) {
+                if (emailDuplicationCheck(id, memberModifyDto.getEmail())) {
                     throw new Exception("이미 사용중인 이메일입니다.");
                 } else {
-                    update.setEmail(member.getEmail());
+                    update.setEmail(memberModifyDto.getEmail());
                 }
             }
-            if (member.getAddress() != null && !member.getAddress().isEmpty()) {
-                if (addressDuplicationCheck(id, member.getAddress())) {
+            if (memberModifyDto.getAddress() != null && !memberModifyDto.getAddress().isEmpty()) {
+                if (addressDuplicationCheck(id, memberModifyDto.getAddress())) {
                     throw new Exception("이미 사용중인 주소입니다.");
                 } else {
-                    update.setAddress(member.getAddress());
+                    update.setAddress(memberModifyDto.getAddress());
                 }
             }
-            if (member.getPhone() != null && !member.getPhone().isEmpty()) {
-                if (phoneDuplicationCheck(id, member.getPhone())) {
+            if (memberModifyDto.getPhone() != null && !memberModifyDto.getPhone().isEmpty()) {
+                if (phoneDuplicationCheck(id, memberModifyDto.getPhone())) {
                     throw new Exception("이미 사용중인 전화번호입니다.");
                 } else {
-                    update.setPhone(member.getPhone());
+                    update.setPhone(memberModifyDto.getPhone());
                 }
             }
             memberRepository.save(update);

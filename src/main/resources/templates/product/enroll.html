@@ -19,63 +19,7 @@
             }
         }
     </script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-        }
 
-        .contact-form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
-
-        .contact-form h1 {
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #cccccc;
-            border-radius: 3px;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: none;
-            border-radius: 3px;
-            background-color: #007bff;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #0069d9;
-        }
-        #preview {
-            width: 420px;
-            height: auto;
-            border: 3px solid #ccc;
-        }
-    </style>
 <div class="contact-form">
     <form th:action="@{/product/enroll}" th:object="${productDto}" method="post" enctype="multipart/form-data">
         <h1>Add Product</h1>
