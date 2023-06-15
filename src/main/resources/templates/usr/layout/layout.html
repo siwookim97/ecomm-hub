@@ -32,6 +32,8 @@
                     <li sec:authorize="isAuthenticated()"><a href="/usr/member/logout">로그아웃</a></li>
 
                     <li><a href="/product/home">판매상품 보러가기</a></li>
+
+                    <li sec:authorize="hasRole('ROLE_SELLER') or hasRole('ROLE_ADMIN')"><a href="/notice/list">공지사항</a></li>
                 </ul>
             </div>
         </div>
