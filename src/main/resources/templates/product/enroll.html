@@ -2,6 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
     <title>Product Enroll</title>
+    <script>
+        function showPreview(input) {
+            var previewImg = document.getElementById('preview');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block'; // 이미지 보이기
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewImg.style.display = 'none'; // 이미지 숨기기
+            }
+        }
+
+        function validateForm() {
+            var nameInput = document.getElementById('name');
+            var priceInput = document.getElementById('price');
+            var detailInput = document.getElementById('detail');
+            var inventoryInput = document.getElementById('inventory');
+
+            var nameError = document.getElementById('name-error');
+            var priceError = document.getElementById('price-error');
+            var detailError = document.getElementById('detail-error');
+            var inventoryError = document.getElementById('inventory-error');
+
+            if (nameInput.value.trim() === '') {
+                nameError.style.display = 'block';
+                return false;
+            } else {
+                nameError.style.display = 'none';
+            }
+
+            if (priceInput.value.trim() === '') {
+                priceError.style.display = 'block';
+                return false;
+            } else {
+                priceError.style.display = 'none';
+            }
+
+            if (detailInput.value.trim() === '') {
+                detailError.style.display = 'block';
+                return false;
+            } else {
+                detailError.style.display = 'none';
+            }
+
+            if (inventoryInput.value.trim() === '') {
+                inventoryError.style.display = 'block';
+                return false;
+            } else {
+                inventoryError.style.display = 'none';
+            }
+
+            return true;
+        }
+    </script>
+
+    <style>
+        .contact-form {
+            max-width: 500px; /* 폼의 최대 너비 설정 */
+        }
+
+        #preview {
+            max-width: 100%; /* 이미지 미리보기의 최대 너비 설정 */
+            height: auto; /* 이미지 미리보기의 높이 자동 조정 */
+        }
+    </style>
 </head>
 
 <body>
@@ -10,7 +78,7 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     document.getElementById('preview').src = e.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
@@ -20,34 +88,41 @@
         }
     </script>
 
-<div class="contact-form">
-    <form th:action="@{/product/enroll}" th:object="${productDto}" method="post" enctype="multipart/form-data">
-        <h1>Add Product</h1>
+    <div class="contact-form">
+        <form th:action="@{/product/enroll}" th:object="${productDto}" method="post" enctype="multipart/form-data"
+              onsubmit="return validateForm();">
 
-        <div class="form-group">
-            <label for="name">제품 이름</label>
-            <input type="text" class="form-control" id="name" name="name">
-        </div>
-        <div class="form-group">
-            <label for="price">제품 가격</label>
-            <input type="number" class="form-control" id="price" name="price" step="100" >
-        </div>
-        <div class="form-group">
-            <label for="detail">제품 설명</label>
-            <textarea class="form-control" id="detail" rows="5" name="detail"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="inventory">제품 수량</label>
-            <input type="number" class="form-control" id="inventory" name="inventory" step="1">
-        </div>
-        <div class="form-group">
-            <label for="image">제품 이미지 미리보기</label>
-            <input type="file" class="form-control" id="image" name="image" onchange="readURL(this);">
-            <img id="preview" />
-        </div>
-        <button type="submit" class="btn btn-primary btn-block"> 제품 등록</button>
-    </form>
-</div>
+            <h1 class="" style="font-size: 24px; margin-bottom: 10px;">🎁 상품 등록</h1>
+            <br>
+            <div class="form-group">
+                <label for="name">상품 이름</label>
+                <input type="text" class="form-control" id="name" name="name">
+                <small id="name-error" class="text-danger" style="display: none;">상품 이름을 입력하세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="price">상품 가격</label>
+                <input type="number" class="form-control" id="price" name="price" step="100">
+                <small id="price-error" class="text-danger" style="display: none;">상품 가격을 100단위로 입력하세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="detail">상품 설명</label>
+                <textarea class="form-control" id="detail" rows="5" name="detail"></textarea>
+                <small id="detail-error" class="text-danger" style="display: none;">상품 설명을 입력하세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="inventory">상품 수량</label>
+                <input type="number" class="form-control" id="inventory" name="inventory" step="1">
+                <small id="inventory-error" class="text-danger" style="display: none;">상품 수량을 입력하세요.</small>
+            </div>
+            <div class="form-group">
+                <label for="image">상품 이미지 미리보기</label>
+                <input type="file" class="form-control" id="image" name="image" onchange="showPreview(this);">
+                <img id="preview" style="border: 1px solid #ccc; padding: 5px; display: none;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block bg-gradient-to-r from-sky-500 to-indigo-500"> 상품 등록
+            </button>
+        </form>
+    </div>
 </main>
 </body>
 </html>

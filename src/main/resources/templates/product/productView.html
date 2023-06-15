@@ -1,133 +1,145 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <title th:text="${item.getName()}">타이틀 - 상품 이름</title>
-  <style>
-    .title{
-      display: flex;
-      justify-content: center;
-    }
-    .table-responsive table {
-      width: 100%;
-    }
-  </style>
+    <title th:text="${item.getName()}">타이틀 - 상품 이름</title>
+    <style>
+        .title {
+            display: flex;
+            justify-content: center;
+        }
+
+        .table-responsive table {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <main layout:fragment="main" class="flex-grow justify-center">
-  <section class="py-5">
-  <div class="container-fluid px-4 px-lg-5 my-5">
-    <div class="align-items-center flex flex-row">
-      <div class="col-md-6 flex-grow">
-        <img class="card-img-top mb-5 mb-md-0 mx-auto" th:if="${item.image != null}" th:src="${item.image.getBucketObjectUrl()}"  alt="이미지" width="650" height="280">
-        <img class="card-img-top mb-5 mb-md-0 mx-auto" th:unless="${item.image != null}" th:src="@{//resource/static/img/no_image.gif}"
-             alt="이미지" width="650" height="280">
-      </div>
-      <div class="col-md-6 flex-grow">
-        <a  th:href="@{/usr/member/seller/{id}(id=${item.getMember().id})}" class="link-primary" th:text="|판매자 : ${item.getMember().getNickname()}|">판매자 이름</a>
-        <div class="small mb-1" th:if="${item.getProductState().ordinal()} == 0" th:text="|재고 : ${item.getInventory()}개|">재고</div>
-        <div class="small mb-1" th:unless="${item.getProductState().ordinal()} == 0" th:text="|품절|">재고</div>
-        <h1 class="display-5 fw-bolder" th:text="${item.getName()}">상품 이름</h1>
-        <div class="fs-5 mb-5">
-          <span th:text="|${item.getPrice()} 원|">아이템 가격</span>
-        </div>
-        <p class="lead" th:text="${item.getDetail()}">아이템 설명</p>
+    <section class="py-5">
+        <div class="container-fluid px-4 px-lg-5 my-5">
+            <div class="align-items-center flex flex-row">
+                <div class="card lg:card-side bg-base-100 shadow-xl" style="width: 50%;">
+                    <figure>
+                        <img class="card-img-top mb-5 mb-md-0 mx-auto" th:if="${item.image != null}"
+                             th:src="${item.image.getBucketObjectUrl()}" alt="이미지" width="650" height="280">
+                        <img class="card-img-top mb-5 mb-md-0 mx-auto" th:unless="${item.image != null}"
+                             th:src="@{//resource/static/img/no_image.gif}"
+                             alt="이미지" width="650" height="280">
+                    </figure>
+                </div>
+                <div class="col-md-6 flex-grow">
+                    <h1 class="display-5 fw-bolder" style="font-size: 35px;" th:text="${item.getName()}">상품 이름</h1>
+                    <div class="fs-5 mb-5">
+                        <span style="font-size: 20px" th:text="${#numbers.formatInteger(item.getPrice(), 3, 'COMMA')} + ' 원'">제품 가격</span>
+                    </div>
+                    <br>
+                    <a th:href="@{/usr/member/seller/{id}(id=${item.getMember().id})}" class="link-primary"
+                       th:text="|판매자 : ${item.getMember().getNickname()}|"
+                       style="font-size: 15px;">판매자 이름</a>
+                    <div class="small mb-1" style="font-size: 15px;" th:if="${item.getProductState().ordinal()} == 0"
+                         th:text="|재고 : ${item.getInventory()}개|">재고
+                    </div>
+                    <div class="small mb-1" th:unless="${item.getProductState().ordinal()} == 0" th:text="|품절|">재고</div>
 
-        <div sec:authorize="hasRole('ROLE_BUYER')">
-          <form class="d-flex" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}" method="post" onsubmit="return additem();" >
-            <input id="amount" name="amount" value="1" class="input input-bordered input-accent w-28">
-            <button class="btn btn-outline-dark">장바구니</button>
-          </form>
-          <div class="modal-overlay" id="modalOverlay" style="display: none;">
-            <div class="modal-box">
-              <h3 class="font-bold text-lg">장바구니에 상품이 추가되었습니다!</h3>
-              <p class="py-4">Press ESC key or click outside to close</p>
-              <button class="btn" onclick="closeModal()">close</button>
+                    <div class="lead" th:text="${item.getDetail()}">제품 설명</div>
+                    <br>
+                    <div sec:authorize="hasRole('ROLE_BUYER')">
+                        <form class="d-flex" th:action="@{/usr/member/cart/{productId}(productId=${item.id})}"
+                              method="post" onsubmit="return additem();">
+                            <input id="amount" name="amount" value="1" class="input input-bordered input-accent w-28"
+                                   style="margin-right: 10px;">
+                            <button class="btn btn-outline-dark">장바구니 담기</button>
+                        </form>
+                        <div class="modal-overlay" id="modalOverlay" style="display: none;">
+                            <div class="modal-box">
+                                <h3 class="font-bold text-lg">장바구니에 상품이 추가되었습니다!</h3>
+                                <p class="py-4">Press ESC key or click outside to close</p>
+                                <button class="btn" onclick="closeModal()">close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <form sec:authorize="hasRole('ROLE_BUYER')" class="d-flex flex flex-row">
+                        <div class="d-flex mx-1">
+                            <a th:href="@{/inquiry/enroll/{productId}(productId=${item.id})}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button"><i
+                                        class="bi bi-envelope"></i>문의
+                                </button>
+                            </a>
+                        </div>
+                        <div class="mx-1">
+                            <a th:href="@{/review/enroll/{productId}(productId=${item.id})}">
+                                <button class="btn btn-outline-dark flex-shrink-0" type="button"><i
+                                        class="bi bi-chat-left-dots"></i>리뷰
+                                </button>
+                            </a>
+                        </div>
+                    </form>
+
+                    <script th:inline="javascript">
+                        /* <![CDATA[ */
+                        var leftitemcount = [[${item.Inventory}]];
+
+                        function additem() {
+                            var count = document.getElementById("amount").value;
+                            if (isNaN(count)) {
+                                alert("숫자를 입력해주세요.");
+                                return false;
+                            } else if (count > leftitemcount) {
+                                alert("재고가 부족합니다.");
+                                return false;
+                            } else {
+                                openModal();
+                                setTimeout(closeModal, 3000);
+                                return true;
+                            }
+                        }
+
+                        function openModal() {
+                            const modalOverlay = document.getElementById('modalOverlay');
+                            modalOverlay.style.display = 'flex';
+                        }
+
+                        function closeModal() {
+                            const modalOverlay = document.getElementById('modalOverlay');
+                            modalOverlay.style.display = 'none';
+                        }
+
+                        document.addEventListener('keydown', function (event) {
+                            if (event.key === 'Escape') {
+                                closeModal();
+                            }
+                        });
+                        /* ]]> */
+                    </script>
+                </div>
             </div>
-          </div>
         </div>
-        <form class="d-flex" sec:authorize="isAnonymous()">
-          <div class="d-flex">
-            <a class="btn btn-outline-dark" th:href="@{/usr/member/join}">
-              <i class="bi-cart-fill me-1"></i>
-              장바구니
-            </a>
-          </div>
-        </form>
-        <form class="d-flex flex flex-row">
-          <div class="d-flex mx-1">
-            <a th:href="@{/inquiry/enroll/{productId}(productId=${item.id})}">
-              <button  class="btn btn-outline-dark flex-shrink-0" type="button"><i class="bi bi-envelope"></i>문의</button>
-            </a>
-          </div>
-          <div class="mx-1">
-            <a th:href="@{/review/enroll/{productId}(productId=${item.id})}">
-              <button class="btn btn-outline-dark flex-shrink-0" type="button"><i class="bi bi-chat-left-dots"></i>리뷰</button>
-            </a>
-          </div>
-        </form>
-
-        <script th:inline="javascript">
-          /* <![CDATA[ */
-          var leftitemcount = [[${item.Inventory}]];
-
-          function additem() {
-            var count = document.getElementById("amount").value;
-            if (isNaN(count)) {
-              alert("숫자를 입력해주세요.");
-              return false;
-            } else if (count > leftitemcount) {
-              alert("재고가 부족합니다.");
-              return false;
-            } else {
-              openModal();
-              setTimeout(closeModal, 3000);
-              return true;
-            }
-          }
-          function openModal() {
-            const modalOverlay = document.getElementById('modalOverlay');
-            modalOverlay.style.display = 'flex';
-          }
-
-          function closeModal() {
-            const modalOverlay = document.getElementById('modalOverlay');
-            modalOverlay.style.display = 'none';
-          }
-
-          document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-              closeModal();
-            }
-          });
-          /* ]]> */
-        </script>
-      </div>
+    </section>
+    <!-- 리뷰 테이블 -->
+    <div class="overflow-x-auto col-md-900 ms-sm-auto px-md-5">
+        <table class="table">
+            <thead>
+            <tr class="text-center text-black">
+                <th>리뷰 번호</th>
+                <th>제목</th>
+                <th>리뷰 내용</th>
+                <th>작성자</th>
+                <th>작성 날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" th:each="review, loop : ${reviews}">
+                <td th:text="${loop.count}"></td>
+                <td th:text="${review.title}"></td>
+                <td class="text-start" th:text="${review.content}"></td>
+                <td><span th:if="${review.member != null}" th:text="${review.member.nickname}"></span></td>
+                <td th:text="${#temporals.format(review.createdDate, 'yyyy-MM-dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
-</section>
-<!-- 리뷰 테이블 -->
-  <div class="table-responsive">
-<table class="table table-striped table-sm">
-  <thead class="table-dark">
-  <tr class="text-center text-black">
-    <th>번호</th>
-    <th>제목</th>
-    <th>리뷰 내용</th>
-    <th>작성자</th>
-    <th>작성일시</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr class="text-center" th:each="review, loop : ${reviews}">
-    <td th:text="${loop.count}"></td>
-    <td th:text="${review.title}"></td>
-    <td class="text-start" th:text="${review.content}"></td>
-    <td><span th:if="${review.member != null}" th:text="${review.member.nickname}"></span></td>
-    <td th:text="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
-  </tr>
-  </tbody>
-</table>
-  </div>
 </main>
 </body>
 </html>
