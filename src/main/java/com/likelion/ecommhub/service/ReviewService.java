@@ -54,10 +54,6 @@ public class ReviewService {
         }
     }
 
-    public List<Review> getReviewsByMemberId(Long memberId) {
-        return reviewRepository.findByMemberId(memberId);
-    }
-
     public List<Review> getReviewsByProductId(Long productId) {
         return reviewRepository.findByProductId(productId);
     }
