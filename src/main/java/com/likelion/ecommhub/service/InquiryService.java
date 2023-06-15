@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InquiryService {
@@ -38,5 +40,9 @@ public class InquiryService {
         }
 
         inquiryRepository.deleteById(inquiryId);
+    }
+
+    public List<Inquiry> printInquiry(Long productId) {
+        return inquiryRepository.findByProductId(productId);
     }
 }
