@@ -28,7 +28,7 @@ public class OrderService {
 
     // 회원가입 하면 회원 당 주문 하나 생성
     @Transactional
-    public void createOrder(Member member){
+    public void createOrder(Member member) {
 
         Order order = Order.createOrder(member);
 
@@ -40,9 +40,10 @@ public class OrderService {
         return orderItemRepository.findOrderItemsByMemberId(memberId);
     }
 
-
     // OrderItem 하나 찾기
-    public OrderItem findOrderitem(Long orderItemId) {return orderItemRepository.findOrderItemById(orderItemId);}
+    public OrderItem findOrderitem(Long orderItemId) {
+        return orderItemRepository.findOrderItemById(orderItemId);
+    }
 
     // 장바구니상품주문
     @Transactional
@@ -76,21 +77,37 @@ public class OrderService {
         product.increaseInventory(cancelItem.getProductCount());
 
         // 해당 orderItem의 주문 상태 1로 변경 -> 주문 취소를 의미
-        cancelItem.setIsCancel(cancelItem.getIsCancel()+1);
+        cancelItem.setIsCancel(cancelItem.getIsCancel() + 1);
 
         orderItemRepository.save(cancelItem);
     }
 
     //매출액 증가
-    @Transactional
-    public void increaseSales(Member seller, BigDecimal amount) {
-        Sales sales = salesRepository.findByMember(seller);
-        if (sales != null) {
-            sales.setSales(sales.getSales().add(amount));
-        } else {
-            sales = new Sales(seller, amount);
-        }
-        salesRepository.save(sales);
-    }
 
+    @Transactional
+    public void increaseSales(Long productId, BigDecimal amount) {
+        List<Sales> sales = salesRepository.findByProductId(productId);
+
+        sales.stream().filter(s -> s.)
+
+        Sales salesEntry = Sales.builder()
+            .product(productService.getProductById(productId))
+            .sales()
+            .member(productService.getProductById(productId).getMember())
+            .build();
+
+        if (sales != null) {
+            //sales.setSales(sales.getSales().add(amount));
+            sales.forEach((s -> s.getSales().add(amount)));
+        } else {
+            sales.forEach((s -> s.setSales(null)));
+
+        }
+        for (Sales sale : sales) {
+            System.out.println("sale.getId() = " + sale.getId());
+            System.out.println("sale.getProduct().getId() = " + sale.getProduct().getId());
+            System.out.println("sale.getMember().getId() = " + sale.getMember().getId());
+        }
+        salesRepository.saveAll(sales);
+    }
 }
