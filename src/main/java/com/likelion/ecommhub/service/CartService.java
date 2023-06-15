@@ -39,6 +39,7 @@ public class CartService {
     public void addCart(Member member, Product product, int count) {
         Cart cart = cartRepository.findByMemberId(member.getId());
 
+
         // cart가 비어있다면 생성
         if (cart == null) {
             cart = Cart.createCart(member);
@@ -57,6 +58,7 @@ public class CartService {
             cartItem.addCount(count);
             cartItemRepository.save(cartItem);  // cartItem 저장
         }
+
 
         cart.setCartItemCount(cart.getCartItemCount() + count);  // cart의 cart_item_count 업데이트
         cartRepository.save(cart);  // cart 저장
