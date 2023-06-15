@@ -91,7 +91,7 @@
     <div class="contact-form">
         <form th:action="@{/product/enroll}" th:object="${productDto}" method="post" enctype="multipart/form-data"
               onsubmit="return validateForm();">
-
+            <br>
             <h1 class="" style="font-size: 24px; margin-bottom: 10px;">🎁 상품 등록</h1>
             <br>
             <div class="form-group">
@@ -122,6 +122,7 @@
             <button type="submit" class="btn btn-primary btn-block bg-gradient-to-r from-sky-500 to-indigo-500"> 상품 등록
             </button>
         </form>
+        <br><br><br>
     </div>
 </main>
 </body>
