@@ -79,7 +79,7 @@ public class ProductController {
     }
 
   @GetMapping("/view/{productId}")
-    public String ProductView(Model model, @PathVariable("productId") Long id,
+    public String productView(Model model, @PathVariable("productId") Long id,
         @AuthenticationPrincipal MemberDetails memberDetails) {
 
         if (memberDetails != null) {

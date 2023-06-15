@@ -106,6 +106,6 @@ public class MemberController {
         Member findMember = memberService.getMemberById(id);
         model.addAttribute("member", findMember);
 
-        return "usr/member/sellerInfo";
+        return "usr/member/memberPage";
     }
 }
