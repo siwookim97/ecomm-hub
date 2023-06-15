@@ -86,7 +86,7 @@ public class ProductController {
             Member member = memberDetails.getMember();
 
             if (member.getMemberRole().equals(ROLE_SELLER)) {
-                List<Review> reviews = reviewService.getReviewList(id);
+                List<Review> reviews = reviewService.getReviewsByProductId(id);
                 model.addAttribute("reviews", reviews);
                 model.addAttribute("item", productService.findProductById(id));
                 model.addAttribute("user", member);
@@ -101,7 +101,7 @@ public class ProductController {
                     cartCount += cartItem.getCount();
                 }
 
-                List<Review> reviews = reviewService.getReviewList(id);
+                List<Review> reviews = reviewService.getReviewsByProductId(id);
                 model.addAttribute("reviews", reviews);
                 model.addAttribute("cartCount", cartCount);
                 model.addAttribute("item", productService.findProductById(id));

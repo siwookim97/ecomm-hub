@@ -54,11 +54,11 @@ public class ReviewService {
         }
     }
 
-    public List<Review> findReviewsByProductId(Long productId) {
-        return reviewRepository.findByProductId(productId);
+    public List<Review> getReviewsByMemberId(Long memberId) {
+        return reviewRepository.findByMemberId(memberId);
     }
 
-    public List<Review> getReviewList(Long productId) {
+    public List<Review> getReviewsByProductId(Long productId) {
         return reviewRepository.findByProductId(productId);
     }
 
