@@ -34,26 +34,26 @@ public class OrderController {
 	private final CartService cartService;
 	private final OrderService orderService;
 
-	@PreAuthorize("hasRole('ROLE_BUYER')")
-	@GetMapping("/usr/member/orderList")
-	public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-		Long id = memberDetails.getMember().getId();
-
-		List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
-
-		int totalCount = 0;
-		for (OrderItem orderItem : orderItemList) {
-			if (orderItem.getIsCancel() != 1) {
-				totalCount += orderItem.getProductCount();
-			}
-		}
-
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("orderItems", orderItemList);
-		model.addAttribute("user", memberService.getMemberById(id));
-
-		return "usr/member/memberPage";
-	}
+	// @PreAuthorize("hasRole('ROLE_BUYER')")
+	// @GetMapping("/usr/member/myPage")
+	// public String orderList(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+	// 	Long id = memberDetails.getMember().getId();
+	//
+	// 	List<OrderItem> orderItemList = orderService.findUserOrderItems(id);
+	//
+	// 	int totalCount = 0;
+	// 	for (OrderItem orderItem : orderItemList) {
+	// 		if (orderItem.getIsCancel() != 1) {
+	// 			totalCount += orderItem.getProductCount();
+	// 		}
+	// 	}
+	//
+	// 	model.addAttribute("totalCount", totalCount);
+	// 	model.addAttribute("orderItems", orderItemList);
+	// 	model.addAttribute("user", memberService.getMemberById(id));
+	//
+	// 	return "usr/member/memberPage";
+	// }
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_BUYER')")

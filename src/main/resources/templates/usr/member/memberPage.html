@@ -25,7 +25,9 @@
 </head>
 
 <body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
 <main layout:fragment="main" class="flex-grow flex items-center justify-center flex-col" style="height: 100vh; overflow-y: scroll;">
     <section class="about">
         <div class="container py-5">
@@ -116,7 +118,8 @@
                 </tbody>
             </table>
         </div>
-    </section><section class="about" th:if="${member.memberRole.toString() eq 'ROLE_BUYER'}">
+    </section>
+    <section class="about" th:if="${member.memberRole.toString() eq 'ROLE_BUYER'}">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" th:if="${member.memberRole.toString() eq 'ROLE_BUYER'}">
         <h1 class="text-center fs-2">주문내역</h1>
     </div>
@@ -145,7 +148,9 @@
                 <td th:text="${orderItem.getOrder().getCreatedDate()}">날짜</td>
                 <td th:if="${orderItem.getIsCancel()} == 1">취소완료</td>
                 <td th:unless="${orderItem.getIsCancel()} == 1">
-                    <form onsubmit="return cancel();" th:action="@{/usr/member/checkout/cancel/{orderItemId}(orderItemId=${orderItem.id})}" th:method="POST">
+                    <form onsubmit="return cancel();"
+                          th:action="@{/usr/member/checkout/cancel/{orderItemId}(orderItemId=${orderItem.id})}"
+                          th:method="POST">
                         <button type="submit">주문취소</button>
                     </form>
                     <script th:inline="javascript">
@@ -178,8 +183,6 @@
     </div>
     </section>
 </main>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>
