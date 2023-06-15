@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>구매자 회원가입</title>
+    <title>Buyer Join</title>
 
     <script>
         var phoneInput = document.getElementById('phoneInput');
@@ -13,6 +13,66 @@
             // 숫자만 입력되도록 설정
             this.value = cleanedValue;
         });
+
+        function validateForm() {
+            var usernameInput = document.getElementById('username');
+            var passwordInput = document.getElementById('password');
+            var nicknameInput = document.getElementById('nickname');
+            var emailInput = document.getElementById('email');
+            var phoneInput = document.getElementById('phone');
+            var addressInput = document.getElementById('address');
+
+            var usernameError = document.getElementById('username-error');
+            var passwordError = document.getElementById('password-error');
+            var nicknameError = document.getElementById('nickname-error');
+            var emailError = document.getElementById('email-error');
+            var phoneError = document.getElementById('phone-error');
+            var addressError = document.getElementById('address-error');
+
+            if (usernameInput.value.trim() === '') {
+                usernameError.style.display = 'block';
+                return false;
+            } else {
+                usernameError.style.display = 'none';
+            }
+
+            if (passwordInput.value.trim() === '') {
+                passwordError.style.display = 'block';
+                return false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            if (nicknameInput.value.trim() === '') {
+                nicknameError.style.display = 'block';
+                return false;
+            } else {
+                nicknameError.style.display = 'none';
+            }
+
+            if (emailInput.value.trim() === '') {
+                emailError.style.display = 'block';
+                return false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            if (phoneInput.value.trim() === '') {
+                phoneError.style.display = 'block';
+                return false;
+            } else {
+                phoneError.style.display = 'none';
+            }
+
+            if (addressInput.value.trim() === '') {
+                addressError.style.display = 'block';
+                return false;
+            } else {
+                addressError.style.display = 'none';
+            }
+
+            return true;
+        }
     </script>
 </head>
 <body>
@@ -25,31 +85,37 @@
         </h1>
 
         <form th:action="@{/usr/member/join/buyer}" th:object="${memberJoinDto}" method="post"
-              class="flex flex-col gap-6">
+              class="flex flex-col gap-6" onsubmit="return validateForm()">
             <div>
-                <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered w-full" autofocus/>
+                <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered w-full"
+                       autofocus/>
+                <small id="username-error" class="text-danger" style="display: none;">ID를 입력하세요.</small>
             </div>
 
             <div>
                 <input type="password" th:field="*{password}" placeholder="비밀번호" class="input input-bordered w-full"/>
+                <small id="password-error" class="text-danger" style="display: none;">PASSWORD를 입력하세요.</small>
             </div>
 
             <div>
                 <input type="text" th:field="*{nickname}" placeholder="이름" class="input input-bordered w-full"/>
+                <small id="nickname-error" class="text-danger" style="display: none;">회원 이름을 입력하세요.</small>
             </div>
 
             <div>
                 <input type="text" th:field="*{email}" placeholder="이메일" class="input input-bordered w-full"/>
+                <small id="email-error" class="text-danger" style="display: none;">E-mail을 입력하세요.</small>
             </div>
 
             <div>
                 <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11);"
                        th:field="*{phone}" placeholder="전화번호" class="input input-bordered w-full" pattern="[0-9]{11}"
                        maxlength="11" required/>
+                <small id="phone-error" class="text-danger" style="display: none;">전화번호를 입력하세요.</small>
             </div>
-
             <div>
                 <input type="text" th:field="*{address}" placeholder="주소" class="input input-bordered w-full"/>
+                <small id="address-error" class="text-danger" style="display: none;">주소를 입력하세요.</small>
             </div>
 
             <button id="btn-join-1" type="submit"
