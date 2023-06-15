@@ -25,6 +25,7 @@ public class NotProd {
     private final BCryptPasswordEncoder encoder;
     private final CartItemRepository cartItemRepository;
     private final SalesRepository salesRepository;
+    private final NoticeRepository noticeRepository;
 
     @PostConstruct
     @Transactional
@@ -34,6 +35,7 @@ public class NotProd {
         productRepository.deleteAll();
         cartItemRepository.deleteAll();
         salesRepository.deleteAll();
+        noticeRepository.deleteAll();
 
         Member member1 = new Member("loginId1", encoder.encode("password1"), "Seller1",
             "seller1@email.com", "01012341234", "address1",
@@ -111,5 +113,11 @@ public class NotProd {
 
             salesRepository.save(salesEntry);
         }
+
+        Notice notice1 = new Notice(NoticeType.SYSTEM,"제목1","내용1");
+        Notice notice2 = new Notice(NoticeType.SYSTEM,"제목2","내용2");
+
+        noticeRepository.save(notice1);
+        noticeRepository.save(notice2);
     }
 }

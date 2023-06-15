@@ -93,7 +93,7 @@
       <th>ID</th>
       <th>Title</th>
       <th>Content</th>
-      <th>Action</th>
+      <th sec:authorize="hasRole('ROLE_ADMIN')">Action</th>
     </tr>
     </thead>
     <tbody>
