@@ -1,6 +1,5 @@
 package com.likelion.ecommhub.service;
 
-import static com.likelion.ecommhub.domain.Order.createOrder;
 
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
@@ -43,7 +42,6 @@ public class MemberService {
         Member createdMember = createMember(request, MemberRole.ROLE_BUYER);
         memberRepository.save(createdMember);
         cartService.createCart(createdMember);
-        createOrder(createdMember);
     }
 
     private Member createMember(MemberJoinDto requestDto, MemberRole memberRole) {
@@ -64,9 +62,6 @@ public class MemberService {
         return memberRepository.findById(id).get();
     }
 
-    public Optional<Member> getMemberId(Long id) {
-        return memberRepository.findById(id);
-    }
 
     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username).get();
