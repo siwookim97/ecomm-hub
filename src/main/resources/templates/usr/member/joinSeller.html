@@ -99,7 +99,7 @@
             판매자 회원가입
         </h1>
 
-        <form th:action="@{/usr/member/join/buyer}" th:object="${memberJoinDto}" method="post"
+        <form th:action="@{/usr/member/join/seller}" th:object="${memberJoinDto}" method="post"
               class="flex flex-col gap-6" onsubmit="return validateForm()">
             <div>
                 <input type="text" th:field="*{username}" placeholder="아이디" class="input input-bordered w-full"

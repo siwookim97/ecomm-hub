@@ -38,6 +38,7 @@ public class NoticeController {
     @PostMapping("/create")
     public String create(@ModelAttribute("noticeDto") @Valid NoticeDto noticeDto ) {
         noticeService.register(noticeDto);
+
         return "redirect:/notice/list";
     }
 

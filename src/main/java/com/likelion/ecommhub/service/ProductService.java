@@ -29,9 +29,7 @@ public class ProductService {
 
     @Transactional
     public Product enroll(ProductDto productDto, Member member) {
-
         Product product = saveProduct(productDto, member);
-
         return productRepository.save(product);
     }
 
@@ -45,11 +43,9 @@ public class ProductService {
 
     public Optional<Product> getProductId(long id) {
         return productRepository.findById(id);
-
     }
 
     private Product saveProduct(ProductDto productDto, Member member) {
-
         ProductState productState = productDto.getInventory() == 0
                 ? ProductState.SOLD_OUT : ProductState.ON_SALE;
 
@@ -70,7 +66,6 @@ public class ProductService {
     }
 
     public Page<Product> searchProduct(String keyword, int page) {
-
         String normalizeKeyword = normalizeKeyword(keyword);
 
         List<Product> keywordList = productRepository.findAll()
@@ -81,7 +76,6 @@ public class ProductService {
         PageRequest pageRequest = PageRequest.of(page, 12);
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), keywordList.size());
-
         Page<Product> keywordPage = new PageImpl<>(keywordList.subList(start, end), pageRequest, keywordList.size());
 
         return keywordPage;
@@ -89,7 +83,6 @@ public class ProductService {
 
     private String normalizeKeyword(String keyword) {
         String normalizeKeyword = keyword.trim();
-
         normalizeKeyword = normalizeKeyword.toLowerCase();
 
         return normalizeKeyword;

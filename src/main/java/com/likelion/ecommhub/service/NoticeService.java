@@ -40,7 +40,6 @@ public class NoticeService {
 
     @Transactional
     public String modify(Long id, NoticeDto noticeDto) {
-
         Optional<Notice> existingNotice = noticeRepository.findById(id);
         if (existingNotice.isEmpty()) {
             return "존재하지 않습니다";
@@ -61,6 +60,7 @@ public class NoticeService {
 
     private boolean findSameTitle(String title) {
         Optional<Notice> findResult = noticeRepository.findByTitle(title);
+
         return findResult.isPresent();
     }
 
@@ -70,6 +70,7 @@ public class NoticeService {
 
     public Notice findById(Long id){
         Optional<Notice> byId = noticeRepository.findById(id);
+
         return byId.orElse(null);
     }
 }

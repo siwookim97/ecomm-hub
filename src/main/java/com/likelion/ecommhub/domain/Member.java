@@ -90,15 +90,6 @@ public class Member extends BaseEntity {
 
     }
 
-    public void setPassword(String encPassword) {
-        this.password = password;
-    }
-
-    public void setMemberRole(String roleGuest) {
-        this.memberRole = memberRole;
-        this.password = password;
-    }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }

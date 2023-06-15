@@ -10,8 +10,8 @@ import com.likelion.ecommhub.domain.Sales;
 
 @Repository
 public interface SalesRepository extends JpaRepository<Sales, Long> {
+
 	Sales findByMember(Member Seller);
 	List<Sales> findBySaleYearAndMemberId(int year, long memberId);
-
 	List<Sales> findByProductId(Long productId);
 }

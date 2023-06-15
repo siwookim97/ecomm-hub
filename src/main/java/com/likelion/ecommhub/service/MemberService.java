@@ -1,6 +1,5 @@
 package com.likelion.ecommhub.service;
 
-
 import com.likelion.ecommhub.domain.Member;
 import com.likelion.ecommhub.domain.MemberRole;
 import com.likelion.ecommhub.dto.MemberJoinDto;
@@ -55,7 +54,6 @@ public class MemberService {
                 memberRole,
                 requestDto.getAccount()
         );
-
     }
 
     public Member getMemberById(Long id) {
@@ -84,6 +82,7 @@ public class MemberService {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -94,6 +93,7 @@ public class MemberService {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -104,6 +104,7 @@ public class MemberService {
                 return true;
             }
         }
+
         return false;
     }
 

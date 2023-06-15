@@ -26,7 +26,8 @@
                 <div class="col-md-6 flex-grow">
                     <h1 class="display-5 fw-bolder" style="font-size: 35px;" th:text="${prodcut.getName()}">상품 이름</h1>
                     <div class="fs-5 mb-5">
-                        <span style="font-size: 20px" th:text="${#numbers.formatInteger(prodcut.getPrice(), 3, 'COMMA')} + ' 원'">제품 가격</span>
+                        <span style="font-size: 20px"
+                              th:text="${#numbers.formatInteger(prodcut.getPrice(), 3, 'COMMA')} + ' 원'">제품 가격</span>
                     </div>
                     <br>
                     <a th:href="@{/usr/member/seller/{id}(id=${prodcut.getMember().id})}" class="link-primary"
@@ -35,7 +36,8 @@
                     <div class="small mb-1" style="font-size: 15px;" th:if="${prodcut.getProductState().ordinal()} == 0"
                          th:text="|재고 : ${prodcut.getInventory()}개|">재고
                     </div>
-                    <div class="small mb-1" th:unless="${prodcut.getProductState().ordinal()} == 0" th:text="|품절|">재고</div>
+                    <div class="small mb-1" th:unless="${prodcut.getProductState().ordinal()} == 0" th:text="|품절|">재고
+                    </div>
 
                     <div class="lead" th:text="${prodcut.getDetail()}">제품 설명</div>
                     <br>
