@@ -51,13 +51,6 @@
                                    style="margin-right: 10px;">
                             <button class="btn btn-outline-dark">장바구니 담기</button>
                         </form>
-                        <div class="modal-overlay" id="modalOverlay" style="display: none;">
-                            <div class="modal-box">
-                                <h3 class="font-bold text-lg">장바구니에 상품이 추가되었습니다!</h3>
-                                <p class="py-4">Press ESC key or click outside to close</p>
-                                <button class="btn" onclick="closeModal()">close</button>
-                            </div>
-                        </div>
                     </div>
                     <br>
                     <form sec:authorize="hasRole('ROLE_BUYER')" class="d-flex flex flex-row">
@@ -90,27 +83,9 @@
                                 alert("재고가 부족합니다.");
                                 return false;
                             } else {
-                                openModal();
-                                setTimeout(closeModal, 3000);
                                 return true;
                             }
                         }
-
-                        function openModal() {
-                            const modalOverlay = document.getElementById('modalOverlay');
-                            modalOverlay.style.display = 'flex';
-                        }
-
-                        function closeModal() {
-                            const modalOverlay = document.getElementById('modalOverlay');
-                            modalOverlay.style.display = 'none';
-                        }
-
-                        document.addEventListener('keydown', function (event) {
-                            if (event.key === 'Escape') {
-                                closeModal();
-                            }
-                        });
                         /* ]]> */
                     </script>
                 </div>
