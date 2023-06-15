@@ -4,6 +4,7 @@ import com.likelion.ecommhub.config.auth.MemberDetails;
 import com.likelion.ecommhub.domain.Cart;
 import com.likelion.ecommhub.domain.CartItem;
 import com.likelion.ecommhub.domain.Member;
+import com.likelion.ecommhub.domain.Order;
 import com.likelion.ecommhub.domain.OrderItem;
 import com.likelion.ecommhub.service.CartService;
 import com.likelion.ecommhub.service.MemberService;
@@ -68,12 +69,15 @@ public class OrderController {
             OrderItem orderItem = orderService.addCartOrder(cartItem.getProduct().getId(),
                 findMember.getId(), cartItem);
             orderItemList.add(orderItem);
-//            BigDecimal sellerSalesAmount = BigDecimal.valueOf((long)cartItem.getCount() * cartItem.getProduct().getPrice());
-//            orderService.increaseSales(cartItem.getProduct().getMember(), sellerSalesAmount);
-
         }
 
-        orderService.addOrder(findMember, orderItemList);
+        Order findorder =orderService.addOrder(findMember, orderItemList);
+
+        for (OrderItem orderItem : orderItemList) {
+            BigDecimal sellerSalesAmount = BigDecimal.valueOf(orderItem.getProductTotalPrice());
+
+            orderService.increaseSales(orderItem.getProductId(), sellerSalesAmount, findorder);
+        }
 
         cartService.cartDelete(id);
 

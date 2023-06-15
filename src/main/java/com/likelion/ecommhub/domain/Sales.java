@@ -62,7 +62,21 @@ public class Sales {
 		this.member =seller;
 		this.sales =amount;
 	}
+	public void setOrder(Order order) {
+		if (this.order != null) {
+			this.order.getSales().remove(this);
+		}
+		this.order = order;
+		order.getSales().add(this);
+	}
 
+	public void setMember(Member member) {
+		if (this.member != null) {
+			this.member.getSales().remove(this);
+		}
+		this.member = member;
+		member.getSales().add(this);
+	}
 	public void setSales(BigDecimal add) {
 		this.sales =add;
 	}
