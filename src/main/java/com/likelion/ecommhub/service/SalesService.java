@@ -1,5 +1,6 @@
 package com.likelion.ecommhub.service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,11 +22,28 @@ public class SalesService {
 	public List<Map<String, Object>> getMonthlySalesByYearAndMemberId(int year, long memberId) {
 		List<Sales> salesList = salesRepository.findBySaleYearAndMemberId(year, memberId);
 
-		List<Map<String, Object>> salesData = new ArrayList<>();
+		Map<Integer, BigDecimal> monthlySalesMap = new HashMap<>();
+
 		for (Sales sales : salesList) {
+			int month = sales.getSaleMonth();
+			BigDecimal salesAmount = sales.getSales();
+
+			if (monthlySalesMap.containsKey(month)) {
+				BigDecimal currentSalesAmount = monthlySalesMap.get(month);
+				monthlySalesMap.put(month, currentSalesAmount.add(salesAmount));
+			} else {
+				monthlySalesMap.put(month, salesAmount);
+			}
+		}
+
+		List<Map<String, Object>> salesData = new ArrayList<>();
+		for (Map.Entry<Integer, BigDecimal> entry : monthlySalesMap.entrySet()) {
+			int salesMonth = entry.getKey();
+			BigDecimal salesAmount = entry.getValue();
+
 			Map<String, Object> salesMap = new HashMap<>();
-			salesMap.put("salesMonth", sales.getSaleMonth());
-			salesMap.put("sales", sales.getSales());
+			salesMap.put("salesMonth", salesMonth);
+			salesMap.put("sales", salesAmount);
 			salesData.add(salesMap);
 		}
 
