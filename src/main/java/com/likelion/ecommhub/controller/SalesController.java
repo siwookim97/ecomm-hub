@@ -19,16 +19,20 @@ import com.likelion.ecommhub.service.SalesService;
 @RequiredArgsConstructor
 public class SalesController {
 
-	private final SalesService salesService;
-	@PreAuthorize("hasRole('ROLE_SELLER')")
-	@GetMapping("/usr/member/monthly-sales/{year}")
-	public String getMonthlySalesByYear(@PathVariable int year, Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
-		Long memberId = memberDetails.getMember().getId();
+    private final SalesService salesService;
 
-		List<Map<String, Object>> salesData = salesService.getMonthlySalesByYearAndMemberId(year, memberId);
-		model.addAttribute("salesData", salesData);
-		model.addAttribute("year", year);
-		return "usr/member/monthly-sales";
-	}
+    @PreAuthorize("hasRole('ROLE_SELLER')")
+    @GetMapping("/usr/member/monthly-sales/{year}")
+    public String getMonthlySalesByYear(@PathVariable int year, Model model,
+                                        @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        Long memberId = memberDetails.getMember().getId();
+        List<Map<String, Object>> salesData = salesService.getMonthlySalesByYearAndMemberId(year, memberId);
+
+        model.addAttribute("salesData", salesData);
+        model.addAttribute("year", year);
+
+        return "usr/member/monthly-sales";
+    }
 
 }

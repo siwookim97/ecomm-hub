@@ -28,6 +28,7 @@ public class SalesService {
 			salesMap.put("sales", sales.getSales());
 			salesData.add(salesMap);
 		}
+
 		return salesData;
 	}
 }

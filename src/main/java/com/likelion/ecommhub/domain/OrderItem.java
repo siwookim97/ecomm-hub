@@ -65,6 +65,7 @@ public class OrderItem extends BaseEntity{
             .productTotalPrice(cartItem.getProduct().getPrice() * cartItem.getCount())
             .build();
     }
+
     public void setMember(Member member) {
         if (this.member != null) {
             this.member.getOrderItems().remove(this);
@@ -72,6 +73,7 @@ public class OrderItem extends BaseEntity{
         this.member = member;
         member.getOrderItems().add(this);
     }
+
     public void setOrder(Order order) {
         if (this.order != null) {
             this.order.getOrderItems().remove(this);

@@ -1,8 +1,6 @@
 package com.likelion.ecommhub.repository;
 
 import com.likelion.ecommhub.domain.Product;
-import com.likelion.ecommhub.domain.ProductState;
-import com.likelion.ecommhub.domain.QProduct;
 import com.likelion.ecommhub.dto.ProductSearchCondition;
 import com.likelion.ecommhub.dto.ProductSearchResult;
 import com.querydsl.core.types.OrderSpecifier;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.likelion.ecommhub.domain.QImage.image;
-import static com.likelion.ecommhub.domain.QProduct.*;
 import static com.likelion.ecommhub.domain.QProduct.product;
 import static org.springframework.util.StringUtils.hasText;
 

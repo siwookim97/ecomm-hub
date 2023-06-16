@@ -22,7 +22,6 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
 
-    //Member에게 장바구니 생성
     @Transactional
     public void createCart(Member member) {
         Cart cart = Cart.createCart(member);
@@ -30,15 +29,12 @@ public class CartService {
     }
 
     public Cart findMemberCart(Long memberId) {
-
         return cartRepository.findByMemberId(memberId);
-
     }
 
     @Transactional
     public void addCart(Member member, Product product, int count) {
         Cart cart = cartRepository.findByMemberId(member.getId());
-
 
         // cart가 비어있다면 생성
         if (cart == null) {
@@ -59,7 +55,6 @@ public class CartService {
             cartItemRepository.save(cartItem);  // cartItem 저장
         }
 
-
         cart.setCartItemCount(cart.getCartItemCount() + count);  // cart의 cart_item_count 업데이트
         cartRepository.save(cart);  // cart 저장
     }
@@ -74,6 +69,7 @@ public class CartService {
                 MemberItems.add(cartItem);
             }
         }
+
         return MemberItems;
     }
 

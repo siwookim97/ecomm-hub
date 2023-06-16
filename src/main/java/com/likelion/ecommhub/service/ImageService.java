@@ -26,7 +26,6 @@ public class ImageService {
 
     @Transactional
     public String saveFile(MultipartFile multipartFile, Product product) throws IOException {
-        //TODO: 이미지 확인 로직 추가 필요
         if (multipartFile.isEmpty()) {
             return "saveFile 실행 실패(이미지가 없음)";
         }

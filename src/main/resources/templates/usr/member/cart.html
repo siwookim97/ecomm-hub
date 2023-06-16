@@ -56,7 +56,9 @@
                 </td>
                 <td th:text="${cartItem.count}">수량</td>
                 <td th:text="${#numbers.formatInteger(cartItem.product.price, 3, 'COMMA')} + ' ₩'">개당 가격</td>
-                <td th:text="${#numbers.formatInteger(cartItem.product.price * cartItem.count, 3, 'COMMA')} + ' ₩'">총 가격</td>
+                <td th:text="${#numbers.formatInteger(cartItem.product.price * cartItem.count, 3, 'COMMA')} + ' ₩'">총
+                    가격
+                </td>
                 <td th:text="${cartItem.createDate}">날짜</td>
                 <td>
                     <form th:action="@{/usr/member/cart/{productId}(productId=${cartItem.product.id})}" method="post"
@@ -82,7 +84,8 @@
                     <h4 class="my-0 fw-normal">총 결제금액</h4>
                 </div>
                 <form class="card-body">
-                    <h1 class="card-title pricing-card-title" th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + ' ₩'">$0</h1>
+                    <h1 class="card-title pricing-card-title"
+                        th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + ' ₩'">$0</h1>
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>잘못 담은 물건이 있는지 확인해보세요!</li>
                     </ul>
@@ -108,38 +111,39 @@
     var buyerTel = /*[[${user.phone}]]*/ '010-0000-0000';
     var totalPrice = /*[[${totalPrice}]]*/ 'default';
 
-  function payment() {
-    IMP.init('imp86104056');
-    IMP.request_pay({
-      pg: "kakaopay.TC0ONETIME",
-      pay_method: "card",
-      merchant_uid: "merchant_" + new Date().getTime(),
-      name: "EcommHub",
-      amount: totalPrice,
-      buyer_email: buyerEmail,
-      buyer_name: buyerName,
-      buyer_tel: buyerTel,
-    }, function (rsp) {
-      if (rsp.success) {
-        alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
-        $.ajax({
-          type: "POST",
-          url: "/usr/member/cart/checkout/",
-            success: function(response) {
-                // 주문 처리가 성공적으로 이루어졌을 때
-                document.location.href = /*[[@{/usr/member/myPage}]]*/;
-            },
-            error: function(response) {
-                // 주문 처리가 실패했을 때
-                alert("주문 처리에 실패하였습니다.");
+    function payment() {
+        IMP.init('imp86104056');
+        IMP.request_pay({
+            pg: "kakaopay.TC0ONETIME",
+            pay_method: "card",
+            merchant_uid: "merchant_" + new Date().getTime(),
+            name: "EcommHub",
+            amount: totalPrice,
+            buyer_email: buyerEmail,
+            buyer_name: buyerName,
+            buyer_tel: buyerTel,
+        }, function (rsp) {
+            if (rsp.success) {
+                alert("결제가 완료되었습니다. / 고유ID : " + rsp.imp_uid + " / 결제 금액 : " + rsp.paid_amount);
+                $.ajax({
+                    type: "POST",
+                    url: "/usr/member/cart/checkout/",
+                    success: function (response) {
+                        // 주문 처리가 성공적으로 이루어졌을 때
+                        document.location.href = /*[[@{/usr/member/myPage}]]*/;
+                    },
+                    error: function (response) {
+                        // 주문 처리가 실패했을 때
+                        alert("주문 처리에 실패하였습니다.");
+                    }
+                });
+            } else {
+                alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
             }
         });
-      } else {
-        alert("결제에 실패하였습니다. / 에러내용 : " + rsp.error_msg + ")");
-      }
-    });
-  }
-  /*]]>*/
+    }
+
+    /*]]>*/
 </script>
 </body>
 </html>

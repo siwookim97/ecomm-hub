@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{usr/layout/layout.html}">
 <head>
-  <title>수정페이지</title>
+    <title>수정페이지</title>
 
-  <script>
-    var phoneInput = document.getElementById('phoneInput');
+    <script>
+        var phoneInput = document.getElementById('phoneInput');
 
-    phoneInput.addEventListener('input', function () {
-      // 입력값에서 숫자를 제외한 모든 문자 제거
-      var cleanedValue = this.value.replace(/\D/g, '');
-      // 숫자만 입력되도록 설정
-      this.value = cleanedValue;
-    });
-  </script>
+        phoneInput.addEventListener('input', function () {
+            // 입력값에서 숫자를 제외한 모든 문자 제거
+            var cleanedValue = this.value.replace(/\D/g, '');
+            // 숫자만 입력되도록 설정
+            this.value = cleanedValue;
+        });
+    </script>
 
 </head>
 
@@ -28,25 +28,31 @@
         <form th:action="@{/usr/member/update}" th:object="${memberModifyDto}" method="post"
               class="flex flex-col gap-6">
             <div>
-                <input type="text" id="username"  class="form-control input input-bordered w-full" th:placeholder="${member.getUsername()}" readonly/>
+                <input type="text" id="username" class="form-control input input-bordered w-full"
+                       th:placeholder="${member.getUsername()}" readonly/>
             </div>
             <div>
-                <input type="text" th:field="*{nickname}" id="nickname" class="form-control input input-bordered w-full" th:placeholder="${member.getNickname()}"
+                <input type="text" th:field="*{nickname}" id="nickname" class="form-control input input-bordered w-full"
+                       th:placeholder="${member.getNickname()}"
                        th:value="${memberModifyDto.nickname ?: member.getNickname()}"/>
             </div>
 
             <div>
-                <input type="text" th:field="*{address}" id="address" class="form-control input input-bordered w-full" th:placeholder="${member.getAddress()}"
+                <input type="text" th:field="*{address}" id="address" class="form-control input input-bordered w-full"
+                       th:placeholder="${member.getAddress()}"
                        th:value="${memberModifyDto.address ?: member.getAddress()}"/>
             </div>
 
             <div>
-                <input type="text" th:field="*{phone}" oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11);" id="phone" class="form-control input input-bordered w-full" th:placeholder="${member.getPhone()}"
+                <input type="text" th:field="*{phone}"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 11);" id="phone"
+                       class="form-control input input-bordered w-full" th:placeholder="${member.getPhone()}"
                        th:value="${memberModifyDto.phone ?: member.getPhone()}"/>
             </div>
 
             <div sec:authorize="hasRole('ROLE_SELLER')">
-                <input type="text" th:field="*{account}" id="account" class="form-control input input-bordered w-full" th:placeholder="${member.getAccount()}"
+                <input type="text" th:field="*{account}" id="account" class="form-control input input-bordered w-full"
+                       th:placeholder="${member.getAccount()}"
                        th:value="${memberModifyDto.account ?: member.getAccount()}"/>
             </div>
 
